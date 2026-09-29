@@ -125,3 +125,24 @@
   (MW 250–600, Crippen LogP 0–5, dedup). Library:
   drug-discovery/library/coconut_filtered.smi (SMILES + identifier + MW + LogP).
 - Next: top-5k selection + 3D conformers -> Vina screen vs the 5 AF targets.
+
+## 2026-09-29 · Four-folder NP/drug audit + unified library
+
+Audited: NP-MRD (7 shards, 150,927 unique SMILES), NPAtlas (36,454 curated;
+23,530 in-range; 3,492 IKs not in COCONUT), Drug_database (DrugCentral 23,115
+w/ affinities; DrugBank 35,043; CTD 41,624), summit_poc (1.4 GB NMR PoC +
+CMNPD marine 31,561 + COCONUT lite **09-2026** — two years newer than our
+09-2024 dump).
+
+Built:
+- **unified_np_library.smi — 362,313 unique NPs** (InChIKey-dedup, RDKit
+  MW 250–600 + LogP 0–5): coconut_2026 338,986 + npmrd 11,003 + cmnpd 10,614
+  + npatlas 1,710 net-new. NP-MRD/CMNPD add ~21.6k NPs COCONUT lacks;
+  NPAtlas mostly overlaps (curated value = metadata, not novelty).
+- **drug_target_full.csv — 92,486 drug→target rows** (11,677 drugs × 9,414
+  genes) from DrugCentral+DrugBank+CTD merge.
+- **MB-63xx prompts — 19,982 affinity-grounded drug→target tasks**
+  (DrugCentral ACT_VALUE; strong/moderate/weak verbalization). Program total
+  now 83,751 prompts.
+- summit_poc's NMR-shift models (HOSE/shift-MPNN .pt) noted as a future
+  structure-elucidation extension — not part of the current benchmark.

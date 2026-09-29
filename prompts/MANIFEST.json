@@ -1,5 +1,5 @@
 {
- "version": "v3-freeze-3",
+ "version": "v3-freeze-4-partial",
  "created": "2026-09-29",
  "seed": 20260929,
  "recipe": "Zhavoronkov et al. Cell 189:5980-5994 (2026), LongevityBench",
@@ -18,7 +18,8 @@
   "MB-62xx_drugs_train.jsonl.gz": 30000,
   "MB-70xx_dge_direction_train.jsonl.gz": 8088,
   "MB-8xxx_fujiwara_train.jsonl.gz": 204,
-  "MB-11xx_external_train.jsonl.gz": 5575
+  "MB-11xx_external_train.jsonl.gz": 5575,
+  "MB-63xx_drugcentral_affinity_train.jsonl.gz": 19982
  },
  "files": {
   "MB-10xx_liver_train.jsonl.gz": "67e9e185de14a085",
@@ -27,6 +28,7 @@
   "MB-62xx_drugs_train.jsonl.gz": "34a7df9f6177610e",
   "MB-70xx_dge_direction_train.jsonl.gz": "a2537dedd01e4eff",
   "MB-8xxx_fujiwara_train.jsonl.gz": "6a13c398d51a7bc3",
-  "MB-11xx_external_train.jsonl.gz": "b220643495ef4c5a"
+  "MB-11xx_external_train.jsonl.gz": "b220643495ef4c5a",
+  "MB-63xx_drugcentral_affinity_train.jsonl.gz": "30a11591f23bec28"
  }
 }
