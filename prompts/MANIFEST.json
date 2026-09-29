@@ -1,0 +1,29 @@
+{
+ "version": "v3-freeze-1+2",
+ "created": "2026-09-29",
+ "seed": 20260929,
+ "recipe": "Zhavoronkov et al. Cell 189:5980-5994 (2026), LongevityBench",
+ "rules": [
+  "test = EPos + Gubra only, frozen forever; Fujiwara KU reserved as internal test",
+  "features selected on train side only (over train/test shared gene space)",
+  "pairwise prompts intra-cohort only",
+  "per-sample label-free standardisation (log1p if non-negative, then z-score) before prompting",
+  "task IDs: MB-1xxx train clinical, MB-2xxx frozen test, MB-6xxx knowledge, MB-7xxx DGE direction, MB-8xxx Fujiwara train"
+ ],
+ "counts": {
+  "MB-10xx_liver_train.jsonl.gz": 3928,
+  "MB-20xx_liver_test.jsonl.gz": 13273,
+  "MB-61xx_msigdb_train.jsonl.gz": 2701,
+  "MB-62xx_drugs_train.jsonl.gz": 30000,
+  "MB-70xx_dge_direction_train.jsonl.gz": 8088,
+  "MB-8xxx_fujiwara_train.jsonl.gz": 204
+ },
+ "files": {
+  "MB-10xx_liver_train.jsonl.gz": "67e9e185de14a085",
+  "MB-20xx_liver_test.jsonl.gz": "3074d7b007465a82",
+  "MB-61xx_msigdb_train.jsonl.gz": "098c6203d3cf126d",
+  "MB-62xx_drugs_train.jsonl.gz": "34a7df9f6177610e",
+  "MB-70xx_dge_direction_train.jsonl.gz": "a2537dedd01e4eff",
+  "MB-8xxx_fujiwara_train.jsonl.gz": "6a13c398d51a7bc3"
+ }
+}

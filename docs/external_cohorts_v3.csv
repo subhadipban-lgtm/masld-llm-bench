@@ -1,0 +1,63 @@
+accession,tier,role,split_unit,priority_notes
+E-MTAB-9815,1,human liver biopsy bulk RNA-seq (biopsy-proven NAFLD staged),cohort,train-side clinical; verify n~40 on download
+GSE162694,1,human liver bulk (65 early MASH + 31 normal),cohort,train-side clinical; binary + early-MASH emphasis
+GSE66676,1,human liver wedge biopsies (33 NAFLD + 34 normal),cohort,train-side clinical
+GSE89632,1,human liver biopsies (19 NASH + 24 healthy),cohort,classic validation set; also candidate held-out test
+GSE48452,1,human liver biopsy control-to-NASH phases,cohort,classic small set (~24-40); binary/MASH tasks
+GSE49541,1,human liver expression NAFLD,cohort,classic small set; verify staging depth
+GSE164760,1,human NAFLD (6 control + 74 NASH) - TISSUE UNVERIFIED,subject,verify blood vs liver on download before use
+E-MTAB-12807,1,human liver biopsies NAFLD/cirrhosis/healthy fasting+postprandial,subject,feeding-state confound; use with caution flag
+E-GEOD-48325,1,DNA methylation NAFLD + bariatric surgery remodelling,subject,OPENS THE DNAm DOMAIN (paper's GEO DNAm analogue)
+GSE61260,1,human liver expression across ages,subject,age-from-liver-transcriptome tasks (GTEx-age analogue)
+MSV000094959,1,untargeted proteomics PAIRED liver+plasma MASLD,subject,paired multi-omic bridging tasks - unique to us
+E-MTAB-15601,1,DRUG-seq PHH spheroids 40 compounds x 3 conc,donor,perturbation corpus (human-relevant; complements Tahoe cancer lines)
+E-MTAB-15612,1,DRUG-seq PHH spheroids compounds,donor,perturbation corpus
+E-MTAB-15586,1,PHH spheroids + compounds exp1,donor,perturbation corpus
+E-MTAB-15587,1,PHH spheroids + compounds exp2,donor,perturbation corpus
+E-MTAB-15609,1,PHH spheroids + AZD1979,donor,perturbation corpus
+E-MTAB-15610,1,PHH spheroids healthy AND MASLD donors + troglitazone,donor,disease-vs-healthy donor perturbation - highest-value in-vitro set
+GSE247407,1,3D steatotic PHH model (Kwon 2025),donor,in-vitro disease-model tasks
+E-MTAB-13207,2,PHH spheroids + TEAD inhibitors,donor,perturbation corpus
+GSE303090,2,hESC hepatocyte organoids MASLD + drug screening,donor,perturbation corpus
+GSE324401,2,Fa2N-4 immortalized hepatocyte MASLD model,donor,model-validation tasks
+GSE334407,2,PHH vs Huh7 physiologic media,cell-line,model-comparison tasks
+E-MTAB-10598,2,hiPSC hepatocytes OA/PA,cell-line,lipotoxicity perturbation
+E-MTAB-7884,2,Huh7 fat/sugar + DGAT2 KO,condition,perturbation corpus
+E-GEOD-71731,2,PPARa activation human precision-cut liver slices,donor,human-tissue perturbation (rare)
+GSE269926,2,snRNA-seq abdominal obesity genes MASLD,subject,scRNA cell-type tasks
+GSE269929,2,ATAC companion of GSE269926,subject,regulatory tasks (phase 2+)
+GSE281367,2,snATAC-seq MASLD vs normal,subject,regulatory tasks (phase 2+)
+GSE244832,2,multi-modal hepatic stellate cells MASLD,subject,HSC cell-type tasks
+GSE327949,2,AREL1 HSC scRNA-seq,subject,HSC perturbation
+GSE328089,2,AREL1 HSC RNA-seq,subject,HSC perturbation
+GSE167523,3,UNVERIFIED - possibly NASH scRNA-seq,subject,identify before use
+GSE278593,3,IGFBP-7 HSC->HCC phenotype,cell-line,knowledge corpus only
+GSE285431,3,NTN1 HSC fibrotic response,cell-line,knowledge corpus only
+GSE303583,3,NTN1 HSC fibrotic response (duplicate study arm),cell-line,knowledge corpus only
+GSE303711,3,GDF10 alleviates HSC fibrosis,cell-line,knowledge corpus only
+GSE289433,3,REST regulates HSC,cell-line,knowledge corpus only
+GSE261297,3,PNPLA3-I148M lipid droplet-Golgi,cell-line,knowledge corpus only
+GSE309786,3,PNPLA3-I148M programmed cell death hepatocytes,cell-line,knowledge corpus only
+GSE317876,3,Artemisitene liver organoids,organoid,knowledge corpus only
+GSE288534,3,senescent hepatocyte targeting MASLD,model,knowledge corpus (species verify)
+GSE292999,3,IVA337 PPAR agonist inflammation,model,knowledge corpus (likely mouse)
+GSE253380,3,ACMSD inhibition fibrosis/inflammation,model,knowledge corpus (species verify)
+GSE273561,3,aldehydes TGF-b obesity cancer (human+mouse n=27),model,knowledge corpus
+GSE338648,3,FABP4 MASLD-HCC,model,knowledge corpus (species verify)
+GSE320365,3,steatohepatitic HCC multi-omic,subject,HCC extension - out of MASLD scope for v3
+GSE318806,3,P21+TREM2+ senescent macrophages [Blood],subject,blood-side senescence tasks (phase 2)
+E-MTAB-15891,3,hiPSC progenitors with hepatic-fat PRS + MASH triggers,donor,gene-background x environment tasks
+E-MTAB-12974,3,miRNA severe NAFLD in HIV,subject,miRNA - marginal; skip unless miRNA tasks wanted
+E-GEOD-46300,3,systems-biology NAFLD grades (older microarray),cohort,marginal; microarray harmonization cost
+E-MEXP-3291,3,NASH (very old small),cohort,skip
+E-GEOD-4731,3,HepG2 GPI-PLD (very old microarray),cell-line,skip
+PXD050337,3,HSC glycolysis EV proteomics,subject,knowledge corpus (species verify)
+PXD051283,3,non-invasive lipid panel fibrosis transition,subject,plasma lipidomics tasks (phase 2 candidate)
+PXD055467,3,LONP1 KO liver proteomics (mouse),model,knowledge corpus
+PXD072418,3,ULK1-NCOA3 de novo lipogenesis (mouse),model,knowledge corpus
+PXD075389,3,GPER1 agonist G1 preclinical,model,knowledge corpus
+PXD075729,3,microplastics PTK6 mitophagy,model,knowledge corpus
+GSE313271,3,UNIDENTIFIED,unknown,identify before any use
+GSE312698,3,UNIDENTIFIED,unknown,identify before any use
+E-MTAB-15689,3,UNIDENTIFIED,unknown,identify before any use
+E-MTAB-12445,3,UNIDENTIFIED,unknown,identify before any use

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MASLD-LLM · Replication Roadmap</title>
+<style>
+  :root{
+    --paper:#fafafa; --ink:#141414; --dim:#6b6b6b; --faint:#9a9a9a;
+    --line:#d9d9d9; --line-hard:#141414;
+    --accent:#8a2635; --accent-soft:rgba(138,38,53,.07);
+    --mono:"SF Mono","Menlo","Consolas",monospace;
+    --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{background:var(--paper);}
+  body{font-family:var(--sans); color:var(--ink); font-size:15.5px; line-height:1.55;}
+  .page{max-width:1180px; margin:0 auto; padding:56px 48px 80px;}
+
+  /* type scale: 12 / 13 / 15.5 / 18 / 24 / 34 / 48 */
+  .kicker{font-size:12px; letter-spacing:.14em; font-weight:700; color:var(--accent); text-transform:uppercase;}
+  h1{font-size:48px; line-height:1.04; letter-spacing:-0.025em; font-weight:600; margin:14px 0 10px;}
+  .sub{font-size:18px; color:var(--dim); max-width:62ch; line-height:1.45;}
+  h2{font-size:24px; letter-spacing:-0.01em; font-weight:600; margin:0 0 6px;}
+  h3{font-size:15.5px; font-weight:600; margin:26px 0 8px;}
+  p{max-width:68ch; margin:0 0 12px;}
+  .section{margin-top:64px;}
+  .sec-head{border-top:2px solid var(--line-hard); padding-top:14px; display:flex; align-items:baseline; gap:18px;}
+  .sec-no{font-family:var(--mono); font-size:13px; color:var(--accent); font-weight:700;}
+  .lede{font-size:15.5px; color:var(--dim); max-width:70ch; margin-top:8px;}
+  code, .mono{font-family:var(--mono); font-size:12.5px;}
+  code{background:var(--accent-soft); padding:1px 5px; border-radius:2px;}
+  a{color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(138,38,53,.35);}
+  ul,ol{max-width:68ch; margin:0 0 14px 22px;}
+  li{margin-bottom:5px;}
+  strong{font-weight:600;}
+
+  /* tables */
+  table{border-collapse:collapse; width:100%; margin:18px 0 8px; font-size:13.5px;}
+  th{font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--dim);
+     font-weight:700; text-align:left; padding:8px 14px 8px 0; border-bottom:2px solid var(--line-hard);}
+  td{padding:9px 14px 9px 0; border-bottom:1px solid var(--line); vertical-align:top;}
+  tr:last-child td{border-bottom:none;}
+  td.m, th.m{font-family:var(--mono); font-size:12px; white-space:nowrap;}
+  .num{font-family:var(--mono); font-size:12.5px; white-space:nowrap;}
+  .tbl-note{font-size:12.5px; color:var(--faint); max-width:70ch; margin-bottom:20px;}
+
+  /* metadata strip on cover */
+  .meta-strip{display:flex; flex-wrap:wrap; gap:0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-top:34px;}
+  .meta-cell{padding:14px 36px 14px 0; min-width:150px;}
+  .meta-cell .k{font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--faint); font-weight:700;}
+  .meta-cell .v{font-family:var(--mono); font-size:13px; margin-top:3px;}
+
+  /* callout: hairline box, no rounded card wall */
+  .flag{border:1px solid var(--line); border-left:3px solid var(--accent); padding:14px 18px; margin:18px 0; max-width:72ch;}
+  .flag .k{font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-weight:700; display:block; margin-bottom:6px;}
+  .flag p{margin-bottom:0; font-size:14px;}
+
+  figure{margin:26px 0 8px;}
+  figure img{width:100%; height:auto; border:1px solid var(--line); display:block;}
+  figcaption{font-size:12.5px; color:var(--faint); margin-top:8px; max-width:70ch;}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:0 40px;}
+  .foot{margin-top:72px; border-top:2px solid var(--line-hard); padding-top:14px;
+        display:flex; justify-content:space-between; font-family:var(--mono); font-size:12px; color:var(--faint);}
+  .toc{display:grid; grid-template-columns:repeat(2, 1fr); gap:2px 48px; margin-top:10px;}
+  .toc a{display:flex; justify-content:space-between; font-size:14px; padding:8px 0; border-bottom:1px solid var(--line); color:var(--ink);}
+  .toc a .no{font-family:var(--mono); color:var(--accent);}
+  @media (max-width:900px){ .grid2{grid-template-columns:1fr;} .toc{grid-template-columns:1fr;} h1{font-size:34px;} }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ============ COVER ============ -->
+<div class="kicker">Replication roadmap · computational biology · v3</div>
+<h1>From LongevityBench to a MASLD-LLM</h1>
+<p class="sub">How to replicate the Cell 2026 “open benchmark + fine-tuned compact LLMs” recipe on your own disease — metabolic dysfunction-associated steatotic liver disease — using the two folders on this laptop, with all heavy compute on Google Colab Pro. v2 folded in the full disk audit (Fujiwara, drug corpus, knowledge tasks, Tahoe). v3 adds the external-cohort expansion: 62 curated accessions from your literature sweep, tiered by fit — 18 tier-1 datasets add ~250+ new human liver biopsies, open the DNAm domain, and add paired liver+plasma proteomics.</p>
+
+<div class="meta-strip">
+  <div class="meta-cell"><div class="k">Recipe paper</div><div class="v">Zhavoronkov et&nbsp;al., Cell 189:5980–5994 (2026)</div></div>
+  <div class="meta-cell"><div class="k">Benchmark</div><div class="v">17 tasks · 25,457 prompts</div></div>
+  <div class="meta-cell"><div class="k">Your data</div><div class="v">~10.1 GB · 2 folders</div></div>
+  <div class="meta-cell"><div class="k">Local machine</div><div class="v">MacBook Air M2 · 8 GB</div></div>
+  <div class="meta-cell"><div class="k">Prepared</div><div class="v">2026-09-29 · v3 · build started</div></div>
+</div>
+
+<div class="section" style="margin-top:44px">
+  <div class="kicker">Contents</div>
+  <div class="toc">
+    <a href="#s1"><span>What the paper actually did</span><span class="no">01</span></a>
+    <a href="#s2"><span>What you already have</span><span class="no">02</span></a>
+    <a href="#s3"><span>The crosswalk: paper recipe → MASLD tasks</span><span class="no">03</span></a>
+    <a href="#s4"><span>Google Colab Pro compute plan</span><span class="no">04</span></a>
+    <a href="#s5"><span>Execution phases</span><span class="no">05</span></a>
+    <a href="#s6"><span>Statistics, claims, authorship</span><span class="no">06</span></a>
+    <a href="#s7"><span>Risks and pitfalls</span><span class="no">07</span></a>
+    <a href="#s8"><span>Files delivered with this roadmap</span><span class="no">08</span></a>
+  </div>
+</div>
+
+<!-- ============ 01 ============ -->
+<div class="section" id="s1">
+  <div class="sec-head"><span class="sec-no">01</span><h2>What the paper actually did</h2></div>
+  <p class="lede">Five moves, each of which has a direct MASLD counterpart. Understanding the moves matters more than any single hyperparameter.</p>
+
+  <table>
+    <tr><th style="width:16%">Move</th><th style="width:44%">In the paper</th><th>MASLD translation</th></tr>
+    <tr><td class="m">Benchmark</td><td>17 tasks / 5 domains (NHANES clinical, GEO DNAm, GTEx transcriptomics, Olink proteomics, OpenGenes/SynergyAge genetics), 4 formats: binary, pairwise, multiclass, regression. Prompts carry real measurements; ground truth never stated in prompt.</td><td>~12–15 tasks over liver bulk RNA-seq, plasma proteomics, blood RNA, gene/perturbation knowledge. Same four formats.</td></tr>
+    <tr><td class="m">Leakage audit</td><td>Split by survey wave (NHANES), by study (DNAm, DeepMAge partition), by subject (GTEx, Olink), by protein family (OpenGenes), by organism (SynergyAge). Pairs constructed intra-study.</td><td>Split by cohort (EPos + Gubra held out forever), by subject (plasma, blood, paired biopsies), by gene family (knowledge tasks).</td></tr>
+    <tr><td class="m">Baselines</td><td>ElasticNet / HGB / Cox trained on the exact features each prompt exposes, on the identical frozen test items — so LLM vs ML is a paired comparison.</td><td>Fibrosis “clocks”: ElasticNet / XGBoost on the same gene tokens the prompts show. Same frozen items.</td></tr>
+    <tr><td class="m">Fine-tuning</td><td>Stage A continued pretraining (313k prompts: clock coefficients, UniProt/GO/Reactome/STRING facts) → Stage B multitask SFT (ChatML, 3 epochs, assistant-only loss, neat packing). LoRA r32 α32 on 9B; full-FT on 0.6–2.6B. 32k context.</td><td>Stage A on your KG text (masld_kg_v5, STRING, Reactome, GWAS, trial outcomes) → Stage B on your multitask prompts. QLoRA on Colab.</td></tr>
+    <tr><td class="m">Evaluation</td><td>Zero-shot, single pass, greedy (temp 0), vLLM, max 1500 tokens. Friedman + bootstrap CI + McNemar/Wilcoxon with Holm correction.</td><td>Identical protocol; on smaller prompt counts report bootstrap CIs per task.</td></tr>
+  </table>
+  <p class="tbl-note">Result to internalize: their 9B LoRA beat every frontier model (mean rank 4.4, CI 3.5–5.1) — but only where prompts had non-static, omics-derived feature sets. On fixed-panel clinical tasks (NHANES), classical ML stayed ahead of most frontier LLMs. Expect the same split on MASLD: fibrosis regression from a fixed 200-gene panel is ML turf; reasoning over variable gene sets and multi-cohort comparison is where an LLM earns its keep.</p>
+</div>
+
+<!-- ============ 02 ============ -->
+<div class="section" id="s2">
+  <div class="sec-head"><span class="sec-no">02</span><h2>What you already have</h2></div>
+  <p class="lede">Inventoried this session (v2 re-audit: every file opened, counted, joined). Sizes from disk; counts from metadata files. This is unusually complete for a single-disease replication — the paper needed five public data domains, you have the MASLD equivalent of all five plus a knowledge-graph layer they had to build separately. The v1 plan used about a third of this; v2 uses essentially all of it.</p>
+
+  <table>
+    <tr><th style="width:34%">Resource</th><th class="m" style="width:12%">Size</th><th>Role in the MASLD-LLM program</th></tr>
+    <tr><td>Kamzolas 2026 release harmonised cohort (<span class="num">data/kamzolas/</span>) — SANYAL n=78 + UCAM n=58, SAF-annotated (fibrosis, NAS, steatosis, ballooning, inflammation, T2DM, age, sex) + batch-corrected counts</td><td class="m">297 MB</td><td>The NHANES-analogue core: train-side clinical/transcriptomic tasks in all four formats.</td></tr>
+    <tr><td>EPos cohort (<span class="num">epos_metadata.csv</span>, n≈157) + Gubra (<span class="num">GSE126848</span>, n≈40)</td><td class="m">~45 MB</td><td>Held-out <strong>test cohorts</strong> — the “survey wave” split. Never trained on.</td></tr>
+    <tr><td>Discovery cohort (349 biopsies: GSE130970 n=78, GSE135251 n=216, GSE185051 n=55) with fibrosis stages</td><td class="m">50 MB matrix</td><td>Additional train-side bulk RNA-seq volume.</td></tr>
+    <tr><td><strong>v2</strong> · Fujiwara longitudinal block — <span class="num">expression_matrix.csv</span> (213 samples; TU n=48, HU n=164, KU n=56, TH n=3) + 271-row annotated metadata (age, sex, fibrosis, NAS, PLS risk) + 58 paired-biopsy trajectories</td><td class="m">50 MB</td><td>More than <strong>doubles</strong> train-side clinical volume; adds progression-prediction tasks (a format the paper lacked); KU series held out as internal test.</td></tr>
+    <tr><td>Plasma proteomics reference — 191 samples, advanced-fibrosis (F3–F4) + T2DM labels; Govaere panels (25-gene, 194-signature, 57 BMs)</td><td class="m">5.9 MB</td><td>The Olink-analogue: fixed-panel proteomics tasks; the 25-gene panel is your “published clock”.</td></tr>
+    <tr><td>Blood bulk RNA-seq GSE267032 (WBC, severity-graded patients)</td><td class="m">1.5 MB</td><td>Circulating-proxy tasks: severity from blood — clinically the most deployable task family.</td></tr>
+    <tr><td>Paired-biopsy longitudinal set (ucam_sanyal, n=58 pairs)</td><td class="m">39 MB</td><td>Prediction-of-progression tasks — a format the paper didn’t even have. Subject-split by construction.</td></tr>
+    <tr><td>Knowledge graph <span class="num">masld_kg_v5.gexf</span> + STRING v12 + Reactome graph + GWAS catalog + curated MASLD gene sets</td><td class="m">168 MB +</td><td>Stage-A continued-pretraining corpus — your UniProt/Reactome/STRING equivalent, already disease-specific.</td></tr>
+    <tr><td>Drug layer: DrugBank/DrugCentral/CTD extracts (<span class="num">drug_data/</span> ~293k rows), <span class="num">kg_additions_drug_target.csv</span> (62k), trial outcomes (resmetirom, semaglutide, lanifibranor, pioglitazone…)</td><td class="m">40 MB</td><td><strong>v2:</strong> retrieval-style knowledge tasks (drug→target, drug→category) — ~250k raw facts; also the Longevity-Claw-analogue agent layer.</td></tr>
+    <tr><td><strong>v2</strong> · Knowledge bases: MSigDB c2 (7,233 sets / 65k memberships), FerrDb (5,195), QuickGO RCD (9,115), scRNA liver references (20 cell types), GSE115469 (8,445 cells)</td><td class="m">10 MB</td><td>Pathway-membership, ferroptosis-role, cell-type-marker tasks; ground truth from curated data, not free text.</td></tr>
+    <tr><td><strong>v2</strong> · Your computed DGE: <span class="num">t1_ranked_logFC.csv</span> (11,676 genes), fgsea tables, DESeq results</td><td class="m">1 MB</td><td>Masked direction-of-change tasks with real effect-size ground truth (OpenGenes analogue).</td></tr>
+    <tr><td><strong>v3</strong> · External-cohort expansion (62 accessions curated from your literature sweep): 7 human liver biopsy cohorts (~250+ samples), DNAm NAFLD study, liver proteomics, 6 PHH spheroid perturbation panels, snRNA/ATAC, HSC datasets — full manifest in <span class="num">external_cohorts_v3.csv</span></td><td class="m">~10–15 GB</td><td>Tier 1 (18 datasets) feeds prompt builders directly: new train cohorts, the DNAm domain (paper’s GEO DNAm analogue), perturbation corpus, paired liver+plasma proteomics. Tier 2 = phase-2 scRNA/regulatory. Tier 3 = knowledge-corpus facts only.</td></tr>
+    <tr><td><strong>BUILD STATUS</strong> · 2026-09-29: first freezes landed in <span class="num">prompts/</span> — 58,194 prompts (frozen test 13,273 from EPos+Gubra; train 44,921 across Kamzolas clinical, Fujiwara, MSigDB, drug-layer, DGE-direction corpora) with checksummed MANIFEST; 11 tier-1 external datasets (460 MB) downloaded and staging-audited. See <span class="num">RUNLOG.md</span>.</td><td class="m">58,194 prompts</td><td>First working artefacts of the program — the frozen test side is locked before any new cohort enters training.</td></tr>
+    <tr><td>Tahoe-100M pseudobulk DE (perturbation atlas), Tabula Sapiens liver h5ad, Li 2025 spatial, GSE115469 scRNA</td><td class="m">4.9 GB</td><td>The SynergyAge-analogue (perturbation → effect) + cell-type tasks. Phase 2 — do not upload yet.</td></tr>
+  </table>
+  <p class="tbl-note">Folder totals: <span class="num">~/masld-revision</span> 9.6 GB · <span class="num">~/masld-clinical-transcriptomics-github</span> 491 MB. The locked refinement pipeline (stages 00–33) in the github folder already encodes your preprocessing conventions — reuse its qnorm/lock logic where notebooks touch the same cohorts.</p>
+</div>
+
+<!-- ============ 03 ============ -->
+<div class="section" id="s3">
+  <div class="sec-head"><span class="sec-no">03</span><h2>The crosswalk: paper recipe → MASLD tasks</h2></div>
+  <p class="lede">Task IDs prefixed <span class="num">MB-</span> (MASLD-Bench). Split unit is the anti-leakage spine — decide it before writing a single prompt.</p>
+
+  <table>
+    <tr><th class="m" style="width:9%">Task</th><th style="width:24%">Format &amp; target</th><th style="width:30%">Source</th><th class="m" style="width:13%">Split unit</th><th class="m">Est. prompts</th></tr>
+    <tr><td class="m">MB-1001/2/3/5/6</td><td>binary · pairwise · multiclass · regression — fibrosis F0–F4, NAS 0–8</td><td>Kamzolas SANYAL+UCAM + discovery cohorts; top-variance 200 genes (single) / 100 (pairwise)</td><td class="m">cohort</td><td class="m">~25k</td></tr>
+    <tr><td class="m">MB-2xxx</td><td>same four formats, frozen test</td><td>EPos (n≈157) + Gubra (n≈40)</td><td class="m">held out</td><td class="m">~4k</td></tr>
+    <tr><td class="m">MB-3001/2/3</td><td>binary (F3–F4) · pairwise · regression — plasma proteomics</td><td>191-sample plasma reference over Govaere fixed panels</td><td class="m">subject</td><td class="m">~3k</td></tr>
+    <tr><td class="m">MB-4001/2</td><td>multiclass severity · regression (NAS) — blood RNA</td><td>GSE267032 WBC (n=35)</td><td class="m">subject</td><td class="m">~300</td></tr>
+    <tr><td class="m">MB-5001/2</td><td>binary progression · regression (Δfibrosis) — paired biopsies</td><td>ucam_sanyal 58 longitudinal pairs</td><td class="m">subject</td><td class="m">~120</td></tr>
+    <tr><td class="m">MB-6xxx</td><td>knowledge retrieval: gene→pathway, gene→trait, drug→outcome</td><td>curated MASLD sets, GWAS catalog, Reactome, trial outcomes</td><td class="m">gene family</td><td class="m">~15k</td></tr>
+    <tr><td class="m">MB-7xxx</td><td>masked-gene direction-of-change with age (OpenGenes analogue)</td><td>discovery DGE tables + Li 2025 signatures</td><td class="m">gene family</td><td class="m">~2k</td></tr>
+    <tr><td class="m">MB-8xxx</td><td>four formats over the Fujiwara block (train: TU+HU+TH)</td><td>expression_matrix.csv + parsed GEO metadata</td><td class="m">series</td><td class="m">~30k</td></tr>
+    <tr><td class="m">MB-9xxx</td><td>same formats, KU series internal test</td><td>Fujiwara KU n=56</td><td class="m">held out</td><td class="m">~5k</td></tr>
+    <tr><td class="m">MB-85xx</td><td>progression: Δfibrosis from baseline axis scores</td><td>58 paired biopsies + trajectories</td><td class="m">subject</td><td class="m">~120</td></tr>
+    <tr><td class="m">MB-61xx</td><td>pathway membership, ferroptosis role, cell-type markers</td><td>MSigDB c2, FerrDb, QuickGO, scRNA refs</td><td class="m">gene family</td><td class="m">~40k</td></tr>
+    <tr><td class="m">MB-70xx</td><td>masked direction-of-change (MASLD vs healthy liver)</td><td>your t1_ranked_logFC (11,676 genes)</td><td class="m">gene family</td><td class="m">~10k</td></tr>
+    <tr><td class="m">MB-91xx/92xx</td><td>perturbation → direction / magnitude / pairwise (SynergyAge analogue)</td><td>Tahoe-100M liver shards (43 × ~4M rows)</td><td class="m">cell line</td><td class="m">60k</td></tr>
+  </table>
+  <p class="tbl-note">Volume after v2 additions: ~100–120k evaluation-grade prompts and 250k+ training-side facts. Prompt anatomy follows the paper: rotating instruction templates (3+ per question type), gene tokens as <span class="num">GENE=12.4</span> pairs, clinical block (age/sex/T2DM), answer formats enumerated in the prompt. Multiclass shows 200 genes, pairwise 100, regression 400 without annotation — the paper’s exact geometry. Median prompt ≈ 3–6k tokens; well under the 8k <span class="num">cutoff_len</span> in the training config.</p>
+
+  <div class="flag">
+    <span class="k">The one design decision to get right</span>
+    <p>The paper’s headline claim — compact fine-tuned LLMs beating frontier models — holds only on tasks where the feature set is <strong>non-static and omics-sampled</strong>. When you design tasks, resist making everything a fixed 200-gene panel; keep per-prompt sampled gene sets (top-variance within cohort, most-dissimilar for pairwise) so the benchmark measures omics interpretation, not panel memorization.</p>
+  </div>
+
+  <figure>
+    <img src="assets/masld-pipeline-diagram.png" alt="MASLD-LLM pipeline: data folders, prompt construction, baselines, Colab fine-tuning, evaluation and release, with compute plan strip">
+    <figcaption>Fig. 1 — The five-stage program and where it runs. Stages 1–3 are laptop-and-Drive work; stage 4 is the only Colab-GPU-heavy part; stage 5 is cheap again.</figcaption>
+  </figure>
+</div>
+
+<!-- ============ 04 ============ -->
+<div class="section" id="s4">
+  <div class="sec-head"><span class="sec-no">04</span><h2>Google Colab Pro compute plan</h2></div>
+  <p class="lede">Your laptop (M2, 8 GB, ~16 GB free disk) is right to sit this out: it can’t hold the 9B model, let alone train it. Colab Pro exists for exactly this shape of work. Current tiers: <strong>Pro $9.99/mo → 100 compute units (CU)</strong>; <strong>Pro+ $49.99/mo → 500 CU</strong>. A100 40GB draws ≈ 8–12 CU/hr; L4 ≈ 2–3; T4 ≈ 1.5–2.</p>
+
+  <h3>Which subscription</h3>
+  <ul>
+    <li><strong>Start with Pro ($9.99).</strong> The whole 0.6B–1.7B ladder (LoRA on L4) + all prompt building + baselines + frontier-API eval fits in ~60–80 CU. This proves the pipeline end-to-end.</li>
+    <li><strong>Upgrade to Pro+ only for the 9B run.</strong> QLoRA r32 on Qwen3.5-9B at 16k context needs A100 40GB. Budget ~70 CU total (stage A ~25, stage B ~40, vLLM eval ~6). One Pro+ month covers it with headroom.</li>
+    <li>Time it: do the Pro month first, and buy Pro+ the month you actually plan the 9B runs — CU don’t roll over usefully across long gaps and tiers change; check the meter at <span class="num">colab.research.google.com</span> → Resources.</li>
+  </ul>
+
+  <h3>Session strategy</h3>
+  <ul>
+    <li>Pro+ sessions run up to 24 h and survive closed tabs via background execution — but Colab can still reclaim idle VMs. Therefore: <strong>every training config writes <span class="num">save_steps</span> checkpoints to Drive</strong>, and every notebook is restartable from Drive state.</li>
+    <li>One runtime per notebook; disconnect between stages (idle GPU still burns CU on some tiers — check the meter).</li>
+    <li>Keep a tiny <span class="num">setup.sh</span> cell at the top of each notebook: mount Drive, pip install, verify GPU with <span class="num">torch.cuda.get_device_name()</span>. If Colab hands you a different GPU than requested, bail and reconnect rather than OOM mid-epoch.</li>
+  </ul>
+
+  <h3>Data staging (do once, ~40 min)</h3>
+  <ul>
+    <li>Upload <strong>tiers only</strong>: tier 1 metadata/panels (~120 MB) + tier 2 count matrices (~150 MB) → <span class="num">Drive/masld/data/</span>. Leave the 4.9 GB of Tahoe/h5ad/spatial on the laptop for phase 2.</li>
+    <li>Prompts are built <strong>once</strong> (notebook 01) into frozen gzipped JSONLs with checksum manifest; every later stage reads only those JSONLs — the paper’s “frozen test items” discipline.</li>
+    <li>Checkpoints → <span class="num">Drive/masld/checkpoints/</span>; final merged model → both Drive and Hugging Face Hub (free) as off-site backup.</li>
+  </ul>
+
+  <table>
+    <tr><th style="width:38%">Run</th><th class="m" style="width:14%">Runtime</th><th class="m" style="width:12%">Est. CU</th><th>Notes</th></tr>
+    <tr><td>01 · Prompt construction</td><td class="m">CPU / T4</td><td class="m">&lt; 2</td><td>pandas only; the KG→text dump is the slow cell</td></tr>
+    <tr><td>02 · ML baselines + frontier API eval</td><td class="m">CPU</td><td class="m">~0</td><td>API cost ≈ $5–15 outside Colab (OpenRouter)</td></tr>
+    <tr><td>03 · Qwen3-0.6B LoRA SFT</td><td class="m">L4</td><td class="m">~4</td><td>~45 min; the smoke test</td></tr>
+    <tr><td>03 · Qwen3-1.7B LoRA SFT</td><td class="m">L4</td><td class="m">~10</td><td>~2–3 h</td></tr>
+    <tr><td>03 · Qwen3.5-9B QLoRA stage A + B (v2 mixture, ~60k prompts sampled)</td><td class="m">A100 40GB</td><td class="m">~65–75</td><td>Pro+ month; ~6–9 h across 2–3 sessions; hierarchical-uniform cap keeps tokens seen ≈ paper-sized</td></tr>
+    <tr><td>05 · vLLM eval of your models</td><td class="m">A100</td><td class="m">~6</td><td>single-pass, temp 0, max 1500 tok</td></tr>
+  </table>
+  <p class="tbl-note">Sanity anchor: the paper used 8× RTX PRO 6000 for 28 h on the 9B — roughly 200+ A100-hours of headroom you don’t need, because your sampled corpus is paper-sized by design.
+  <p class="tbl-note">v2 volume discipline: raw corpora now exceed 250k prompts (~300M+ tokens). Do <strong>not</strong> train on all of it. Hierarchical-uniform sampling (domains → tasks → cap) into a ~60k-prompt stage-B mixture, ~50–100M tokens seen, is both what the paper did for imbalance and what keeps the 9B run inside one Pro+ month. The unsampled pools remain frozen for future runs.</p></p>
+
+  <div class="flag">
+    <span class="k">Why not full-parameter training, like the paper’s small models?</span>
+    <p>Single-GPU Colab pushes you to LoRA/QLoRA. That’s fine — the paper’s own 9B result was LoRA r32 α32, and at 0.6–1.7B scale LoRA recovers nearly all of full-FT quality on multitask SFT. If you later want the exact full-FT replication, that’s the point to move to a rented H100 node (Lambda/RunPod, ~$2–3/hr) instead of Colab.</p>
+  </div>
+</div>
+
+<!-- ============ 05 ============ -->
+<div class="section" id="s5">
+  <div class="sec-head"><span class="sec-no">05</span><h2>Execution phases</h2></div>
+  <p class="lede">Each phase ends at a git commit + Drive artifact. Nothing in phase N+1 starts until phase N’s output is frozen.</p>
+
+  <h3><span class="num">Phase 0 — freeze the design (laptop, half a day)</span></h3>
+  <ul>
+    <li>Write <span class="num">TASKS.md</span>: task IDs, sources, split units, expected counts (steal the §3 table).</li>
+    <li>Decide the two test cohorts (EPos + Gubra) and the subject-level splits; save the sample-ID lists as CSVs. These lists are the contract.</li>
+  </ul>
+
+  <h3><span class="num">Phase 1 — prompts + baselines (Colab Pro, week 1)</span></h3>
+  <ul>
+    <li>Upload tiers 1–2; run notebook 01 → frozen JSONLs + MANIFEST.</li>
+    <li><strong>v3:</strong> download the 18 tier-1 external accessions (see <span class="num">external_cohorts_v3.csv</span>; the 7 liver-biopsy cohorts join the train pool, E-MTAB-15601/-15612/-15586/-15587/-15609/-15610 join the perturbation corpus, E-GEOD-48325 opens the DNAm domain, MSV000094959 gives paired liver+plasma proteomics). Six accessions still need identification (GSE313271, GSE312698, E-MTAB-15689, E-MTAB-12445, GSE164760 tissue, GSE167523) — resolve on first download before use.</li>
+    <li>Run notebook 02 baselines; log concordance / MAE / accuracy per task to <span class="num">results/baselines.json</span>.</li>
+    <li>Frontier eval on a 300–500-prompt stratified subsample per task (DeepSeek, Gemini 2.5 Pro, GPT-4.1-mini minimum). This is your leaderboard’s frontier bracket.</li>
+  </ul>
+
+  <h3><span class="num">Phase 2 — fine-tune the ladder (Pro, week 2)</span></h3>
+  <ul>
+    <li>0.6B LoRA → eval → 1.7B LoRA → eval. If 1.7B doesn’t beat the ML baselines on at least the variable-feature tasks, fix data before burning 9B CU.</li>
+    <li>Stage-A corpus from the KG text dump; keep it ≤ ~100M tokens — your KG is small, that’s fine.</li>
+  </ul>
+
+  <h3><span class="num">Phase 3 — the 9B run (Pro+, week 3)</span></h3>
+  <ul>
+    <li>QLoRA stage A (1 epoch, lr 2e-5) → stage B (3 epochs, lr 1e-4), checkpoints to Drive.</li>
+    <li>Merge adapters, vLLM eval on the identical frozen prompts. This is the headline model.</li>
+  </ul>
+
+  <h3><span class="num">Phase 4 — release (any tier, week 4)</span></h3>
+  <ul>
+    <li>HF dataset <span class="num">&lt;user&gt;/masld-bench</span>, model <span class="num">&lt;user&gt;/masld-llm-…</span>, leaderboard page on the existing github repo, and the methods section writes itself from the MANIFEST provenance.</li>
+  </ul>
+</div>
+
+<!-- ============ 06 ============ -->
+<div class="section" id="s6">
+  <div class="sec-head"><span class="sec-no">06</span><h2>Statistics, claims, authorship</h2></div>
+  <ul>
+    <li><strong>Per-task metrics:</strong> concordance (pairwise), accuracy/F1 (classification), MAE + Spearman (regression) — plus <strong>response validity</strong> (share of parseable answers), which the paper reports separately and reviewers will ask for.</li>
+    <li><strong>Uncertainty:</strong> prompt-level bootstrap CIs (paper’s Figure 2B method). With your model count (3–6), skip Friedman critical-difference; use per-task paired tests (McNemar exact / Wilcoxon signed-rank) with Holm correction when comparing your model against the runner-up.</li>
+    <li><strong>Claim discipline:</strong> “matches or exceeds frontier models on MASLD-Bench” requires the frontier bracket to be current — date-stamp every API run and record model versions in the manifest.</li>
+    <li><strong>Medical context:</strong> fibrosis-stage tasks are research claims, not clinical claims. One sentence in the discussion stating no clinical use is intended will save a review cycle.</li>
+    <li><strong>Licensing:</strong> Kamzolas supplements are CC-BY (s42255 is a Nature Metabolism open license) — check each cohort’s terms before publishing prompts derived from them; EPos/Gubra GEO deposits are open, but verify redistribution of derived prompts per GEO policy.</li>
+  </ul>
+</div>
+
+<!-- ============ 07 ============ -->
+<div class="section" id="s7">
+  <div class="sec-head"><span class="sec-no">07</span><h2>Risks and pitfalls</h2></div>
+  <table>
+    <tr><th style="width:26%">Risk</th><th>Mitigation</th></tr>
+    <tr><td>Batch effects leak stage information (cohort ≠ disease severity)</td><td>Prompt features are within-cohort normalized; pairwise prompts intra-cohort only; report a cohort-confound check (predict cohort from prompt features — if a classifier does it easily, add batch-rotation verbalization or drop confounded genes).</td></tr>
+    <tr><td>Qwen3.5-9B hybrid GatedDeltaNet attention on Colab stack</td><td>Pin <span class="num">transformers≥4.57</span> + flash-linear-attention; if the kernels fight CUDA on Colab, fall back to Qwen3-8B (standard attention, same family) — the paper’s claim is recipe-level, not checkpoint-level.</td></tr>
+    <tr><td>Colab preempts mid-epoch</td><td><span class="num">save_steps 0.25</span> to Drive; resume from adapter; all data reads are Drive-first.</td></tr>
+    <tr><td>CU burn on idle/failed sessions</td><td>Disconnect between stages; watch the Resources meter; A100 only for the two 9B sessions.</td></tr>
+    <tr><td>Frontier-API drift mid-study</td><td>Freeze the model list + date; pin responses to <span class="num">frontier_runs/*.jsonl.gz</span> so the bracket is reproducible even if providers deprecate models.</td></tr>
+    <tr><td>v3 external cohorts: batch effects and duplicated samples across accessions (e.g. overlapping study arms like GSE285431/GSE303583)</td><td>Deduplicate by sample metadata before prompt building; treat same-paper dataset pairs as one cohort for splitting; verify tissue type (blood vs liver) on download for anything unverified in the manifest.</td></tr>
+    <tr><td>Test-set contamination via your own iterated prompt tweaks</td><td>The MANIFEST checksum rule: test JSONLs are written once; any change to builders bumps a version and requires rebuilding <em>all</em> eval runs.</td></tr>
+  </table>
+</div>
+
+<!-- ============ 08 ============ -->
+<div class="section" id="s8">
+  <div class="sec-head"><span class="sec-no">08</span><h2>Files delivered with this roadmap</h2></div>
+  <table>
+    <tr><th style="width:44%">File</th><th>Purpose</th></tr>
+    <tr><td class="m">colab/01_MASLD_Bench_prompt_construction.ipynb</td><td>Prompt builders, split discipline, freeze + manifest (run on Pro CPU/L4)</td></tr>
+    <tr><td class="m">colab/02_baselines_and_frontier_eval.ipynb</td><td>ML fibrosis clocks + OpenRouter frontier eval + scoring (run on CPU runtime)</td></tr>
+    <tr><td class="m">colab/03_finetune_masld_llm.ipynb</td><td>LLaMA-Factory LoRA/QLoRA configs, 0.6B→9B ladder, vLLM eval, publish steps</td></tr>
+    <tr><td class="m">assets/masld-pipeline-diagram.png</td><td>The five-stage pipeline figure (this document, Fig. 1)</td></tr>
+  </table>
+  <p class="tbl-note">Notebooks are runnable skeletons: builders for the core liver tasks are fully implemented; plasma/blood/knowledge builders are stubbed with exact instructions where layouts need a first manual look.</p>
+</div>
+
+<div class="foot">
+  <div>MASLD-LLM replication roadmap · prepared 2026-09-29</div>
+  <div>recipe: doi 10.1016/j.cell.2026.08.026 · models: huggingface.co/insilicomedicine</div>
+</div>
+
+</div>
+</body>
+</html>

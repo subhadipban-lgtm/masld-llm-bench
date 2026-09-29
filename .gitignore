@@ -1,0 +1,15 @@
+# heavy data — re-downloadable, never commit
+data/external_v3/*.gz
+data/tahoe/
+*.h5ad
+*.parquet
+
+# results are regenerable; keep json/csv summaries, drop pickles
+results/**/*.pkl
+results/**/tmp/
+
+# local envs and OS noise
+.DS_Store
+__pycache__/
+*.pyc
+.venv/

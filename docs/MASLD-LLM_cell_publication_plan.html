@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MASLD-LLM · Cell Publication Plan</title>
+<style>
+  :root{
+    --paper:#fafafa; --ink:#141414; --dim:#6b6b6b; --faint:#9a9a9a;
+    --line:#d9d9d9; --line-hard:#141414;
+    --accent:#8a2635; --accent-soft:rgba(138,38,53,.07);
+    --mono:"SF Mono","Menlo","Consolas",monospace;
+    --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{background:var(--paper);}
+  body{font-family:var(--sans); color:var(--ink); font-size:15.5px; line-height:1.55;}
+  .page{max-width:1180px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:12px; letter-spacing:.14em; font-weight:700; color:var(--accent); text-transform:uppercase;}
+  h1{font-size:44px; line-height:1.05; letter-spacing:-0.025em; font-weight:600; margin:14px 0 10px;}
+  .sub{font-size:17.5px; color:var(--dim); max-width:64ch; line-height:1.45;}
+  h2{font-size:24px; letter-spacing:-0.01em; font-weight:600; margin:0 0 6px;}
+  h3{font-size:15.5px; font-weight:600; margin:26px 0 8px;}
+  p{max-width:70ch; margin:0 0 12px;}
+  .section{margin-top:60px;}
+  .sec-head{border-top:2px solid var(--line-hard); padding-top:14px; display:flex; align-items:baseline; gap:18px;}
+  .sec-no{font-family:var(--mono); font-size:13px; color:var(--accent); font-weight:700;}
+  .lede{font-size:15.5px; color:var(--dim); max-width:72ch; margin-top:8px;}
+  code, .num{font-family:var(--mono); font-size:12.5px;}
+  code{background:var(--accent-soft); padding:1px 5px; border-radius:2px;}
+  a{color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(138,38,53,.35);}
+  ul,ol{max-width:70ch; margin:0 0 14px 22px;}
+  li{margin-bottom:5px;}
+  strong{font-weight:600;}
+  table{border-collapse:collapse; width:100%; margin:18px 0 8px; font-size:13.5px;}
+  th{font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--dim); font-weight:700; text-align:left; padding:8px 14px 8px 0; border-bottom:2px solid var(--line-hard);}
+  td{padding:9px 14px 9px 0; border-bottom:1px solid var(--line); vertical-align:top;}
+  tr:last-child td{border-bottom:none;}
+  td.m, th.m{font-family:var(--mono); font-size:12px; white-space:nowrap;}
+  .tbl-note{font-size:12.5px; color:var(--faint); max-width:72ch; margin-bottom:20px;}
+  .meta-strip{display:flex; flex-wrap:wrap; gap:0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-top:34px;}
+  .meta-cell{padding:14px 36px 14px 0; min-width:150px;}
+  .meta-cell .k{font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--faint); font-weight:700;}
+  .meta-cell .v{font-family:var(--mono); font-size:13px; margin-top:3px;}
+  .flag{border:1px solid var(--line); border-left:3px solid var(--accent); padding:14px 18px; margin:18px 0; max-width:74ch;}
+  .flag .k{font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-weight:700; display:block; margin-bottom:6px;}
+  .flag p{margin-bottom:0; font-size:14px;}
+  figure{margin:26px 0 8px;}
+  figure img{width:100%; height:auto; border:1px solid var(--line); display:block;}
+  figcaption{font-size:12.5px; color:var(--faint); margin-top:8px; max-width:72ch;}
+  .foot{margin-top:72px; border-top:2px solid var(--line-hard); padding-top:14px; display:flex; justify-content:space-between; font-family:var(--mono); font-size:12px; color:var(--faint); flex-wrap:wrap; gap:8px;}
+  @media (max-width:900px){ h1{font-size:32px;} }
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="kicker">Publication strategy · designed in from freeze-1</div>
+<h1>The Cell submission plan for MASLD-LLM</h1>
+<p class="sub">A working publication plan for the MASLD-LLM program: what the paper will claim, what each figure shows, how the statistics stay defensible, what Cell specifically requires, and how the six-month timeline gates. The test side was already frozen before any new cohort entered training — that decision was made for this document.</p>
+
+<div class="meta-strip">
+  <div class="meta-cell"><div class="k">Target journal</div><div class="v">Cell → Cell Metab → CRM</div></div>
+  <div class="meta-cell"><div class="k">Model paper</div><div class="v">Zhavoronkov et al. 2026</div></div>
+  <div class="meta-cell"><div class="k">Planned timeline</div><div class="v">6 months + revision</div></div>
+  <div class="meta-cell"><div class="k">Compute budget</div><div class="v">≈ $400–800</div></div>
+  <div class="meta-cell"><div class="k">Drafted</div><div class="v">2026-09-29</div></div>
+</div>
+
+<!-- ============ 01 ============ -->
+<div class="section" id="s1">
+  <div class="sec-head"><span class="sec-no">01</span><h2>What Cell wants, and what this paper is</h2></div>
+  <p class="lede">The LongevityBench paper landed in Cell on three legs: an open community resource, a conceptual finding (compact tuned models rival frontier systems), and full release. MASLD-LLM replicates that shape in a major disease — but replication alone is not a Cell paper. The submission must lead with what <em>could not have been known</em> from the aging study.</p>
+
+  <h3>The claim structure</h3>
+  <table>
+    <tr><th style="width:12%">Claim</th><th style="width:44%">Statement</th><th>Evidence required</th></tr>
+    <tr><td class="m">C1 · Benchmark</td><td>MASLD-Bench is the first AI-evaluation suite for MASLD spanning six biodata domains (clinical transcriptomics, plasma proteomics, DNAm, perturbation, progression, molecular knowledge), ~40 tasks, leakage-audited at the cohort/subject/gene-family level.</td><td>Resource figure + per-task audit table (their Table S1 analogue). Already partially in hand: 58,194 prompts frozen with checksummed manifest.</td></tr>
+    <tr><td class="m">C2 · Compact models</td><td>Multitask-tuned 0.6B–9B models match or exceed frontier LLMs on MASLD-Bench despite 10–100× fewer parameters.</td><td>Head-to-head vs ≥16 frontier systems (paper used 18; their Gemini-3.1-Pro benchmark) with bootstrap CIs and post-hoc paired tests.</td></tr>
+    <tr><td class="m">C3 · Novel tasks</td><td>Progression prediction from paired biopsies and blood-proxy severity — task families the aging paper did not have — are learnable by compact models.</td><td>Performance above chance + ML baselines on MB-85xx/9xxx; this is the <strong>headline novelty</strong> over LongevityBench.</td></tr>
+    <tr><td class="m">C4 · Regime split</td><td>The ML-vs-LLM regime split (fixed panels favour classical ML; variable omics-sampled features favour tuned LLMs) generalizes from aging to MASLD — a field-level lesson about where AI belongs in omics workflows.</td><td>Direct comparison on identical frozen items + feature-format ablations within one domain.</td></tr>
+  </table>
+  <p class="tbl-note">C2 is confirmatory, C1 is infrastructure, C3+C4 carry the conceptual advance. If C3 tasks don’t clear baselines, the fallback framing is “benchmark + evaluation landscape” (still publishable, weaker journal).</p>
+
+  <h3>Why this fits Cell’s scope</h3>
+  <ul>
+    <li>MASLD affects ~30% of humans; an open AI-evaluation resource for it has field-wide utility — the same argument the aging paper made.</li>
+    <li>The regime-split finding (C4) speaks to every group trying to use LLMs on omics data, not just MASLD labs.</li>
+    <li>Full release (benchmark, models, agent interface) satisfies Cell’s resource-paper appetite.</li>
+  </ul>
+</div>
+
+<!-- ============ 02 ============ -->
+<div class="section" id="s2">
+  <div class="sec-head"><span class="sec-no">02</span><h2>Figure plan (Cell format: 6 main figures + TOC graphic)</h2></div>
+  <table>
+    <tr><th style="width:14%">Figure</th><th style="width:40%">Content</th><th>Panels / source</th></tr>
+    <tr><td class="m">F1 · Resource</td><td>Overview: MASLD-Bench composition across domains, L-LLM-style training pipeline, MASLD-Claw interface, release map.</td><td>(A) domain×task matrix (B) pipeline schematic (C) Claw screenshot (D) release/leaderboard. Mirrors their Figure 1.</td></tr>
+    <tr><td class="m">F2 · Landscape</td><td>Frontier + compact model ranks with bootstrap CIs; per-domain heatmap; response-validity rates.</td><td>Equal-domain mean ranks (their 2A/2B style); heatmap tasks × models; validity table.</td></tr>
+    <tr><td class="m">F3 · Regime split</td><td>ML clocks vs LLMs on fixed vs variable feature sets; question-format sensitivity; clinical-score comparisons (FIB-4, NFS analogues from prompt features).</td><td>Paired bars per task; format-rotation experiment within NHANES-style domain; clinical-score overlay.</td></tr>
+    <tr><td class="m">F4 · Compact models</td><td>0.6B→9B ladder performance vs cost; ablations: stage-A on/off, sampling mixture, reasoning traces, masked-vs-named genes.</td><td>Ladder plot; ablation grid; contamination-control variant (their unmasked/masked OpenGenes design).</td></tr>
+    <tr><td class="m">F5 · Translation</td><td>Progression from paired biopsies; blood-proxy severity (GSE267032); liver→plasma bridging (MSV000094959); drug-perturbation transfer (PHH panels + Tahoe).</td><td>Four panels, one per novel task family — <strong>this figure is the Cell novelty carrier</strong>.</td></tr>
+    <tr><td class="m">F6 · Insight</td><td>Mechanistic: model gene-weight vs DGE concordance; pathway-level attention; a MASLD-Claw target-discovery case study over your KG.</td><td>Weight-vs-logFC scatter; enriched-pathway analysis; Claw walkthrough with a known target (e.g. THRβ→resmetirom) recovered.</td></tr>
+  </table>
+  <p class="tbl-note">Supplementary: S1 per-task audit table, S2 model roster, S3 full metrics, S4 validity, S5 ranking-scheme sensitivity, S6 ML baselines, S7 post-hoc tests, S8 prompt examples (their Supplementary File 1 analogue — already half-built as the exemplar dump), S9 ablations, S10 Claw details.</p>
+
+  <figure>
+    <img src="assets/cell-submission-plan.png" alt="Cell submission plan: claims, figures, timeline, and submission package requirements">
+    <figcaption>Fig. 1 — The submission at a glance: four claims, six main figures, six month-phases with go/no-go gates, and the Cell-specific package requirements.</figcaption>
+  </figure>
+</div>
+
+<!-- ============ 03 ============ -->
+<div class="section" id="s3">
+  <div class="sec-head"><span class="sec-no">03</span><h2>Statistics &amp; rigor — the reviewer-proofing plan</h2></div>
+  <ul>
+    <li><strong>Primary metric discipline:</strong> concordance (pairwise), accuracy/F1 (classification), MAE + Spearman ρ (regression), all with prompt-level bootstrap 95% CIs (paper’s method). Response validity reported separately, never silently imputed.</li>
+    <li><strong>Pre-specified analysis plan</strong> (freeze it before P2 begins, date it, put it in the supplement): model set, task set, ranking scheme (equal-domain mean rank), and the two primary contrasts — C2 (best compact vs best frontier) and C4 (ML vs LLM on fixed vs variable features). Post-hoc McNemar/Wilcoxon with Holm correction for the winner-vs-runner-up tests.</li>
+    <li><strong>Leakage audit as a first-class table</strong> (their strongest supplement): per task — split unit, label source, schema overlap, instance overlap, text-recoverability risk. Already enforceable because the manifest records split rules per corpus.</li>
+    <li><strong>Contamination controls:</strong> masked-gene variants for knowledge tasks (their OpenGenes design); a named-vs-masked delta reported for DGE-direction tasks.</li>
+    <li><strong>Clinical context:</strong> research-use-only statement; no diagnostic claims; FIB-4/NFS-style classical scores computed from the same prompt features as a clinical baseline bracket.</li>
+  </ul>
+  <div class="flag">
+    <span class="k">The decision already made for this plan</span>
+    <p>The frozen test (EPos + Gubra, 13,273 prompts) was locked on 2026-09-29 <strong>before</strong> Fujiwara, external_v3 cohorts, or any new train data entered the program — recorded in the checksummed MANIFEST. This is the paper’s single strongest reviewer defense and must never be walked back.</p>
+  </div>
+</div>
+
+<!-- ============ 04 ============ -->
+<div class="section" id="s4">
+  <div class="sec-head"><span class="sec-no">04</span><h2>Timeline with go/no-go gates</h2></div>
+  <table>
+    <tr><th style="width:14%">Phase</th><th style="width:10%">Months</th><th style="width:44%">Deliverables</th><th>Gate to pass</th></tr>
+    <tr><td class="m">P1 · Corpora + baselines</td><td class="m">M1</td><td>Freeze-3 (external cohorts in train pool), freeze-4 (DNAm), ML + clinical baselines on frozen test, analysis plan frozen.</td><td>Baselines beat chance on every task (sanity), &gt;300 staged train samples total.</td></tr>
+    <tr><td class="m">P2 · Frontier bracket</td><td class="m">M2</td><td>16+ frontier systems evaluated on frozen test; 0.6B + 1.7B trained and evaluated.</td><td>1.7B within CI of frontier on ≥1 domain (their small-model result replicated).</td></tr>
+    <tr><td class="m">P3 · 9B + ablations</td><td class="m">M3</td><td>Two-stage 9B QLoRA; ablation grid; masked/named contamination variants.</td><td>9B ≥ frontier on C2 contrast with separated CI, or pivot claim weight to C3/C4.</td></tr>
+    <tr><td class="m">P4 · Full-corpus model</td><td class="m">M4</td><td>Final model on all domains incl. DNAm + perturbation; holdout-task validation.</td><td>No domain collapse; holdout tasks within CI of trained tasks.</td></tr>
+    <tr><td class="m">P5 · Insight + Claw</td><td class="m">M5</td><td>F6 analyses; MASLD-Claw over masld_kg_v5; case study (THRβ recovery).</td><td>Claw demo reproducible end-to-end.</td></tr>
+    <tr><td class="m">P6 · Manuscript + release</td><td class="m">M6</td><td>Draft, figures, STAR Methods, KRT, supplements S1–S10, HF + GitHub + leaderboard release, preprint.</td><td>Internal review passes; co-author sign-off.</td></tr>
+  </table>
+  <p class="tbl-note">Total compute across P1–P6 ≈ $400–800 (Colab Pro + one Pro+ month + OpenRouter bracket + optional teacher traces), assuming no re-runs. Each failed gate has a pre-planned fallback, not a scramble.</p>
+</div>
+
+<!-- ============ 05 ============ -->
+<div class="section" id="s5">
+  <div class="sec-head"><span class="sec-no">05</span><h2>What changes in the ongoing build</h2></div>
+  <ul>
+    <li><strong>Analysis plan gets frozen next</strong>, before the frontier bracket runs — this document’s §3 is its draft. Date-stamp and checksum it like the prompt manifest.</li>
+    <li><strong>Named+masked pairs</strong> for MB-70xx (DGE-direction): build both variants now so the contamination delta is a designed comparison, not a retrofit. <em>Bug to fix from today’s build: MB-7001 prompts currently describe “a gene with the following characteristics” but show no characteristics — the gene symbol was dropped during the masked design. Either show gene + context annotations (named variant) or drop the dangling clause (masked variant).</em></li>
+    <li><strong>Clinical-score baselines</strong> (FIB-4/NFS from prompt features) join the ML baselines in P1 — they anchor the translation claim.</li>
+    <li><strong>Prompt-exemplar supplement</strong> (their Supplementary File 1): the exemplar dump from today’s verification is its seed; formalize per-task JSON examples.</li>
+    <li><strong>Release cadence</strong>: HF dataset goes public at preprint time, not submission (their model), keeping reviewer access and citation clean.</li>
+    <li><strong>Journal ladder</strong>: Cell first (broad conceptual advance + resource). If desk-rejected, Cell Metabolism is the natural home (disease focus); Cell Reports Medicine if the translation angle (F5) dominates. The manuscript is structured so the F5 weight can be re-balanced without rebuilding figures.</li>
+  </ul>
+</div>
+
+<!-- ============ 06 ============ -->
+<div class="section" id="s6">
+  <div class="sec-head"><span class="sec-no">06</span><h2>Authorship, ethics, licensing</h2></div>
+  <ul>
+    <li><strong>Author list</strong>: decide early; Cell requires a CRediT statement per author. The computation-heavy design (this program) = conceptualization + methodology + software + data curation for the lead.</li>
+    <li><strong>Data licensing</strong>: GEO/ArrayExpress deposits are open; derived-prompt redistribution needs per-repository checks (audit in P1). Kamzolas supplements CC-BY. MSV000094959 (MassIVE) — check its policy before including liver+plasma tasks in the released benchmark.</li>
+    <li><strong>Human data</strong>: all public, de-identified, no new human subjects — one-paragraph IRB exemption statement in STAR Methods (mirrors the model paper).</li>
+    <li><strong>Model licenses</strong>: Qwen3/3.5 Apache-2.0 — fine-tuned derivatives releasable. Record base-model versions in the KRT (their Table format).</li>
+  </ul>
+</div>
+
+<div class="foot">
+  <div>MASLD-LLM · Cell publication plan · 2026-09-29</div>
+  <div>companion: MASLD-LLM_roadmap.html · RUNLOG.md</div>
+</div>
+
+</div>
+</body>
+</html>
