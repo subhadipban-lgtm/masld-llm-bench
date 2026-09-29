@@ -13,3 +13,4 @@ results/**/tmp/
 __pycache__/
 *.pyc
 .venv/
+drug-discovery/library/coconut-09-2024*

@@ -94,3 +94,34 @@
 - MANIFEST bumped to v3-freeze-3. **Program total: 63,769 prompts.**
 - Next in queue: ML baselines on frozen test (session 2), analysis-plan
   freeze + frontier bracket (session 3), COCONUT pull (session 4).
+
+## 2026-09-29 · Sessions 2–4 executed
+
+### Session 2 — ML baselines on frozen test (results/baselines.json)
+- Gene-feature models: binary EN 0.382 / HGB 0.382 vs majority 0.582; multiclass
+  EN 0.240 / HGB 0.249 vs majority 0.200; regression EN MAE 1.838 (rho 0.292).
+- **Finding (honest): cross-platform feature mismatch.** External microarray
+  cohorts expose probe IDs; the test uses Ensembl. Full-pool gene models
+  undershoot majority on binary. Kamzolas-only (feature-matched) rerun:
+  binary 0.560/0.564, multiclass 0.231, regression EN rho 0.250.
+- Action: map all platforms to gene symbols in freeze-4 (probe->gene from the
+  GPL tables already in the SOFT files), then re-train baselines. Recorded in
+  baselines.json meta.finding.
+
+### Session 3 — analysis plan frozen + frontier tooling ready
+- analysis-plan/ANALYSIS_PLAN_v1.md: pre-specified contrasts (C2, C4), metrics,
+  ranking scheme, model roster, decoding protocol, validity handling, bootstrap
+  stats, falsification criteria. Frozen BEFORE any API call.
+- scripts/session3_frontier.py: OpenRouter runner (stratified 300/task, seed
+  20260929, resumable, archives raw + parsed + model version).
+- scripts/score_frontier.py: scoring with bootstrap CIs -> leaderboard.csv.
+- **Blocked on: OPENROUTER_API_KEY** — user must create key at openrouter.ai
+  and provide it (env var, or ~/.openclaw/tmp/or_key.txt, or masld-llm/.or_key).
+
+### Session 4 — COCONUT NP library (drug arm unblocked)
+- COCONUT API flaky (intermittent 400s on identical payloads) -> switched to
+  the Zenodo COCONUT 2.0 dump (record 13692394).
+- Downloaded + filtered with RDKit: **327,916 NPs kept** from 695,133 scanned
+  (MW 250–600, Crippen LogP 0–5, dedup). Library:
+  drug-discovery/library/coconut_filtered.smi (SMILES + identifier + MW + LogP).
+- Next: top-5k selection + 3D conformers -> Vina screen vs the 5 AF targets.

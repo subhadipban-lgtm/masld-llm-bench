@@ -1,0 +1,80 @@
+{
+ "meta": {
+  "date": "2026-09-29",
+  "seed": 20260929,
+  "rule": "trained on prompt-exposed features only; evaluated on identical frozen items",
+  "finding": "cross-platform feature mismatch: external microarray cohorts use probe IDs; test uses Ensembl. Full-pool models undershoot majority on binary. Kamzolas-only (feature-space-matched) results shown separately; fix = map all platforms to gene symbols in freeze-4."
+ },
+ "gene_features": {
+  "binary_advanced_fibrosis": {
+   "n_train": 401,
+   "n_test": 225,
+   "majority_acc": 0.5822222222222222,
+   "elasticnet_logreg_acc": 0.38222222222222224,
+   "hgb_acc": 0.38222222222222224
+  },
+  "multiclass_F0_F4": {
+   "n_train": 401,
+   "n_test": 225,
+   "majority_acc": 0.2,
+   "elasticnet_logreg_acc": 0.24,
+   "hgb_acc": 0.24888888888888888
+  },
+  "regression_stage_0_4": {
+   "n_train": 607,
+   "n_test": 393,
+   "median_mae": 2.4580152671755724,
+   "elasticnet_mae": 1.8377573767176472,
+   "elasticnet_spearman": 0.2916201408600138,
+   "hgb_mae": 1.8274403558595491,
+   "hgb_spearman": 0.007004718008991743
+  }
+ },
+ "clinical_only": {
+  "binary_advanced_fibrosis": {
+   "n_train": 401,
+   "n_test": 225,
+   "majority_acc": 0.5822222222222222,
+   "elasticnet_logreg_acc": 0.5822222222222222,
+   "hgb_acc": 0.5822222222222222
+  },
+  "multiclass_F0_F4": {
+   "n_train": 401,
+   "n_test": 225,
+   "majority_acc": 0.2,
+   "elasticnet_logreg_acc": 0.2,
+   "hgb_acc": 0.2
+  },
+  "regression_stage_0_4": {
+   "n_train": 607,
+   "n_test": 393,
+   "median_mae": 2.4580152671755724,
+   "elasticnet_mae": 2.3594428826273526,
+   "elasticnet_spearman": -0.009205776620951157,
+   "hgb_mae": 2.318719838750859,
+   "hgb_spearman": -0.009205776620951157
+  }
+ },
+ "kamzolas_only_gene_features": {
+  "binary": {
+   "majority": 0.5822222222222222,
+   "EN": 0.56,
+   "HGB": 0.5644444444444444,
+   "n_test": 225
+  },
+  "multiclass": {
+   "majority": 0.2,
+   "EN": 0.2311111111111111,
+   "HGB": 0.19555555555555557,
+   "n_test": 225
+  },
+  "regression": {
+   "median_mae": 1.7048346055979644,
+   "EN_mae": 2.547371436921795,
+   "EN_rho": 0.2500009433950618,
+   "HGB_mae": 1.907577433926832,
+   "HGB_rho": 0.11818356835804347,
+   "n_test": 393
+  }
+ }
+}
