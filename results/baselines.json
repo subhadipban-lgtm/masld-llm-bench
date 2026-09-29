@@ -3,7 +3,7 @@
   "date": "2026-09-29",
   "seed": 20260929,
   "rule": "trained on prompt-exposed features only; evaluated on identical frozen items",
-  "finding": "cross-platform feature mismatch: external microarray cohorts use probe IDs; test uses Ensembl. Full-pool models undershoot majority on binary. Kamzolas-only (feature-space-matched) results shown separately; fix = map all platforms to gene symbols in freeze-4."
+  "finding": "FIXED in freeze-4: all platforms mapped to gene symbols (probe->gene via GPL tables; Kamzolas Ensembl->symbol). Full-pool baselines now feature-matched with the frozen test."
  },
  "gene_features": {
   "binary_advanced_fibrosis": {
@@ -74,6 +74,28 @@
    "EN_rho": 0.2500009433950618,
    "HGB_mae": 1.907577433926832,
    "HGB_rho": 0.11818356835804347,
+   "n_test": 393
+  }
+ },
+ "full_pool_gene_symbol_fixed": {
+  "binary": {
+   "majority": 0.5822222222222222,
+   "EN": 0.48444444444444446,
+   "HGB": 0.5111111111111111,
+   "n_test": 225
+  },
+  "multiclass": {
+   "majority": 0.2,
+   "EN": 0.25333333333333335,
+   "HGB": 0.20444444444444446,
+   "n_test": 225
+  },
+  "regression": {
+   "median_mae": 2.4580152671755724,
+   "EN_mae": 1.757612795433394,
+   "EN_rho": 0.2790527623118543,
+   "HGB_mae": 1.7935967732988605,
+   "HGB_rho": 0.04341385198821469,
    "n_test": 393
   }
  }

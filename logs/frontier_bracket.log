@@ -1,0 +1,10 @@
+[20:05:31] START deepseek/deepseek-chat
+[20:16:03] RESTART with concurrent runner (6 workers)
+[20:16:03] START deepseek/deepseek-chat
+model=deepseek/deepseek-chat n_per_task=300 total=1143
+resuming: 10 archived, 1110 to go
+  50/1110 ok=50 (28/min, 105s)
+  100/1110 ok=100 (32/min, 187s)
+  150/1110 ok=150 (34/min, 268s)
+  200/1110 ok=200 (31/min, 383s)
+  250/1110 ok=250 (28/min, 530s)

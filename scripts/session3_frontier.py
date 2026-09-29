@@ -12,11 +12,13 @@ The key is read from the environment or a .openclaw/tmp/or_key.txt file.
 Responses are archived to results/frontier_runs/ with the model version string.
 """
 import gzip, json, os, random, re, sys, time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 SEED = 20260929
 ROOT = "/Users/subhadipbanerjee/masld-llm"
 RUNS = f"{ROOT}/results/frontier_runs"
 os.makedirs(RUNS, exist_ok=True)
+WORKERS = 6
 
 def get_key():
     k = os.environ.get("OPENROUTER_API_KEY")
@@ -45,6 +47,33 @@ def parse_answer(text, task):
         except ValueError: return None
     return None
 
+def call_openrouter(body_dict, key, retries=4):
+    import urllib.request, urllib.error
+    body = json.dumps(body_dict).encode()
+    last_err = None
+    for attempt in range(retries):
+        req = urllib.request.Request(
+            "https://openrouter.ai/api/v1/chat/completions", data=body,
+            headers={"Authorization": f"Bearer {key}",
+                     "Content-Type": "application/json"})
+        try:
+            with urllib.request.urlopen(req, timeout=240) as resp:
+                d = json.loads(resp.read())
+                return d["choices"][0]["message"]["content"], d.get("model"), None
+        except urllib.error.HTTPError as e:
+            last_err = f"HTTP {e.code}"
+            if e.code == 429:
+                ra = e.headers.get("Retry-After")
+                wait = float(ra) if ra else 20 * (attempt + 1)
+                time.sleep(min(wait, 120))
+                continue
+            time.sleep(5 * (attempt + 1))
+        except Exception as e:
+            last_err = str(e)
+            time.sleep(5 * (attempt + 1))
+    return None, None, last_err
+
+
 def main():
     if len(sys.argv) < 2:
         sys.exit("usage: session3_frontier.py <openrouter_model_id> [n_per_task]")
@@ -54,10 +83,7 @@ def main():
     if not key:
         sys.exit("no OPENROUTER_API_KEY (env, .or_key, or ~/.openclaw/tmp/or_key.txt)")
 
-    import urllib.request
     rng = random.Random(SEED)
-
-    # load + stratified subsample per task
     rows = []
     with gzip.open(f"{ROOT}/prompts/MB-20xx_liver_test.jsonl.gz", "rt") as f:
         f.readline()
@@ -70,7 +96,7 @@ def main():
     for task, items in sorted(by_task.items()):
         rng.shuffle(items)
         sample.extend(items[:n_per])
-    print(f"model={model} n_per_task={n_per} total={len(sample)}")
+    print(f"model={model} n_per_task={n_per} total={len(sample)}", flush=True)
 
     out_path = f"{RUNS}/{model.replace('/', '__')}__MB-20xx.jsonl.gz"
     done = set()
@@ -81,39 +107,33 @@ def main():
                     done.add(json.loads(line)["sample"])
                 except Exception:
                     pass
-    print(f"resuming: {len(done)} already archived")
+    todo = [r for r in sample if r["sample"] not in done]
+    print(f"resuming: {len(done)} archived, {len(todo)} to go", flush=True)
+
+    def work(r):
+        raw, ver, err = call_openrouter({
+            "model": model,
+            "messages": [{"role": "user", "content": r["prompt"]}],
+            "temperature": 0.0, "top_p": 1.0, "max_tokens": 1500,
+        }, key)
+        return dict(task=r["task"], sample=r["sample"], answer=r["answer"],
+                    raw=raw, error=err, model_version=ver,
+                    parsed=parse_answer(raw, r["task"]))
 
     t0 = time.time()
-    with gzip.open(out_path, "at") as f:
-        for i, r in enumerate(sample):
-            if r["sample"] in done:
-                continue
-            body = json.dumps({
-                "model": model,
-                "messages": [{"role": "user", "content": r["prompt"]}],
-                "temperature": 0.0, "top_p": 1.0, "max_tokens": 1500,
-            }).encode()
-            req = urllib.request.Request(
-                "https://openrouter.ai/api/v1/chat/completions", data=body,
-                headers={"Authorization": f"Bearer {key}",
-                         "Content-Type": "application/json"})
-            raw, err = None, None
-            for attempt in range(3):
-                try:
-                    with urllib.request.urlopen(req, timeout=180) as resp:
-                        d = json.loads(resp.read())
-                        raw = d["choices"][0]["message"]["content"]
-                        model_ver = d.get("model", model)
-                        break
-                except Exception as e:
-                    err = str(e); time.sleep(3 * (attempt + 1))
-            rec = dict(task=r["task"], sample=r["sample"], answer=r["answer"],
-                       raw=raw, error=err, model_version=model_ver if raw else None,
-                       parsed=parse_answer(raw, r["task"]))
+    n_ok = 0
+    with gzip.open(out_path, "at") as f, ThreadPoolExecutor(max_workers=WORKERS) as ex:
+        futures = {ex.submit(work, r): r for r in todo}
+        for i, fut in enumerate(as_completed(futures)):
+            rec = fut.result()
             f.write(json.dumps(rec) + "\n")
-            if (i + 1) % 25 == 0:
-                print(f"  {i+1}/{len(sample)} ({time.time()-t0:.0f}s)")
-    print(f"archived -> {out_path}")
+            if rec["raw"] is not None:
+                n_ok += 1
+            if (i + 1) % 50 == 0:
+                rate = (i + 1) / (time.time() - t0) * 60
+                print(f"  {i+1}/{len(todo)} ok={n_ok} ({rate:.0f}/min, {time.time()-t0:.0f}s)", flush=True)
+    print(f"archived -> {out_path}", flush=True)
+
 
 if __name__ == "__main__":
     main()

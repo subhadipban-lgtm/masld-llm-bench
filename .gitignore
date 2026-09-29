@@ -14,3 +14,4 @@ __pycache__/
 *.pyc
 .venv/
 drug-discovery/library/coconut-09-2024*
+.or_key
