@@ -61,3 +61,18 @@
   - Journal ladder: Cell → Cell Metabolism → Cell Reports Medicine.
   - Analysis plan to be frozen before the frontier bracket (P2) runs.
 - Fixed in this pass: MB-7001 prompts had a dangling "gene with the following characteristics" clause showing no characteristics (gene symbol was dropped in the masked design). Now the named-gene variant; MB-7002 masked variant to be built before P2 so the contamination delta is a designed comparison.
+
+## 2026-09-29 · Drug-discovery extension (design + smoke test)
+
+- Question: can Chai-1 / AlphaFold add natural-product compound nomination?
+- Verdict: yes, but only at the structure/screening stages — target nomination
+  already lives in masld_kg_v5 (21k drugs, 35k target edges, personalization
+  annotations).
+- Audited on-disk assets: Natural .xlsx = seed only (~4 unique NPs, quercetin/
+  kaempferol/carvacrol); FerrDb 246 inhibitors; PubChem props 10,650.
+- Smoke-tested AlphaFold DB API: current model files are **v6** (v4 URLs 404);
+  downloaded 5 seed target structures (THRβ, PPARα, GSK3β, LPA1, NCOA3) ->
+  drug-discovery/structures/.
+- COCONUT (~400k NPs) verified reachable — the missing library piece.
+- Design doc: drug-discovery/README.md (5-stage pipeline, compute budget,
+  honest caveats: docking = weak evidence, frame as computational nomination).
