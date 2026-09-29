@@ -1,0 +1,15 @@
+[17:56:21] GET https://ftp.ncbi.nlm.nih.gov/geo/series/GSE48nnn/GSE48452/matrix/GSE48452_series_matrix.txt.gz
+[17:56:34] OK GSE48452  13M
+[17:56:34] GET https://ftp.ncbi.nlm.nih.gov/geo/series/GSE49nnn/GSE49541/matrix/GSE49541_series_matrix.txt.gz
+[17:56:38] OK GSE49541 5.1M
+[17:56:38] GET https://ftp.ncbi.nlm.nih.gov/geo/series/GSE89nnn/GSE89632/matrix/GSE89632_series_matrix.txt.gz
+[17:56:41] OK GSE89632 8.0M
+[17:56:41] GET https://ftp.ncbi.nlm.nih.gov/geo/series/GSE61nnn/GSE61260/matrix/GSE61260_series_matrix.txt.gz
+[17:56:42] OK GSE61260 8.0K
+[17:56:42] GET https://ftp.ncbi.nlm.nih.gov/geo/series/GSE66nnn/GSE66676/matrix/GSE66676_series_matrix.txt.gz
+[17:56:58] OK GSE66676 9.0M
+[17:56:58] GET https://ftp.ncbi.nlm.nih.gov/geo/series/GSE162nnn/GSE162694/suppl/GSE162694_raw_counts.csv.gz
+[17:57:05] OK GSE162694 6.0M
+[17:57:05] GET https://ftp.ncbi.nlm.nih.gov/geo/series/GSE247nnn/GSE247407/suppl/GSE247407_gene_count.txt.gz
+[17:57:14] OK GSE247407 3.0M
+[17:57:14] MATRIX ROUND DONE

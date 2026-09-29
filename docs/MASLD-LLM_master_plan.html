@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MASLD-LLM · Master Execution Plan</title>
+<style>
+  :root{
+    --paper:#fafafa; --ink:#141414; --dim:#6b6b6b; --faint:#9a9a9a;
+    --line:#d9d9d9; --line-hard:#141414;
+    --accent:#8a2635; --accent-soft:rgba(138,38,53,.07);
+    --mono:"SF Mono","Menlo","Consolas",monospace;
+    --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{background:var(--paper);}
+  body{font-family:var(--sans); color:var(--ink); font-size:15.5px; line-height:1.55;}
+  .page{max-width:1180px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:12px; letter-spacing:.14em; font-weight:700; color:var(--accent); text-transform:uppercase;}
+  h1{font-size:46px; line-height:1.04; letter-spacing:-0.025em; font-weight:600; margin:14px 0 10px;}
+  .sub{font-size:17.5px; color:var(--dim); max-width:66ch; line-height:1.45;}
+  h2{font-size:24px; letter-spacing:-0.01em; font-weight:600; margin:0 0 6px;}
+  h3{font-size:15.5px; font-weight:600; margin:26px 0 8px;}
+  p{max-width:72ch; margin:0 0 12px;}
+  .section{margin-top:60px;}
+  .sec-head{border-top:2px solid var(--line-hard); padding-top:14px; display:flex; align-items:baseline; gap:18px;}
+  .sec-no{font-family:var(--mono); font-size:13px; color:var(--accent); font-weight:700;}
+  .lede{font-size:15.5px; color:var(--dim); max-width:74ch; margin-top:8px;}
+  code, .num{font-family:var(--mono); font-size:12.5px;}
+  code{background:var(--accent-soft); padding:1px 5px; border-radius:2px;}
+  a{color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(138,38,53,.35);}
+  ul,ol{max-width:72ch; margin:0 0 14px 22px;}
+  li{margin-bottom:5px;}
+  strong{font-weight:600;}
+  table{border-collapse:collapse; width:100%; margin:18px 0 8px; font-size:13.5px;}
+  th{font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--dim); font-weight:700; text-align:left; padding:8px 14px 8px 0; border-bottom:2px solid var(--line-hard);}
+  td{padding:9px 14px 9px 0; border-bottom:1px solid var(--line); vertical-align:top;}
+  tr:last-child td{border-bottom:none;}
+  td.m, th.m{font-family:var(--mono); font-size:12px; white-space:nowrap;}
+  .tbl-note{font-size:12.5px; color:var(--faint); max-width:74ch; margin-bottom:20px;}
+  .meta-strip{display:flex; flex-wrap:wrap; gap:0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-top:34px;}
+  .meta-cell{padding:14px 36px 14px 0; min-width:150px;}
+  .meta-cell .k{font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--faint); font-weight:700;}
+  .meta-cell .v{font-family:var(--mono); font-size:13px; margin-top:3px;}
+  .flag{border:1px solid var(--line); border-left:3px solid var(--accent); padding:14px 18px; margin:18px 0; max-width:76ch;}
+  .flag .k{font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-weight:700; display:block; margin-bottom:6px;}
+  .flag p{margin-bottom:0; font-size:14px;}
+  .foot{margin-top:72px; border-top:2px solid var(--line-hard); padding-top:14px; display:flex; justify-content:space-between; font-family:var(--mono); font-size:12px; color:var(--faint); flex-wrap:wrap; gap:8px;}
+  .phase{border:1px solid var(--line); padding:16px 20px; margin:14px 0; max-width:100%;}
+  .phase .ph-head{display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;}
+  .phase .ph-no{font-family:var(--mono); font-size:13px; font-weight:700; color:var(--accent);}
+  .phase .ph-title{font-size:16px; font-weight:600;}
+  .phase .ph-when{font-family:var(--mono); font-size:12px; color:var(--faint); margin-left:auto;}
+  .phase .ph-body{margin-top:8px; font-size:14px; color:#333; max-width:90ch;}
+  .phase .ph-gate{margin-top:10px; font-size:13px; color:var(--accent); border-top:1px dashed var(--line); padding-top:8px;}
+  @media (max-width:900px){ h1{font-size:32px;} }
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="kicker">Master execution plan · unified program</div>
+<h1>MASLD-LLM: the complete plan</h1>
+<p class="sub">One program, two arms. The <strong>benchmark arm</strong> (Cell-submission core): MASLD-Bench corpora → baselines → frontier bracket → compact tuned models → paper. The <strong>drug-discovery arm</strong>: KG-nominated targets → AlphaFold/Chai structural layer → natural-product screening → validated computational nomination. Both arms share the KG, the frozen test discipline, and the MASLD-LLM models.</p>
+
+<div class="meta-strip">
+  <div class="meta-cell"><div class="k">Program home</div><div class="v">~/masld-llm (git)</div></div>
+  <div class="meta-cell"><div class="k">Started</div><div class="v">2026-09-29</div></div>
+  <div class="meta-cell"><div class="k">State at plan date</div><div class="v">58,194 prompts frozen</div></div>
+  <div class="meta-cell"><div class="k">Horizon</div><div class="v">6 months + revision</div></div>
+  <div class="meta-cell"><div class="k">Budget</div><div class="v">≈ $500–1,000</div></div>
+</div>
+
+<!-- ============ 01 ============ -->
+<div class="section">
+  <div class="sec-head"><span class="sec-no">01</span><h2>Where we stand today</h2></div>
+  <table>
+    <tr><th style="width:38%">Asset</th><th class="m" style="width:16%">Status</th><th>Note</th></tr>
+    <tr><td>Frozen test corpus (EPos+Gubra)</td><td class="m">✅ frozen</td><td>13,273 prompts, checksummed, locked before any new train data — never regenerate</td></tr>
+    <tr><td>Train corpora (clinical + knowledge)</td><td class="m">✅ frozen</td><td>44,921 prompts across 5 files (Kamzolas, Fujiwara, MSigDB, drugs, DGE)</td></tr>
+    <tr><td>External tier-1 downloads (11 GEO series)</td><td class="m">✅ on disk</td><td>460 MB SOFT + expression matrices downloading now (5 series-matrix + 2 count files)</td></tr>
+    <tr><td>AlphaFold structural layer</td><td class="m">🟱 seeded</td><td>5 target structures (THRβ, PPARα, GSK3β, LPA1, NCOA3); batch script trivial to extend</td></tr>
+    <tr><td>NP library</td><td class="m">⬜ missing</td><td>COCONUT pull (~2–6 GB) + RDKit filtering — the drug arm's first real task</td></tr>
+    <tr><td>Cell publication plan</td><td class="m">✅ drafted</td><td>claims C1–C4, figures F1–F6, gates; analysis plan to freeze before P2</td></tr>
+    <tr><td>ML baselines on frozen test</td><td class="m">⬜ next</td><td>laptop-runnable; the first result of the program</td></tr>
+  </table>
+</div>
+
+<!-- ============ 02 ============ -->
+<div class="section">
+  <div class="sec-head"><span class="sec-no">02</span><h2>The unified sequence — workstreams W1–W5</h2></div>
+  <p class="lede">Five parallel workstreams with explicit dependencies. W1–W3 are the benchmark arm; W4 is the drug arm; W5 (paper) consumes both. Each phase ends at a git commit + frozen artifact.</p>
+
+  <div class="phase">
+    <div class="ph-head"><span class="ph-no">W1</span><span class="ph-title">Corpora &amp; data completion</span><span class="ph-when">laptop · weeks 1–3</span></div>
+    <div class="ph-body">
+      <strong>Freeze-3 (this week):</strong> parse the 5 series-matrix files + GSE162694/GSE247407 counts → harmonise (probe→gene collapse, per-sample standardisation) → add ~330 staged train samples → rebuild MB-10xx with the external cohorts included. Then <strong>freeze-4:</strong> GSE48325 DNAm → age/fibrosis-from-methylation tasks (MB-30xx). Then ArrayExpress tier-1 (E-MTAB-9815 + 6 PHH perturbation panels → MB-91xx human-relevant side), and the MB-95xx patient-profile→compound tasks once W4 produces affinities. Includes: Fujiwara KU internal-test build; MB-7002 masked-gene variant; exemplar supplement (S8) formalisation.
+    </div>
+    <div class="ph-gate">Gate: &gt;400 staged train samples total; every corpus has a checksummed manifest entry; DNAm tasks pass the ML-baseline sanity check.</div>
+  </div>
+
+  <div class="phase">
+    <div class="ph-head"><span class="ph-no">W2</span><span class="ph-title">Baselines &amp; frontier bracket</span><span class="ph-when">laptop + API · weeks 2–4</span></div>
+    <div class="ph-body">
+      <strong>First (before any LLM):</strong> ML fibrosis clocks (ElasticNet/HGB) + clinical scores (FIB-4/NFS-style from prompt features) on the frozen test → <code>results/baselines.json</code>. This is the anchor every LLM number gets compared against. Then the OpenRouter frontier bracket (≥16 models, zero-shot greedy, 300–500 prompts/task stratified) → <code>results/frontier_runs/</code>. Freeze the analysis plan (model list, ranking scheme, primary contrasts) <em>before</em> the first API call.
+    </div>
+    <div class="ph-gate">Gate: baselines beat chance on every task; frontier bracket complete for the current task set; analysis plan committed and dated.</div>
+  </div>
+
+  <div class="phase">
+    <div class="ph-head"><span class="ph-no">W3</span><span class="ph-title">Model ladder (Colab)</span><span class="ph-when">Colab Pro → Pro+ · weeks 3–10</span></div>
+    <div class="ph-body">
+      Stage-A pretraining corpus (KG text + drug facts) → 0.6B LoRA smoke test on L4 (minutes) → 1.7B (Pro) → evaluate both against baselines + frontier → only then Pro+ month for the 9B two-stage QLoRA (A: 1 epoch lr 2e-5; B: 3 epochs lr 1e-4, hierarchical-uniform sampled mixture ~60k prompts) → merge → vLLM single-pass eval on the identical frozen prompts → ablation grid (stage A on/off, sampling shares, named/masked, traces).
+    </div>
+    <div class="ph-gate">Gate (paper-critical): 1.7B within CI of frontier on ≥1 domain before spending 9B CU; 9B separated CI on the C2 contrast, or pivot claim weight to C3/C4.</div>
+  </div>
+
+  <div class="phase">
+    <div class="ph-head"><span class="ph-no">W4</span><span class="ph-title">Drug-discovery arm</span><span class="ph-when">laptop + Colab · weeks 2–12 (parallel)</span></div>
+    <div class="ph-body">
+      NP library: COCONUT pull → RDKit filters (MW 250–600, LogP ≤5, PAINS/aggregator removal) → ~50–150k candidates → 3D conformers. Structural layer: extend AlphaFold batch to the top-20 KG-nominated personalization targets. Screening: start <strong>Vina 5k compounds × 5 targets</strong> (reproducible, cheap) → Chai-1 co-folding on the top ~10k pairs (Pro+ A100, 10–20 CU). Validation: resmetirom↔THRβ and pioglitazone↔PPARα must rank in the top percentiles — this calibrates the whole pipeline. Output: MB-95xx tasks (patient profile → compound reasoning) + top-20 NP hand-off list for the lab.
+    </div>
+    <div class="ph-gate">Gate: positive controls rank high (top 5% of library); if not, fix filters/scoring before any NP claim. No efficacy language anywhere.</div>
+  </div>
+
+  <div class="phase">
+    <div class="ph-head"><span class="ph-no">W5</span><span class="ph-title">Paper &amp; release</span><span class="ph-when">weeks 12–24</span></div>
+    <div class="ph-body">
+      Figures F1–F6 per the Cell plan (F5 gains the drug-arm panel if W4 gates pass); STAR Methods; supplements S1–S10; MASLD-Claw demo over masld_kg_v5 + the compound layer; HF dataset + model release at preprint time; leaderboard GitHub page. Journal ladder: Cell → Cell Metabolism → Cell Reports Medicine.
+    </div>
+    <div class="ph-gate">Gate: internal review + co-author CRediT sign-off; all figures regenerate from committed code.</div>
+  </div>
+</div>
+
+<!-- ============ 03 ============ -->
+<div class="section">
+  <div class="sec-head"><span class="sec-no">03</span><h2>Immediate queue — the next seven working sessions</h2></div>
+  <table>
+    <tr><th class="m" style="width:8%">#</th><th style="width:36%">Session</th><th class="m" style="width:14%">Where</th><th>Output</th></tr>
+    <tr><td class="m">1</td><td>Parse 7 expression matrices, harmonise, build freeze-3 train pool</td><td class="m">laptop</td><td><code>prompts/MB-10xx</code> v2 (external cohorts in), manifest bump</td></tr>
+    <tr><td class="m">2</td><td>ML baselines + clinical scores on frozen test</td><td class="m">laptop</td><td><code>results/baselines.json</code> — the program's first result</td></tr>
+    <tr><td class="m">3</td><td>Freeze analysis plan; set up OpenRouter; frontier bracket v1</td><td class="m">laptop + API</td><td><code>analysis-plan/</code> frozen; <code>results/frontier_runs/</code></td></tr>
+    <tr><td class="m">4</td><td>COCONUT pull + RDKit filtering + conformers</td><td class="m">laptop</td><td><code>drug-discovery/library/</code> (~50–150k NPs)</td></tr>
+    <tr><td class="m">5</td><td>0.6B LoRA smoke test end-to-end (train → vLLM eval)</td><td class="m">Colab Pro</td><td>first MASLD-LLM checkpoint + eval row</td></tr>
+    <tr><td class="m">6</td><td>DNAm tasks (GSE48325) + Fujiwara KU internal test</td><td class="m">laptop</td><td>MB-30xx + MB-9xxx corpora</td></tr>
+    <tr><td class="m">7</td><td>Vina screen: 5k NPs × 5 targets + positive-control check</td><td class="m">Colab Pro</td><td><code>drug-discovery/screening/</code> v1 rankings</td></tr>
+  </table>
+  <p class="tbl-note">Sessions 1–3 are the critical path (everything downstream consumes their outputs). Sessions 4 and 6–7 run on the laptop in parallel with the Colab ladder.</p>
+</div>
+
+<!-- ============ 04 ============ -->
+<div class="section">
+  <div class="sec-head"><span class="sec-no">04</span><h2>Rules that hold across the whole program</h2></div>
+  <ul>
+    <li><strong>The frozen test is sacred.</strong> EPos + Gubra, 13,273 prompts, locked 2026-09-29. Any builder change bumps the manifest and invalidates eval runs — by design.</li>
+    <li><strong>Features from train only; pairwise intra-cohort; label-free per-sample standardisation.</strong> Recorded per corpus in the manifest.</li>
+    <li><strong>Analysis plan freezes before the frontier bracket runs</strong> — no post-hoc model cherry-picking.</li>
+    <li><strong>Drug arm speaks nomination, not efficacy.</strong> Positive-control calibration first; PAINS-filtered; no therapeutic claims.</li>
+    <li><strong>Everything commits to git at phase boundaries</strong>; every artifact carries provenance (checksums, versions, seeds).</li>
+    <li><strong>Laptop-first:</strong> nothing goes to Colab that runs locally in &lt;10 minutes.</li>
+  </ul>
+</div>
+
+<!-- ============ 05 ============ -->
+<div class="section">
+  <div class="sec-head"><span class="sec-no">05</span><h2>Budget &amp; risk register</h2></div>
+  <table>
+    <tr><th style="width:30%">Item</th><th class="m" style="width:14%">Cost</th><th>Notes</th></tr>
+    <tr><td>Colab Pro (2 months)</td><td class="m">$20</td><td>prompt building, 0.6B/1.7B, Vina screen</td></tr>
+    <tr><td>Colab Pro+ (1 month)</td><td class="m">$50</td><td>9B QLoRA + vLLM eval + Chai-1</td></tr>
+    <tr><td>OpenRouter frontier bracket</td><td class="m">$30–80</td><td>16 models × ~3k prompts stratified</td></tr>
+    <tr><td>Teacher traces (optional)</td><td class="m">$20–50</td><td>DeepSeek-R1 reasoning for ~15% of tasks</td></tr>
+    <tr><td>Re-runs / contingency</td><td class="m">$100–300</td><td>failed gates, CU overruns</td></tr>
+    <tr><td><strong>Total</strong></td><td class="m"><strong>≈ $220–500</strong></td><td>upper bound with full contingency; DR arm screening included</td></tr>
+  </table>
+  <table>
+    <tr><th style="width:34%">Risk</th><th>Mitigation</th></tr>
+    <tr><td>Frontier bracket shows compact models can't compete</td><td>Claim weight shifts to C3/C4 (novel tasks + regime split) — the fallback is designed in, not improvised.</td></tr>
+    <tr><td>External cohorts carry batch artifacts</td><td>Per-cohort standardisation + cohort-blindness check (predict cohort from features; if easy, drop confounded genes); keep external cohorts train-side only.</td></tr>
+    <tr><td>Docking positive controls fail</td><td>Fix filters/scoring before any NP claim; the gate exists to stop a broken pipeline from producing rankings.</td></tr>
+    <tr><td>Colab preemption mid-9B</td><td>save_steps to Drive; resume from adapter; two-session budget already planned.</td></tr>
+    <tr><td>Reviewers question test-set reuse across model iterations</td><td>The answer is the manifest: test prompts frozen and checksummed before training data existed; report every model's eval against the same hashes.</td></tr>
+  </table>
+</div>
+
+<div class="foot">
+  <div>MASLD-LLM · master execution plan · 2026-09-29</div>
+  <div>companion docs: MASLD-LLM_roadmap.html · MASLD-LLM_cell_publication_plan.html · drug-discovery/README.md</div>
+</div>
+
+</div>
+</body>
+</html>

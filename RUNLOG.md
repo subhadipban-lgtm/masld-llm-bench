@@ -76,3 +76,21 @@
 - COCONUT (~400k NPs) verified reachable — the missing library piece.
 - Design doc: drug-discovery/README.md (5-stage pipeline, compute budget,
   honest caveats: docking = weak evidence, frame as computational nomination).
+
+## 2026-09-29 · Master plan + freeze-3 executed
+
+- Master plan written: docs/MASLD-LLM_master_plan.html — five workstreams
+  (W1 corpora, W2 baselines+frontier, W3 model ladder, W4 drug arm, W5 paper),
+  7-session immediate queue, budget $220–500, risk register with fallbacks.
+- Downloaded 7 expression matrices (series-matrix + count files) for the
+  external cohorts; GSE61260 needed its supplementary normalized-expr CSV
+  (series matrix was metadata-only).
+- **Freeze-3 built: MB-11xx_external_train.jsonl.gz — 5,575 prompts.**
+  GSE48452 (71 staged), GSE49541 (72), GSE89632 (56), GSE66676 (67 binary),
+  GSE61260 (134 age-regression tasks). Train pool now ~466 staged samples.
+- Bug fixed (7th of the program): family.soft characteristics are per-sample
+  sequential lines, not cohort-wide — parser rewritten; GSE48452 went from
+  1 staged to 71 staged.
+- MANIFEST bumped to v3-freeze-3. **Program total: 63,769 prompts.**
+- Next in queue: ML baselines on frozen test (session 2), analysis-plan
+  freeze + frontier bracket (session 3), COCONUT pull (session 4).
