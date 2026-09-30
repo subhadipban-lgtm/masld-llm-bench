@@ -8,3 +8,12 @@ resuming: 10 archived, 1110 to go
   150/1110 ok=150 (34/min, 268s)
   200/1110 ok=200 (31/min, 383s)
   250/1110 ok=250 (28/min, 530s)
+[11:56:13] DETACHED RESTART (flushed runner)
+[11:56:13] START deepseek/deepseek-chat
+model=deepseek/deepseek-chat n_per_task=300 total=1143
+resuming: 10 archived, 1110 to go
+  50/1110 ok=50 (36/min, 84s)
+  100/1110 ok=100 (41/min, 148s)
+  150/1110 ok=150 (46/min, 197s)
+  200/1110 ok=200 (47/min, 257s)
+  250/1110 ok=250 (37/min, 410s)

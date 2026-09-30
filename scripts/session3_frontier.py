@@ -129,6 +129,8 @@ def main():
             f.write(json.dumps(rec) + "\n")
             if rec["raw"] is not None:
                 n_ok += 1
+            if (i + 1) % 25 == 0:
+                f.flush()
             if (i + 1) % 50 == 0:
                 rate = (i + 1) / (time.time() - t0) * 60
                 print(f"  {i+1}/{len(todo)} ok={n_ok} ({rate:.0f}/min, {time.time()-t0:.0f}s)", flush=True)

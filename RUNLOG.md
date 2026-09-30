@@ -146,3 +146,17 @@ Built:
   now 83,751 prompts.
 - summit_poc's NMR-shift models (HOSE/shift-MPNN .pt) noted as a future
   structure-elucidation extension — not part of the current benchmark.
+
+## 2026-09-30 · Sessions 6 + 7 prep
+
+- Frontier bracket: relaunched detached with flush patch (overnight run was
+  killed by session timeout; ~148 records recovered). Pacing ~30-46/min.
+- **Session 6a — DNAm domain open**: GSE48325 signal intensities downloaded
+  (368 MB), beta values computed (B/(A+B), detection p<0.01 in >=80% samples,
+  483,781 CpGs x 85 samples), MB-30xx built (73 train / 19 test; NAFLD-vs-
+  NORMAL binary, age-decade multiclass, age regression).
+- **Session 6b — Fujiwara KU internal test**: MB-9xxx built (224 prompts,
+  56 staged KU samples, train-side feature selection from TU+HU+TH).
+- MANIFEST -> v3-freeze-4. **Program total: 84,067 prompts.**
+- **Session 7 prep**: top-5k diverse NP subset selected (greedy max-min
+  Tanimoto, 60k candidate pool); 3D conformer generation running detached.

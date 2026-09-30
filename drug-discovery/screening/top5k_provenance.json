@@ -1,0 +1,7 @@
+{
+ "n_library": 362313,
+ "n_candidates": 60000,
+ "n_selected": 5000,
+ "method": "greedy max-min Tanimoto diversity, Morgan r=2 2048-bit, seed 20260929",
+ "date": "2026-09-30"
+}

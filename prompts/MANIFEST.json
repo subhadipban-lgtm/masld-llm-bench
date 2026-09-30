@@ -1,5 +1,5 @@
 {
- "version": "v3-freeze-4-partial",
+ "version": "v3-freeze-4",
  "created": "2026-09-29",
  "seed": 20260929,
  "recipe": "Zhavoronkov et al. Cell 189:5980-5994 (2026), LongevityBench",
@@ -9,7 +9,8 @@
   "pairwise prompts intra-cohort only",
   "per-sample label-free standardisation (log1p if non-negative, then z-score) before prompting",
   "task IDs: MB-1xxx train clinical, MB-2xxx frozen test, MB-6xxx knowledge, MB-7xxx DGE direction, MB-8xxx Fujiwara train",
-  "MB-11xx external train: GSE48452/49541/89632/66676 + GSE61260 age tasks; all train-side; test remains EPos+Gubra only"
+  "MB-11xx external train: GSE48452/49541/89632/66676 + GSE61260 age tasks; all train-side; test remains EPos+Gubra only",
+  "MB-30xx DNAm: GSE48325, 80/20 sample split, features train-selected; MB-9xxx Fujiwara KU internal test (train = TU+HU+TH)"
  ],
  "counts": {
   "MB-10xx_liver_train.jsonl.gz": 3928,
@@ -19,7 +20,10 @@
   "MB-70xx_dge_direction_train.jsonl.gz": 8088,
   "MB-8xxx_fujiwara_train.jsonl.gz": 204,
   "MB-11xx_external_train.jsonl.gz": 5575,
-  "MB-63xx_drugcentral_affinity_train.jsonl.gz": 19982
+  "MB-63xx_drugcentral_affinity_train.jsonl.gz": 19982,
+  "MB-30xx_dnam_train.jsonl.gz": 73,
+  "MB-30xx_dnam_test.jsonl.gz": 19,
+  "MB-9xxx_fujiwara_KU_test.jsonl.gz": 224
  },
  "files": {
   "MB-10xx_liver_train.jsonl.gz": "67e9e185de14a085",
@@ -29,6 +33,9 @@
   "MB-70xx_dge_direction_train.jsonl.gz": "a2537dedd01e4eff",
   "MB-8xxx_fujiwara_train.jsonl.gz": "6a13c398d51a7bc3",
   "MB-11xx_external_train.jsonl.gz": "b220643495ef4c5a",
-  "MB-63xx_drugcentral_affinity_train.jsonl.gz": "30a11591f23bec28"
+  "MB-63xx_drugcentral_affinity_train.jsonl.gz": "30a11591f23bec28",
+  "MB-30xx_dnam_train.jsonl.gz": "f71b68df5d9c8f3d",
+  "MB-30xx_dnam_test.jsonl.gz": "6f5dbdb53e0a09fa",
+  "MB-9xxx_fujiwara_KU_test.jsonl.gz": "c208ccbb3e7d3d3d"
  }
 }
