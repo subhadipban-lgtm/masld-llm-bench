@@ -160,3 +160,10 @@ Built:
 - MANIFEST -> v3-freeze-4. **Program total: 84,067 prompts.**
 - **Session 7 prep**: top-5k diverse NP subset selected (greedy max-min
   Tanimoto, 60k candidate pool); 3D conformer generation running detached.
+
+## 2026-09-30 · background status at turn end
+
+- Conformers: ~1,000/5,000 done (ETKDGv3 + MMFF, ~2/s on M2; ETA ~35 min more).
+- Frontier bracket: DeepSeek ~410/1,110 (30/min); 5 models queued after.
+  Total bracket ETA ~5-6 h. Both processes detached (nohup).
+- Next when bracket completes: run scripts/score_frontier.py -> leaderboard.csv.
