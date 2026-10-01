@@ -166,3 +166,62 @@ resuming: 0 archived, 1143 to go
   200/1143 ok=115 (15/min, 795s)
 [17:58:20] RESTART 10 (qwen salvage + llama/glm/minimax; provider 402s are intermittent)
 [17:58:20] START qwen/qwen3-235b-a22b
+model=qwen/qwen3-235b-a22b n_per_task=300 total=1143
+resuming: 225 archived, 300 to go
+  50/300 ok=0 (7/min, 459s)
+  100/300 ok=0 (7/min, 871s)
+  150/300 ok=0 (7/min, 1284s)
+  200/300 ok=0 (7/min, 1741s)
+  250/300 ok=0 (7/min, 2153s)
+  300/300 ok=0 (7/min, 2565s)
+archived -> /Users/subhadipbanerjee/masld-llm/results/frontier_runs/qwen__qwen3-235b-a22b__MB-20xx.jsonl.gz
+[18:41:06] DONE qwen/qwen3-235b-a22b
+[18:41:11] START meta-llama/llama-3.3-70b-instruct
+model=meta-llama/llama-3.3-70b-instruct n_per_task=300 total=1143
+resuming: 0 archived, 1143 to go
+  50/1143 ok=0 (6/min, 462s)
+  100/1143 ok=0 (7/min, 879s)
+  150/1143 ok=0 (7/min, 1299s)
+  200/1143 ok=0 (7/min, 1754s)
+  250/1143 ok=0 (7/min, 2171s)
+  300/1143 ok=0 (7/min, 2582s)
+  350/1143 ok=0 (7/min, 3035s)
+  400/1143 ok=0 (7/min, 3447s)
+  450/1143 ok=0 (7/min, 3870s)
+  500/1143 ok=0 (7/min, 4319s)
+  550/1143 ok=0 (7/min, 4737s)
+  600/1143 ok=0 (7/min, 5155s)
+  650/1143 ok=0 (7/min, 5605s)
+  700/1143 ok=0 (7/min, 6020s)
+  750/1143 ok=0 (7/min, 6437s)
+  800/1143 ok=0 (7/min, 6891s)
+  850/1143 ok=0 (7/min, 7309s)
+  900/1143 ok=0 (7/min, 7725s)
+  950/1143 ok=0 (7/min, 8182s)
+  1000/1143 ok=0 (7/min, 8597s)
+  1050/1143 ok=0 (7/min, 9016s)
+  1100/1143 ok=0 (7/min, 9464s)
+archived -> /Users/subhadipbanerjee/masld-llm/results/frontier_runs/meta-llama__llama-3.3-70b-instruct__MB-20xx.jsonl.gz
+[21:25:07] DONE meta-llama/llama-3.3-70b-instruct
+[21:25:12] START z-ai/glm-4.6
+model=z-ai/glm-4.6 n_per_task=300 total=1143
+resuming: 0 archived, 1143 to go
+  50/1143 ok=0 (7/min, 461s)
+  100/1143 ok=0 (7/min, 873s)
+  150/1143 ok=0 (7/min, 1283s)
+  200/1143 ok=0 (7/min, 1740s)
+  250/1143 ok=0 (7/min, 2152s)
+  300/1143 ok=0 (7/min, 2568s)
+  350/1143 ok=0 (7/min, 3015s)
+  400/1143 ok=0 (7/min, 3439s)
+  450/1143 ok=0 (6/min, 4716s)
+  500/1143 ok=0 (3/min, 10335s)
+  550/1143 ok=0 (3/min, 10772s)
+  600/1143 ok=0 (3/min, 11322s)
+  650/1143 ok=0 (3/min, 11912s)
+  700/1143 ok=0 (3/min, 13349s)
+  750/1143 ok=0 (3/min, 13922s)
+  800/1143 ok=0 (3/min, 14362s)
+  850/1143 ok=0 (3/min, 15070s)
+  900/1143 ok=0 (3/min, 15491s)
+  950/1143 ok=0 (4/min, 15921s)

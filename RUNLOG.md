@@ -213,3 +213,19 @@ Built:
   "Answer with one gene symbol". Rebuilt: pipe-lists split per gene, single-
   symbol decoys only -> 39,632 clean prompts (was 19,982 contaminated).
 - MANIFEST -> v3-freeze-5. Program total: 103,717 prompts.
+
+## 2026-10-02 · Notebook 3 verified; bracket final state (this key)
+
+- Notebook 03 post-fix verification: all 14 cells compile, all 12 content
+  checks pass (the one "FAIL" was my checker miscounting to_alpaca calls:
+  9 = 1 def + 8 corpora incl DNAm + fixed MB-63xx). Colab round-trip via
+  Drive sync preserved everything. VERDICT: ready to run from cell 4.
+- Bracket final on this key: deepseek 1120 ok (complete), nemotron 1010 ok
+  (free daily cap), gemini 440 ok (partial), qwen-235b 115 ok (partial).
+  llama-3.3 / glm-4.6 / minimax / kimi: 100% HTTP 402 - the promotional
+  credit does not cover their providers on long prompts (short-prompt probes
+  pass; OpenRouter pre-auth charges full provider context). Files deleted to
+  keep runs clean.
+- Leaderboard re-scored with 4 usable models. Completing the roster to 6+
+  needs either the free-tier daily reset (nemotron finishes) + more
+  free-tagged models, or a paid OpenRouter key (~$30) - deferred decision.
