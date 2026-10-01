@@ -164,3 +164,5 @@ resuming: 0 archived, 1143 to go
   100/1143 ok=100 (210/min, 29s)
   150/1143 ok=115 (26/min, 343s)
   200/1143 ok=115 (15/min, 795s)
+[17:58:20] RESTART 10 (qwen salvage + llama/glm/minimax; provider 402s are intermittent)
+[17:58:20] START qwen/qwen3-235b-a22b
