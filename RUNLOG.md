@@ -167,3 +167,16 @@ Built:
 - Frontier bracket: DeepSeek ~410/1,110 (30/min); 5 models queued after.
   Total bracket ETA ~5-6 h. Both processes detached (nohup).
 - Next when bracket completes: run scripts/score_frontier.py -> leaderboard.csv.
+
+## 2026-10-01 · Drive-sync notebook edition + bracket diagnostics
+
+- Colab notebooks 01/02/03 rewritten for the Drive-for-Desktop sync layout:
+  auto-discovery of masld-llm / masld-revision / masld-clinical-transcriptomics-
+  github under MyDrive (handles 'My Mac' computers-sync naming), read-only
+  detection with writable output fallback (MyDrive/masld-llm-outputs).
+- Frontier bracket audit: DeepSeek complete (1,120 ok). Gemini 440 ok then 402s.
+  Claude/GPT-4.1-mini 100% 402 — the promotional credit does not cover
+  OpenAI/Anthropic providers on this key. Probe-verified working roster:
+  kimi-k3, minimax-m3, qwen3-235b, llama-3.3-70b, deepseek, (gemini partial).
+- Bracket relaunched on the verified roster (restart 6).
+- Conformers complete: 4,904/5,000 NPs (top5k_3d.sdf) — Vina-ready.
