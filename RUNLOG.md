@@ -180,3 +180,21 @@ Built:
   kimi-k3, minimax-m3, qwen3-235b, llama-3.3-70b, deepseek, (gemini partial).
 - Bracket relaunched on the verified roster (restart 6).
 - Conformers complete: 4,904/5,000 NPs (top5k_3d.sdf) — Vina-ready.
+
+## 2026-10-01 · First leaderboard (partial bracket)
+
+- Scored: deepseek-chat (1120 ok), gemini-2.5-pro (440 ok before 402),
+  nemotron-120b-free (1010 ok before free-daily-limit 1000).
+- Headline numbers on frozen test (EPos+Gubra):
+  - binary: nemotron 0.582 [0.516-0.644] ~= majority baseline; deepseek 0.123
+    (inverted answers), gemini 0.391
+  - multiclass: nemotron 0.231 ~= ML EN baseline 0.231-0.253; others below
+  - pairwise: deepseek 0.393, nemotron 0.497 (below 0.5 chance-corrected mean)
+  - regression: nemotron MAE 2.12 vs ML EN 1.76
+- Interpretation: frontier zero-shot CANNOT solve fixed-panel liver-omics
+  tasks (matches LongevityBench's NHANES/omics findings). The C2/C4
+  contrasts now have their frontier bracket forming. ML baselines still
+  lead on regression/multiclass — the compact tuned models must beat
+  these numbers to claim anything.
+- Bracket restart 8 running: kimi-k3, minimax-m3, qwen3-235b, llama-3.3-70b,
+  gemini resume, nemotron final 153 (after free-limit reset).
