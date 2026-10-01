@@ -26,12 +26,31 @@ def bootstrap_ci(vals, n=10000):
 
 def score_run(path):
     rows = []
-    with gzip.open(path, "rt") as f:
-        for line in f:
+    import zlib
+    # resilient reader: tolerate truncated gzip (killed writers)
+    try:
+        with gzip.open(path, "rt") as f:
+            for line in f:
+                try:
+                    rows.append(json.loads(line))
+                except Exception:
+                    pass
+    except (EOFError, OSError, gzip.BadGzipFile):
+        pass  # keep what we got
+    if not rows:
+        raw = open(path, "rb").read()
+        dec = zlib.decompressobj(16 + zlib.MAX_WBITS)
+        buf = b""
+        for i in range(0, len(raw), 65536):
             try:
-                rows.append(json.loads(line))
+                buf += dec.decompress(raw[i:i+65536])
             except Exception:
-                pass
+                break
+        for l in buf.decode(errors="ignore").split("\n"):
+            l = l.strip()
+            if not l: continue
+            try: rows.append(json.loads(l))
+            except Exception: pass
     if not rows:
         return []
     df = pd.DataFrame(rows)

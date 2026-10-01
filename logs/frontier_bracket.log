@@ -108,3 +108,33 @@ resuming: 0 archived, 1143 to go
 [13:50:03] START moonshotai/kimi-k3
 model=moonshotai/kimi-k3 n_per_task=300 total=1143
 resuming: 0 archived, 1143 to go
+  50/1143 ok=0 (6/min, 473s)
+[14:04:27] RESTART 7 (max_tokens 200 + reasoning disabled)
+[14:04:27] START nvidia/nemotron-3-super-120b-a12b:free
+model=nvidia/nemotron-3-super-120b-a12b:free n_per_task=300 total=1143
+resuming: 0 archived, 1143 to go
+  50/1143 ok=50 (175/min, 17s)
+  100/1143 ok=100 (146/min, 41s)
+  150/1143 ok=150 (124/min, 73s)
+  200/1143 ok=200 (112/min, 107s)
+  250/1143 ok=250 (104/min, 144s)
+  300/1143 ok=300 (101/min, 178s)
+  350/1143 ok=350 (97/min, 216s)
+  400/1143 ok=400 (93/min, 257s)
+  450/1143 ok=450 (95/min, 285s)
+  500/1143 ok=500 (94/min, 319s)
+  550/1143 ok=550 (94/min, 352s)
+  600/1143 ok=600 (95/min, 380s)
+  650/1143 ok=650 (92/min, 422s)
+  700/1143 ok=700 (94/min, 449s)
+  750/1143 ok=750 (95/min, 475s)
+  800/1143 ok=800 (93/min, 519s)
+  850/1143 ok=850 (92/min, 556s)
+  900/1143 ok=900 (89/min, 606s)
+  950/1143 ok=950 (88/min, 646s)
+  1000/1143 ok=1000 (87/min, 689s)
+  1050/1143 ok=1010 (30/min, 2117s)
+[15:04:21] RESTART 8 (paid-cheap first; nemotron free-limit hit at ~1000/day)
+[15:04:21] START moonshotai/kimi-k3
+model=moonshotai/kimi-k3 n_per_task=300 total=1143
+resuming: 0 archived, 1143 to go

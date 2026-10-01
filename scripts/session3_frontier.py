@@ -114,7 +114,9 @@ def main():
         raw, ver, err = call_openrouter({
             "model": model,
             "messages": [{"role": "user", "content": r["prompt"]}],
-            "temperature": 0.0, "top_p": 1.0, "max_tokens": 1500,
+            "temperature": 0.0, "top_p": 1.0,
+            "max_tokens": 200,
+            "reasoning": {"enabled": False},   # reasoning models burn the budget on <think>; disable for direct answers
         }, key)
         return dict(task=r["task"], sample=r["sample"], answer=r["answer"],
                     raw=raw, error=err, model_version=ver,
