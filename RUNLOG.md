@@ -198,3 +198,18 @@ Built:
   these numbers to claim anything.
 - Bracket restart 8 running: kimi-k3, minimax-m3, qwen3-235b, llama-3.3-70b,
   gemini resume, nemotron final 153 (after free-limit reset).
+
+## 2026-10-01 · Session-5 crash diagnosed + fixed (from user's Colab log)
+
+- User ran notebook 03 on Colab; training OOM'd at step 0 (9.3 GiB alloc).
+  Root cause: Qwen's 151,936 vocab x 8,192 packed cutoff x batch 2 = ~9.9 GiB
+  logits tensor for cross-entropy. The paper's recipe includes Liger fused
+  kernels for exactly this - now enabled (enable_liger_kernel: true, plus
+  liger-kernel pip install in the train cell).
+- Config retuned for the actual 22 GB Colab GPU: cutoff_len 8192->4096,
+  batch 2->1, grad_accum 16->32 (effective batch unchanged at 32).
+- **Corpus bug caught from the log**: MB-63xx DrugCentral rows carry pipe-joined
+  multi-gene "targets" (e.g. GABRP|GABRD|...|GABRQ) as answers, contradicting
+  "Answer with one gene symbol". Rebuilt: pipe-lists split per gene, single-
+  symbol decoys only -> 39,632 clean prompts (was 19,982 contaminated).
+- MANIFEST -> v3-freeze-5. Program total: 103,717 prompts.
