@@ -138,3 +138,4 @@ resuming: 0 archived, 1143 to go
 [15:04:21] START moonshotai/kimi-k3
 model=moonshotai/kimi-k3 n_per_task=300 total=1143
 resuming: 0 archived, 1143 to go
+  50/1143 ok=0 (6/min, 472s)
