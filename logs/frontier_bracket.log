@@ -225,3 +225,39 @@ resuming: 0 archived, 1143 to go
   850/1143 ok=0 (3/min, 15070s)
   900/1143 ok=0 (3/min, 15491s)
   950/1143 ok=0 (4/min, 15921s)
+[00:11:50] RESTART 11 (daily reset: finish nemotron 68 + gemini 703 + qwen 1028)
+[00:11:50] START nvidia/nemotron-3-super-120b-a12b:free
+model=nvidia/nemotron-3-super-120b-a12b:free n_per_task=300 total=1143
+resuming: 525 archived, 0 to go
+archived -> /Users/subhadipbanerjee/masld-llm/results/frontier_runs/nvidia__nemotron-3-super-120b-a12b:free__MB-20xx.jsonl.gz
+[00:11:50] DONE nvidia/nemotron-3-super-120b-a12b:free
+[00:11:55] START google/gemini-2.5-pro
+model=google/gemini-2.5-pro n_per_task=300 total=1143
+resuming: 525 archived, 0 to go
+archived -> /Users/subhadipbanerjee/masld-llm/results/frontier_runs/google__gemini-2.5-pro__MB-20xx.jsonl.gz
+[00:11:55] DONE google/gemini-2.5-pro
+[00:12:00] START qwen/qwen3-235b-a22b
+model=qwen/qwen3-235b-a22b n_per_task=300 total=1143
+resuming: 525 archived, 0 to go
+archived -> /Users/subhadipbanerjee/masld-llm/results/frontier_runs/qwen__qwen3-235b-a22b__MB-20xx.jsonl.gz
+[00:12:00] DONE qwen/qwen3-235b-a22b
+[00:12:05] BRACKET ROUND COMPLETE (restart 11)
+[00:14:15] RESTART 12 (resume-key fixed: task:sample, successes only)
+[00:14:16] START nvidia/nemotron-3-super-120b-a12b:free
+model=nvidia/nemotron-3-super-120b-a12b:free n_per_task=300 total=1143
+resuming: 1010 archived, 133 to go
+  50/133 ok=50 (39/min, 77s)
+  100/133 ok=100 (34/min, 175s)
+archived -> /Users/subhadipbanerjee/masld-llm/results/frontier_runs/nvidia__nemotron-3-super-120b-a12b:free__MB-20xx.jsonl.gz
+[00:19:09] DONE nvidia/nemotron-3-super-120b-a12b:free
+[00:19:14] START google/gemini-2.5-pro
+model=google/gemini-2.5-pro n_per_task=300 total=1143
+resuming: 440 archived, 703 to go
+  50/703 ok=0 (7/min, 457s)
+  100/703 ok=0 (7/min, 866s)
+  150/703 ok=0 (7/min, 1274s)
+[00:41:40] RESTART 13 (qwen gap only; gemini provider 402-persisting)
+model=qwen/qwen3-235b-a22b n_per_task=300 total=1143
+resuming: 115 archived, 1028 to go
+  50/1028 ok=0 (7/min, 456s)
+  100/1028 ok=0 (7/min, 863s)

@@ -229,3 +229,22 @@ Built:
 - Leaderboard re-scored with 4 usable models. Completing the roster to 6+
   needs either the free-tier daily reset (nemotron finishes) + more
   free-tagged models, or a paid OpenRouter key (~$30) - deferred decision.
+
+## 2026-10-04 · Bracket resume fix + final frontier state
+
+- Resume-logic bug found and fixed: the runner keyed 'done' on sample ID
+  alone, but sample IDs repeat across tasks (same patients in 2001/2002/
+  2005/2006), so partial archives masked unfinished work ("0 to go" lies).
+  Fixed to task:sample, successes only. All error records stripped from
+  partial archives.
+- Nemotron COMPLETED with the daily reset: 1,142/1,143 ok (second full
+  model). Gemini and qwen-235b gap-fills hard-failed on persistent provider
+  402s (pre-auth walls on long prompts; credit remains but providers won't
+  authorize). Kept: gemini 440, qwen 115 successes.
+- FINAL frontier bracket on this key: deepseek 1120 (full), nemotron 1142
+  (full), gemini 440 (partial), qwen-235b 115 (partial) + qwen3-0.6b-masld
+  (compact, cycling-degenerate eval - invalid, pending one-shot re-eval).
+- Notebook 03 has the one-shot verify+eval cell (b3ab275) awaiting the
+  user's Colab run: fingerprint check, auto-rebuild if stale, newline-
+  stopped generation (fixes the packing-induced answer cycling), inline
+  scores.

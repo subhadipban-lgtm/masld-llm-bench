@@ -104,10 +104,12 @@ def main():
         with gzip.open(out_path, "rt") as f:
             for line in f:
                 try:
-                    done.add(json.loads(line)["sample"])
+                    rec = json.loads(line)
+                    if rec.get("raw") is not None:   # only successful calls count as done
+                        done.add(f"{rec['task']}:{rec['sample']}")
                 except Exception:
                     pass
-    todo = [r for r in sample if r["sample"] not in done]
+    todo = [r for r in sample if f"{r['task']}:{r['sample']}" not in done]
     print(f"resuming: {len(done)} archived, {len(todo)} to go", flush=True)
 
     def work(r):
