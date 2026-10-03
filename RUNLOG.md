@@ -248,3 +248,36 @@ Built:
   user's Colab run: fingerprint check, auto-rebuild if stale, newline-
   stopped generation (fixes the packing-induced answer cycling), inline
   scores.
+
+## 2026-10-04 · First valid compact-model eval (0.6B) — honest result: POOR
+
+One-shot cell completed the full chain (stale-merge detect -> fresh rebuild ->
+newline-stopped eval). These are the first VALID numbers for qwen3-0.6b-masld
+on the frozen test:
+
+  MB-2001 binary:      acc 0.311, validity 0.591   (majority 0.582)
+  MB-2002 multiclass:  acc 0.000, validity 0.000   (ML EN 0.253; never emits F-stages)
+  MB-2003 pairwise:    concordance 0.470, validity 1.000 (nemotron 0.497)
+  MB-2005 regression:  MAE ~3e12 (emits 30-token digit strings), rho 0.050
+  MB-2006 NAS:         MAE ~6e26, rho -0.007
+
+Diagnosis (three compounding causes):
+1. Mixture imbalance: the 60k-target sampler fell back to the raw pool when
+   domains were small -> drugs 50% of actual training (15k of 33.8k), liver
+   clinical only 33% (9.7k). The model learned drug-QA, not liver-omics.
+2. Multiclass answer-format gap: training answers were bare stage numbers
+   ("2"), eval prompts ask "Answer with one of F0..F4" - the model has literally
+   never seen an F-prefixed answer, so validity 0.000.
+3. Digit-string degeneracy on regression: same packing artifact as the
+   cycling, in the numeric modality; first-line truncation catches valid
+   digits only when the model emits them, but it emits 0000... or huge runs.
+
+The training pipeline is validated end-to-end (mount->corpora->train->merge->
+eval->score). The MODEL needs retraining with: balanced mixture (cap drugs
+~25%, upweight liver), answer-format-matched training prompts (F0-F4 answers
+for multiclass, yes/no for binary), and unpacked or EOS-terminated SFT.
+
+Comparison anchors: even nemotron-120b zero-shot only ties majority on binary.
+The C2 claim (compact beats frontier) is NOT supported at 0.6B with this
+recipe - consistent with LongevityBench, whose small models also lagged;
+their gains came at 4B+ with format-matched training.
