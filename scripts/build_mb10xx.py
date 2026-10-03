@@ -235,9 +235,13 @@ def harmonise_gubra():
     ch = meta.filter(like="characteristics_ch1")
     disease = ch.apply(lambda r: find_char(r, "disease"), axis=1)
     gender = ch.apply(lambda r: find_char(r, "gender"), axis=1)
-    # Gubra staging is encoded in the title: 'NAFL_1' .. 'NAFL_38' (suffix = fibrosis stage)
-    fib = meta["title"].astype(str).str.extract(r"(\d)$", expand=False)
-    fib = pd.to_numeric(fib, errors="coerce")
+    # Gubra has NO per-sample fibrosis staging: titles are sequence numbers
+    # (NAFL_1..15, NASH_1..16, Obese_1..12, Normal-weight_1..14) and the only
+    # labels are disease groups. Stage extraction from titles was a freeze-1
+    # bug (sample numbers became fake stages F5-F9). Gubra contributes NO
+    # stage-labelled prompts; disease-group binary labels could be added as a
+    # separate task family if useful.
+    fib = pd.Series(np.nan, index=meta.index)
     shared = [s for s in meta.index.astype(str) if s in counts.columns]
     counts, meta2 = counts[shared], meta.loc[shared]
     df = pd.DataFrame({

@@ -281,3 +281,27 @@ Comparison anchors: even nemotron-120b zero-shot only ties majority on binary.
 The C2 claim (compact beats frontier) is NOT supported at 0.6B with this
 recipe - consistent with LongevityBench, whose small models also lagged;
 their gains came at 4B+ with format-matched training.
+
+## 2026-10-04 · CRITICAL test-set fix (freeze-6): Gubra labels were fake
+
+- Diagnosis chain: 0.6B always-F1 outputs -> gold=F5..F9 discovered in the
+  frozen test -> traced to the Gubra harmonizer: title suffixes (NAFL_5..9,
+  NASH_5..9, etc.) are SEQUENCE NUMBERS, not fibrosis stages. Gubra has NO
+  per-sample staging (disease groups only). All 57 Gubra stage-labelled
+  records + 1,449 Gubra pairwisce prompts were noise (23 of 225 multiclass
+  golds were fake stages).
+- Fix: harmonizer patched (Gubra fib = NaN), frozen test rebuilt: EPos-only,
+  11,653 prompts. MANIFEST -> v3-freeze-6. Program total: 102,097.
+- All eval archives RESCORED against the cleaned test (records carry their
+  own answers, so no re-querying needed; Gubra records dropped at scoring).
+  Parser fixed for F-token runs (F1F1F1...) matching the compact model's
+  emission mode.
+- Cleaned-test leaderboard highlights (EPos-only):
+  - nemotron binary 0.661 [was 0.582 with Gubra noise] - genuinely ABOVE the
+    0.582 EPos majority now
+  - nemotron pairwise 0.500, deepseek regression MAE 1.768 (rho 0.040)
+  - 0.6B compact: binary 0.339, pairwise 0.473 - unchanged verdict, needs
+    the v2 retrain
+- Retrain spec (v2 recipe) ready to implement: balanced mixture (drugs capped
+  25%), format-matched answers (F0-F4 multiclass, yes/no binary), EOS-terminated
+  generation handling.
