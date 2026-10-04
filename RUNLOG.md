@@ -326,3 +326,20 @@ their gains came at 4B+ with format-matched training.
 - Recipe verdict: format-aware upsampling WORKS (pairwise +13pts, multiclass
   format established, binary +7pts). Remaining: class balance, NAS digit
   degeneracy, binary still below majority.
+
+## 2026-10-05 · 1.7B run prepped (v4 recipe)
+
+- v3 verdict banked: pairwise 0.593 beats all frontier (first C2 win);
+  multiclass 0.208/validity 1.0 (format established, F0/F1 collapse);
+  binary 0.405; fibrosis MAE 1.494 (leaderboard best).
+- Notebook 03 extended with the 1.7B section (3 new cells, all compile):
+  A) v4 class-balanced sampler: multiclass F0:F1:F2:F3:F4 weighted 2:1:2:2:7,
+     binary yes x3, NAS x3, singles base x8, pairwise x1, drugs 10k, know 8k.
+     Writes sft_multitask_17b.json. Includes global-recovery for reset runtimes.
+  B) 1.7B LoRA config (r32 a32, 2 epochs, liger, checkpoints to Drive) + all
+     CUDA fixes inline. ~10-14h on L4.
+  C) Direct-PeFT merge (staleness-guarded) + eval with the UNIT-TESTED parser
+     (case-preserved F-token, startswith-b) + inline scores. Archives as
+     qwen3-1.7b-masld__MB-20xx.jsonl.gz.
+- Expected readouts: does pairwise 0.593 hold/grow with capacity; does class
+  balancing fix the F0/F1 collapse; does binary cross majority 0.582.
