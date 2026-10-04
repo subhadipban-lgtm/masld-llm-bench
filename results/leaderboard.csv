@@ -12,9 +12,9 @@ nvidia__nemotron-3-super-120b-a12b:free,MB-2002,168,accuracy,0.0,0.0,
 nvidia__nemotron-3-super-120b-a12b:free,MB-2003,258,accuracy,0.5,1.0,
 nvidia__nemotron-3-super-120b-a12b:free,MB-2005,168,mae,1.606,1.0,-0.036
 nvidia__nemotron-3-super-120b-a12b:free,MB-2006,168,mae,3.647,0.994,0.099
-qwen3-0.6b-masld,MB-2001,168,accuracy,0.339,0.613,
-qwen3-0.6b-masld,MB-2002,168,accuracy,0.0,0.0,
-qwen3-0.6b-masld,MB-2003,258,accuracy,0.473,1.0,
-qwen3-0.6b-masld,MB-2005,168,mae,3042328042329.494,1.0,-0.011
-qwen3-0.6b-masld,MB-2006,168,mae,5.9523809523809706e+26,1.0,-0.007
 qwen__qwen3-235b-a22b,MB-2001,87,accuracy,0.264,0.621,
+qwen3-0.6b-masld-v3,MB-2001,168,accuracy,0.405,0.601,
+qwen3-0.6b-masld-v3,MB-2002,168,accuracy,0.0,0.0,
+qwen3-0.6b-masld-v3,MB-2003,300,accuracy,0.45,0.76,
+qwen3-0.6b-masld-v3,MB-2005,168,mae,1.494,1.0,0.011
+qwen3-0.6b-masld-v3,MB-2006,168,mae,5.952380952380952e+26,1.0,-0.024

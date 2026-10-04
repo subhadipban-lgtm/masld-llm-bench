@@ -46,7 +46,7 @@ The following hyperparameters were used during training:
 - optimizer: Use OptimizerNames.ADAMW_TORCH_FUSED with betas=(0.9,0.999) and epsilon=1e-08 and optimizer_args=No additional optimizer arguments
 - lr_scheduler_type: cosine
 - lr_scheduler_warmup_steps: 0.1
-- num_epochs: 3.0
+- num_epochs: 2.0
 
 ### Training results
 

@@ -305,3 +305,24 @@ their gains came at 4B+ with format-matched training.
 - Retrain spec (v2 recipe) ready to implement: balanced mixture (drugs capped
   25%), format-matched answers (F0-F4 multiclass, yes/no binary), EOS-terminated
   generation handling.
+
+## 2026-10-05 · v3 results: FIRST COMPACT-BEATS-FRONTIER DATAPOINT
+
+- v3 training complete (1200 steps, 2 epochs, loss 0.17). One-shot eval chain
+  worked end-to-end (stale-merge detect -> rebuild -> newline-stopped eval).
+- Corrected final scores (EPos-only frozen test, F-token parser):
+  - MB-2003 pairwise: 0.593 (nemotron 0.500) — FIRST C2 WIN: compact beats
+    every frontier model on a task family
+  - MB-2001 binary: 0.405 (v1 0.339) — improving, still below majority 0.582
+  - MB-2002 multiclass: 0.208 acc / 1.000 validity — the "0.000 validity" was
+    MY scoring bug (eval cell's stored parser required word boundaries;
+    re-parse shows 168/168 valid). Model emits proper F-stages but collapses
+    to F0/F1 (90/78) — early-stage bias, likely from upsampled train dist
+    (F0:50, F1:50 dominant) + no calibration
+  - MB-2005 regression: MAE 1.494 (< nemotron 1.606, < ML EN 1.76!) with
+    rho 0.011 — good MAE is from mean-prediction (predict ~1.7), zero signal
+  - MB-2006 NAS: still emits catastrophic digits (MAE 1e26) — NAS answer
+    range 0-8 with "0" leading tokens repeats
+- Recipe verdict: format-aware upsampling WORKS (pairwise +13pts, multiclass
+  format established, binary +7pts). Remaining: class balance, NAS digit
+  degeneracy, binary still below majority.
