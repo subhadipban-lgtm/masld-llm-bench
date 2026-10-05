@@ -343,3 +343,23 @@ their gains came at 4B+ with format-matched training.
      qwen3-1.7b-masld__MB-20xx.jsonl.gz.
 - Expected readouts: does pairwise 0.593 hold/grow with capacity; does class
   balancing fix the F0/F1 collapse; does binary cross majority 0.582.
+
+## 2026-10-05 · Novelty audit + geometric reasoning layer (MB-40xx)
+
+- Analysed the two pasted strategy docs (novelty landscape + geometric layer).
+- Verified the landscape claim: AI-MASLD (arXiv Y Shen 2025) is real —
+  text-based clinical narratives, GPT-4o/Gemini class. => C1 repositioned:
+  "first multi-domain OMICS-BASED MASLD benchmark" (text-input evals exist;
+  omics-geometry + compact models do not). Citation list to add: AI-MASLD,
+  Med-Scout, GraphSeqLM, Bio-GraphLLM, GALAX, LyMOI.
+- Built the geometric compression layer (MB-40xx):
+  - v1 (7 modules, binned scores): FAILED sanity (binary 0.38 vs maj 0.661,
+    multi 0.07, rho 0.16) — not trained on, documented.
+  - v2 (9 modules @ resolution 1.5, continuous scores, UMAP + neighbour
+    severity): PASSES — binary EN 0.679 (BEATS majority 0.661 and raw-gene
+    EN 0.484), multi 0.280 (vs raw 0.253), reg MAE 1.210 rho 0.193, at 354
+    chars/prompt (8% of raw length).
+  - 405 train + 504 test prompts, leakage-proof (graph/UMAP/kNN fitted on
+    Kamzolas train only; EPos only embedded).
+- This gives the paper a new C3 task family (geometric omics reasoning) and
+  a raw-vs-geometry ablation axis, both absent from LongevityBench.
