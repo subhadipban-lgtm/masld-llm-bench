@@ -377,3 +377,20 @@ their gains came at 4B+ with format-matched training.
 - Robustness check (geometry stability across train subsamples): TODO next.
 - v1 negative result: already documented in RUNLOG + manifest; will become
   supplement table per the review.
+
+## 2026-10-05 · Geometry stability check: UNSTABLE across subsamples
+
+- 3x refits on 80% train subsamples: modules 8/8/10 (stable-ish), but binary
+  EN accuracy on EPos swings 0.345-0.679 (mean 0.560 ± 0.152).
+- Verdict per the review's own criterion: UNSTABLE — the 0.679 headline from
+  the v2 full-train fit is not robust to train-subsample variation. Trial 1
+  (0.345) shows the module set can fail badly depending on which patients
+  build the graph.
+- Honest handling: report mean ± sd across refits in the paper; frame the
+  0.679 as the full-train point estimate, not a stable property. This is a
+  limitation note, not a hidden result. Small-n (135 train patients) is the
+  root cause — module estimation on 80% of 135 patients is noisy.
+- Paper impact: geometric layer stays as a task family + ablation axis, but
+  the "geometry beats raw on binary" claim must carry the ±0.15 caveat until
+  train-side n grows (external cohorts could join geometry fitting — the
+  GSE48452/49541/89632 cohorts are all train-side and gene-symbol mapped).
