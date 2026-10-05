@@ -394,3 +394,17 @@ their gains came at 4B+ with format-matched training.
   the "geometry beats raw on binary" claim must carry the ±0.15 caveat until
   train-side n grows (external cohorts could join geometry fitting — the
   GSE48452/49541/89632 cohorts are all train-side and gene-symbol mapped).
+
+## 2026-10-05 · Colab automation stack
+
+Three tiers, honest about limits:
+1. NOTEBOOK 04 (one-click Run-all): mount->install->v5 mixture->train (GPU
+   hygiene + skip-if-done guard)->merge->dual eval. Manual "Run all" click or
+   Colab Pro+ Schedule (clock icon). No interactive input needed.
+2. Laptop autopilot (LaunchAgent com.masld.autopilot, every 10 min):
+   detects training completion, auto-scores landed eval files into the
+   leaderboard, appends RUNLOG entries, sends macOS notifications (incl.
+   trainer-stall alerts >45 min). Live and running (PID verified).
+3. Colab API limits: no headless *start* of notebooks on Pro/Pro+; the
+   Pro+ scheduler + background execution is the official unattended path.
+   Full programmatic control would need a self-hosted GPU instead.
