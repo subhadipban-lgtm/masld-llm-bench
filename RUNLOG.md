@@ -363,3 +363,17 @@ their gains came at 4B+ with format-matched training.
     Kamzolas train only; EPos only embedded).
 - This gives the paper a new C3 task family (geometric omics reasoning) and
   a raw-vs-geometry ablation axis, both absent from LongevityBench.
+
+## 2026-10-05 · Ablation prep + geometric bracket blocked on credit
+
+- Analysed the strategy review (doc 3): recommendations adopted —
+  cell 18 patched to v5 (geometric train prompts x6 join the 1.7B mixture),
+  cell 20 patched to evaluate BOTH raw (MB-20xx) and geometric (MB-40xx) test
+  sets on the same model = the within-model raw-vs-geometry ablation figure.
+- Geometric frontier bracket (all 6 models on 354-char prompts): BLOCKED —
+  the OpenRouter key's promotional credit expired ($10.41 real usage, rest
+  was promo). All API calls now 402. Needs a top-up (~$10-20) or a new key.
+  Runner script saved at /tmp/geo_frontier.py (copy to scripts/ before reboot).
+- Robustness check (geometry stability across train subsamples): TODO next.
+- v1 negative result: already documented in RUNLOG + manifest; will become
+  supplement table per the review.
