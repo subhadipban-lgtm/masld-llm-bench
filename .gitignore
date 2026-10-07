@@ -15,3 +15,4 @@ __pycache__/
 .venv/
 drug-discovery/library/coconut-09-2024*
 .or_key
+checkpoints/qwen3-1.7b-masld-merged/

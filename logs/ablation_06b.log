@@ -1,0 +1,22 @@
+loading Qwen3-0.6B + v3 adapter (MPS)...
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:   0%|          | 1/311 [00:03<19:41,  3.81s/it]Loading weights:  68%|██████▊   | 213/311 [00:03<00:01, 76.87it/s]Loading weights: 100%|██████████| 311/311 [00:04<00:00, 63.76it/s]
+model ready (91s)
+geometric test prompts: 504
+  80/504 (131s)
+  160/504 (166s)
+  240/504 (201s)
+  320/504 (236s)
+  400/504 (273s)
+  480/504 (311s)
+generation complete
+archived -> /Users/subhadipbanerjee/masld-llm/results/frontier_runs/qwen3-0.6b-masld__MB-40xx.jsonl.gz
+
+=== 0.6B-v3 GEOMETRIC zero-shot (trained raw-only) ===
+  MB-4001: acc=0.000 validity=0.000 | emits {'None': 168}
+  MB-4002: acc=0.220 validity=1.000 | emits {'F1': 168}
+  MB-4005: mae=5.024 rho=0.011 validity=1.000
+
+references: 1.7B(geo) binary 0.661/multi 0.202/MAE 1.268 | geo-sanity EN 0.679/HGB 0.280/MAE 1.210
+done in 5.4 min
+lib/python3.14/multiprocessing/resource_tracker.py:475: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown: {'/loky-19390-o9vblgqf'}
+  warnings.warn(

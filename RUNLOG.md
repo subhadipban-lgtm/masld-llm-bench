@@ -445,3 +445,31 @@ relative to 3 epochs on 0.6B, (c) capacity alone doesn't fix format
 confusion without more data. Next: score-check 0.6B-v3 on geometric prompts
 (it never saw them — that's the cleaner ablation), and consider a 0.6B-v5
 run with the class-balanced recipe to isolate the mixture variable.
+
+## 2026-10-08 · Geometric zero-shot ablation COMPLETE (0.6B-v3, local MPS)
+
+The 2x2 ablation matrix is now full. 0.6B-v3 (trained on RAW prompts only,
+never saw geometric format) evaluated zero-shot on geometric test prompts,
+locally on the M2 (fp16 MPS, 5.4 min for 504 prompts - first fully-local
+model inference of the program):
+
+  MB-4001 binary:   acc 0.000, validity 0.000 (emits F3F4F3F4... runs - it
+                    reads the geometric prompt and answers in F-stage tokens,
+                    the raw format it knows, ignoring the yes/no question)
+  MB-4002 multi:    acc 0.220, validity 1.000 (always-F1 collapse, same as raw)
+  MB-4005 reg:      MAE 5.024 (emits '10' - out-of-range), rho 0.011
+
+VERDICT - the ablation is decisive and clean:
+  1. Format transfer fails completely zero-shot: a model trained on raw
+     omics prompts CANNOT read geometric summaries. Binary validity 0.000.
+     The geometric representation is a DIFFERENT language, not a compression
+     of the same one.
+  2. Combined with yesterday's 1.7B result (trained WITH geometric prompts,
+     still collapsed to 168/168 'no'), the full matrix says: geometric
+     prompts need dedicated training at meaningful volume (x6 upsampling of
+     405 examples = 2.4k was not enough for the 1.7B), and zero-shot
+     transfer is zero.
+  3. Honest paper framing: geometric compression carries signal (ML sanity:
+     EN 0.679 binary) but LLMs cannot read it without explicit training -
+     a REAL finding for the C4 regime-split story (structure helps classical
+     models, not language models, without format training).
