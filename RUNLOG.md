@@ -408,3 +408,40 @@ Three tiers, honest about limits:
 3. Colab API limits: no headless *start* of notebooks on Pro/Pro+; the
    Pro+ scheduler + background execution is the official unattended path.
    Full programmatic control would need a self-hosted GPU instead.
+
+### autopilot 2026-10-07T23:59
+- detected qwen3-1.7b-masld__MB-20xx.jsonl.gz -> scored OK
+
+### autopilot 2026-10-07T23:59
+- detected qwen3-1.7b-masld__MB-40xx.jsonl.gz -> scored OK
+
+## 2026-10-08 · 1.7B complete + dual eval (raw vs geometric) — honest verdict
+
+Training: 2.0 epochs, 1154 steps, loss 0.092 (resumed once after session
+eviction; total ~29h incl. the 24h gap). Merge + both evals ran automatically
+via notebook 04 Run-all — the automation chain worked end-to-end.
+
+RAW (MB-20xx, EPos-only frozen test):
+  binary 0.661 (validity 1.0) — BUT emissions are 160 no / 8 yes: the model
+  learned majority-class behavior, NOT fibrosis signal. Matches the 0.661
+  majority baseline exactly. Same verdict as frontier models.
+  multiclass 0.185 (F0/F1-heavy emissions; class balance improved spread
+  but F2/F4 still rare)
+  pairwise 0.470 — REGRESSED vs 0.6B-v3's 0.593. The bigger model lost the
+  one thing the small model did well.
+  regression MAE 1.411 rho 0.087 | NAS MAE 2.274 rho 0.100 — first model
+  with sane NAS numbers (digit degeneracy fixed by class-balancing).
+
+GEOMETRIC (MB-40xx, same model, 8% prompt length):
+  binary 0.661 — but 168/168 "no": pure majority collapse on geometric input.
+  multiclass 0.202 | MAE 1.268 rho 0.031.
+
+VERDICT (honest): the 1.7B did NOT advance the C2 claim. Pairwise regressed
+(0.593 -> 0.470), binary is majority-mimicry, geometric prompts didn't help
+the trained model. The 0.6B-v3 remains the best compact model. Diagnosis
+hypotheses: (a) v5 mixture changes (geometric x6 + class weights) diluted
+the pairwise signal the 0.6B-v3 learned, (b) 2 epochs on 1.7B under-trained
+relative to 3 epochs on 0.6B, (c) capacity alone doesn't fix format
+confusion without more data. Next: score-check 0.6B-v3 on geometric prompts
+(it never saw them — that's the cleaner ablation), and consider a 0.6B-v5
+run with the class-balanced recipe to isolate the mixture variable.
