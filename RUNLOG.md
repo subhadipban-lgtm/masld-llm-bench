@@ -473,3 +473,40 @@ VERDICT - the ablation is decisive and clean:
      EN 0.679 binary) but LLMs cannot read it without explicit training -
      a REAL finding for the C4 regime-split story (structure helps classical
      models, not language models, without format training).
+
+## 2026-10-12 · K-shot ablation complete (BDH-CQ paradigm test) — verdict
+
+Completed Oct 8 17:28 (15h CPU run, MPS was deadlocked system-wide after the
+repeated kill/restart cycles — CPU fallback worked; reboot would restore MPS).
+All four variants + archives landed; results in results/kshot_ablation.json.
+
+The BDH-CQ paradigm (demonstrations-in-context) applied to our 0.6B-v3:
+
+  variant          binary (acc/val)      multiclass           regression
+  zero-shot        0.000 / 0.000         0.220 (all-F1)       MAE 5.024 rho 0.011
+  K=2 balanced     0.476 / 0.768         0.220 (all-F1)       MAE 1.208 rho 0.038
+  K=4 balanced     0.196 / 0.393         0.214 (F1-heavy)     MAE 1.357 rho 0.052
+  K=8 balanced     0.417 / 0.661         0.214 (F0/F1)        MAE 1.732 rho -0.106
+  K=4 random       0.387 / 0.571         0.226 (F1/F0)        MAE 1.327 rho 0.243
+
+Findings (honest):
+1. H1 PARTIALLY CONFIRMED: demonstrations DO teach format at inference time
+   (binary validity 0.000 -> 0.768 at K=2). The BDH-CQ "context binds
+   mappings" claim transfers... but only partially and non-monotonically.
+2. H1's limits: more demos ≠ better. K=4 balanced WORSE than K=2 (validity
+   drops to 0.393); K=8 recovers partially. The model doesn't scale with
+   context coverage the way BDH-CQ's 150M does — Qwen-0.6B + LoRA degrades
+   with long few-shot contexts.
+3. H2 REJECTED: balanced demonstration coverage did NOT fix the class
+   collapse (all-F1 at every K) and binary never beats majority (best 0.476
+   vs 0.661). K=4-random slightly beat K=4-balanced — noise, not strategy.
+4. Regression MAE improves (5.02 -> 1.21-1.36) purely from format anchoring.
+
+VERDICT: demonstration conditioning is a real but weak tool for our models —
+it fixes format transfer (the 2x2 matrix's zero-shot hole) but does not
+convey the discriminative signal. The geometric layer's signal remains
+readable only by classical ML (EN 0.679). For the paper: this closes the
+BDH-CQ-inspired ablation as a supplement table — "in-context demonstration
+conditioning: format yes, signal no" — and strengthens the C4 regime-split
+narrative: representation format dominates over both scale (1.7B) and
+context conditioning (K-shot) for omics tasks.

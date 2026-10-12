@@ -1,0 +1,33 @@
+loading model (fp16 cpu)...
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:   0%|          | 1/311 [00:01<06:40,  1.29s/it]Loading weights:  73%|███████▎  | 226/311 [00:01<00:00, 224.34it/s]Loading weights: 100%|██████████| 311/311 [00:01<00:00, 182.09it/s]
+model ready on cpu (7s)
+
+=== K=2 balanced (3417s) ===
+  MB-4001: {"acc": 0.476, "validity": 0.768, "emits": {"no": 128, "None": 39, "yes": 1}}
+  MB-4002: {"acc": 0.22, "validity": 1.0, "emits": {"F1": 168}}
+  MB-4005: {"mae": 1.208, "rho": 0.038, "validity": 1.0}
+
+=== K=4 balanced (9210s) ===
+  MB-4001: {"acc": 0.196, "validity": 0.393, "emits": {"None": 102, "no": 52, "yes": 14}}
+  MB-4002: {"acc": 0.214, "validity": 1.0, "emits": {"F1": 154, "F0": 13, "F2": 1}}
+  MB-4005: {"mae": 1.357, "rho": 0.052, "validity": 1.0}
+
+=== K=8 balanced (32539s) ===
+  MB-4001: {"acc": 0.417, "validity": 0.661, "emits": {"no": 111, "None": 57}}
+  MB-4002: {"acc": 0.214, "validity": 1.0, "emits": {"F0": 113, "F1": 55}}
+  MB-4005: {"mae": 1.732, "rho": -0.106, "validity": 1.0}
+
+=== K=4 random (9197s) ===
+  MB-4001: {"acc": 0.387, "validity": 0.571, "emits": {"no": 87, "None": 72, "yes": 9}}
+  MB-4002: {"acc": 0.226, "validity": 1.0, "emits": {"F1": 98, "F0": 70}}
+  MB-4005: {"mae": 1.327, "rho": 0.243, "validity": 1.0}
+
+=== SUMMARY: 0.6B-v3 on geometric prompts ===
+variant                          binary                 multiclass         regression
+zero-shot           acc 0.000 val 0.000         acc 0.220 (all F1) MAE 5.024 rho 0.011
+K=2 balanced        acc 0.476 val 0.768      acc 0.22 emits ['F1'] MAE 1.208 rho 0.038
+K=4 balanced        acc 0.196 val 0.393 acc 0.214 emits ['F1', 'F0'] MAE 1.357 rho 0.052
+K=8 balanced        acc 0.417 val 0.661 acc 0.214 emits ['F0', 'F1'] MAE 1.732 rho -0.106
+K=4 random          acc 0.387 val 0.571 acc 0.226 emits ['F1', 'F0'] MAE 1.327 rho 0.243
+
+done in 906.2 min
