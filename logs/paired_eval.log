@@ -1,0 +1,8 @@
+frontier items: 1142
+  by task: {'MB-2001': 225, 'MB-2002': 225, 'MB-2003': 300, 'MB-2005': 225, 'MB-2006': 167}
+frozen test indexed: 11653
+aligned eval set: 929 (missing 213)
+device cpu; loading 0.6B-v3...
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:   0%|          | 1/311 [00:05<26:00,  5.03s/it]Loading weights:  65%|██████▍   | 202/311 [00:05<00:01, 55.17it/s]Loading weights:  94%|█████████▎| 291/311 [00:05<00:00, 73.70it/s]Loading weights: 100%|██████████| 311/311 [00:05<00:00, 53.52it/s]
+rocessing/resource_tracker.py:475: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown: {'/loky-66693-1oez58o8'}
+  warnings.warn(

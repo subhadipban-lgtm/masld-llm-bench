@@ -510,3 +510,25 @@ BDH-CQ-inspired ablation as a supplement table — "in-context demonstration
 conditioning: format yes, signal no" — and strengthens the C4 regime-split
 narrative: representation format dominates over both scale (1.7B) and
 context conditioning (K-shot) for omics tasks.
+
+## 2026-10-13 · Program audit + forward path (NEXT_STEPS.md)
+
+Full state audit. Program has more than enough for C1/C2/C4; the critical
+gaps are C3/F5 (novel tasks, the Cell headline) and one credibility fix.
+
+Blockers found:
+- B1 ~/masld-revision (source omics) is NOT on disk -> frozen corpora and the
+  geometric layer cannot be rebuilt from scratch. Needs locating or re-pull.
+- B2 compact eval draw ∩ frontier draw = 10/300 on MB-2003 -> the C2 headline
+  is currently UNPAIRED (two-proportion only; McNemar not runnable). Fix in
+  flight: scripts/eval_paired_06b.py re-runs 0.6B-v3 on the frontier's exact
+  929 items -> paired archives.
+- B3 MPS deadlocks at .to("mps") -> local inference on CPU (slow, works).
+- B4 frontier bracket = 4 usable models (need >=6; ~$10-20 top-up).
+- B5 Vina not installed (drug arm screen not runnable).
+- B6 F5 source data (GSE267032, MSV000094959) not downloaded.
+- Disk 92% full (17 GB free) — limits local C3 data pulls.
+
+Path (NEXT_STEPS.md): Track A local now (paired C2 scoring + results draft),
+Track B C3/F5 data + corpora (the paper's reason to exist), Track C frontier
+top-up + optional 9B, Track D geometry rebuild if B1 restored.
