@@ -1,5 +1,5 @@
 {
- "version": "v3-freeze-7",
+ "version": "v3-freeze-8",
  "created": "2026-10-04",
  "seed": 20260929,
  "recipe": "Zhavoronkov et al. Cell 189:5980-5994 (2026), LongevityBench",
@@ -10,7 +10,8 @@
   "per-sample label-free standardisation (log1p if non-negative, then z-score) applied to every matrix before prompting",
   "task IDs: MB-1xxx train clinical, MB-2xxx frozen test, MB-3xxx DNAm, MB-6xxx knowledge, MB-7xxx DGE direction, MB-8xxx Fujiwara train, MB-9xxx Fujiwara KU test, MB-11xx external train",
   "MB-63xx v2: DrugCentral pipe-list genes split per-gene; single-symbol options/answers only",
-  "MB-40xx v2 geometric: 9 train-side co-expression modules (res 1.5), continuous scores, UMAP manifold fitted on train only; EPos embedded never fitted"
+  "MB-40xx v2 geometric: 9 train-side co-expression modules (res 1.5), continuous scores, UMAP manifold fitted on train only; EPos embedded never fitted",
+  "MB-86xx: GSE267032 WBC blood-proxy frozen test (21 patients, grades 1_low/2_medium/3_high; controls excluded \u2014 no expression deposited); 8601 3-class, 8602 low-vs-high binary, 8605 ordinal 1-3; panel = top-200 MAD genes internal to this frozen corpus; per-sample log1p+z"
  ],
  "counts": {
   "MB-10xx_liver_train.jsonl.gz": 3928,
@@ -25,7 +26,8 @@
   "MB-8xxx_fujiwara_train.jsonl.gz": 204,
   "MB-9xxx_fujiwara_KU_test.jsonl.gz": 224,
   "MB-40xx_geo_train.jsonl.gz": 405,
-  "MB-40xx_geo_test.jsonl.gz": 504
+  "MB-40xx_geo_test.jsonl.gz": 504,
+  "MB-86xx_bloodproxy_test.jsonl.gz": 54
  },
  "files": {
   "MB-10xx_liver_train.jsonl.gz": "962377c999f70332",
@@ -40,6 +42,7 @@
   "MB-8xxx_fujiwara_train.jsonl.gz": "6a13c398d51a7bc3",
   "MB-9xxx_fujiwara_KU_test.jsonl.gz": "c208ccbb3e7d3d3d",
   "MB-40xx_geo_train.jsonl.gz": "ba60891ad9263a1a",
-  "MB-40xx_geo_test.jsonl.gz": "94d23f5a82ec4301"
+  "MB-40xx_geo_test.jsonl.gz": "94d23f5a82ec4301",
+  "MB-86xx_bloodproxy_test.jsonl.gz": "aa97197ea5cea087"
  }
 }

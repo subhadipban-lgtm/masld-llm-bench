@@ -681,3 +681,30 @@ CASUALTY + FIX: filter-repo resets the worktree to the rewritten HEAD, and
 today's RUNLOG entries were UNCOMMITTED -> wiped. Restored verbatim above
 (from session records). LESSON: commit before any history surgery; all
 current work is being committed immediately after this entry.
+
+## 2026-10-15 · C3 addendum FROZEN + MB-86xx blood-proxy test BUILT (freeze-8)
+
+analysis-plan/ANALYSIS_PLAN_C3_addendum.md frozen BEFORE builds (the pivot
+contract after the paired C2 verdict): task families MB-86xx/96xx/97xx/98xx,
+mechanistic score definitions (FSS 9-gene FerrDb, AGING senescence panel,
+IRON panel — neutral module activities, directions encoded only for
+reporting), pre-specified contrasts C3a (novelty gate), C3b (axis vs
+size-matched random panels, 1000-permutation null), C3c (Fer1 reversion;
+frontier contamination expected+reported), Holm correction, falsifiers.
+
+Data findings: GSE213623 RAW.tar = ONLY the 12 scRNA Cre/Luc files — the
+368 human bulk-liver COUNTS WERE NEVER DEPOSITED (SOFT carries staging
+metadata only; Duke bulk = metadata-only). Pivoted staged-cohort
+augmentation to GSE167523 (98 biopsy-proven NAFLD, 26,364-gene counts
+matrix + phenotype xlsx on disk; NAFL 51/NASH 47; staging in xlsx to
+parse). GSE213623_RAW.tar kept on disk (534 MB) for the senescence
+timecourse option.
+
+MB-86xx BUILT + FROZEN: scripts/build_mb86xx.py -> 54 records (8601
+3-class x20, 8602 low-vs-high x14, 8605 ordinal x20; grades 7 low/6
+medium/7 high; 20 of 21 matrix patients grade-matched; controls excluded
+— no expression deposited). Panel: top-200 MAD genes, label-free, internal.
+Per-sample log1p+z. MANIFEST -> v3-freeze-8; platform verify-manifest ALL
+OK incl. the new corpus (sha16 aa97197ea5cea087).
+Next: MB-96xx axis pilot (train-side), GSE167523 xlsx staging parse +
+Track D rebuild, C3a gate eval (baselines + 0.6B zero-shot on MB-86xx).
