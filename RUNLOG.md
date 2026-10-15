@@ -532,3 +532,152 @@ Blockers found:
 Path (NEXT_STEPS.md): Track A local now (paired C2 scoring + results draft),
 Track B C3/F5 data + corpora (the paper's reason to exist), Track C frontier
 top-up + optional 9B, Track D geometry rebuild if B1 restored.
+
+## 2026-10-15 · platform/: production-grade MASLD-Bench platform built + verified
+
+Self-contained `platform/` subdirectory (research code untouched; repo read
+as a read-only data source). Layers: `core/` pure typed engines (schemas,
+task registry, ONE unified answer parser, gzip-JSONL I/O with multi-member
+truncation recovery, guardrails, metrics+bootstrap, leaderboard scorer,
+McNemar/Wilcoxon paired stats, manifest verifier, baselines, OpenRouter
+runner, HF/PEFT local runner, Drive-based Colab bridge), `api/` FastAPI
+(runs state machine w/ cancel + logs, corpora verify, leaderboard, paired),
+`agents/` supervisor (bridge ingest, stall detection, bounded retry,
+notifications — portable autopilot), `persistence/` SQLAlchemy 2.0 +
+hash-chained append-only audit log, `frontend/` Next.js 16 dashboard
+(leaderboard w/ CI bars, run monitor, corpus verify, dark mode),
+`infra/` Dockerfiles + compose (api+postgres+frontend) + Colab bridge
+worker notebook (Pro+ scheduler; no API keys; ngrok optional).
+78 pytest tests green; frontend builds; live API smoke-tested on the real
+repo. CLI: `masld` (verify-manifest, score, paired-stats, run-frontier,
+run-local, baseline, bridge-dispatch/sync, agent, serve).
+
+Verification against real data — findings:
+- verify-manifest: ALL 13 manifest corpora pass counts+sha16 (v3-freeze-7);
+  4 k-shot files correctly reported as extras. (First pass flagged +1 count
+  everywhere: real `__meta__` headers are NESTED `{"__meta__": {...}}` —
+  parser fixed; platform writer uses the same convention.)
+- Rescore of all 12 archives -> 42 rows (research CSV: 27; extra rows =
+  k-shot + MB-40xx archives). 21/27 shared cells agree within 0.02.
+  Remaining diffs all explained: (a) nvidia MB-2002 0.257@n=202 vs research
+  0.231@n=225 — the platform drops exactly the 23 fake Gubra F5-F9 golds
+  (freeze-6 rule enforced at scoring); (b) qwen3-0.6b MB-2002 0.208 matches
+  the RUNLOG-corrected score (on-disk research CSV cell is stale);
+  (c) regression MAE deltas 0.05-0.4 = unified parser re-derivation from
+  raw vs research reuse of stored per-script `parsed` fields.
+- paired-stats (0.6B-v3 vs nemotron): MB-2003 n=10 overlap, mcnemar_p=1.0 —
+  the platform now QUANTIFIES blocker B2 (paired re-run still needed).
+  MB-2005: 0.6B significantly better MAE (p=3.8e-9); MB-2001: nemotron
+  significantly better (p=2.3e-13).
+
+Credentials: env-only (OPENROUTER_API_KEY / DRIVE_SYNC_DIR / NGROK_AUTHTOKEN
+/ HUGGINGFACE_TOKEN); .env.example documents all; no file fallbacks.
+
+## 2026-10-15 · platform genericized: benchmark profiles (domain = YAML)
+
+The platform's domain vocabulary moved from hardcoded Python to loadable
+profiles (platform/profiles/*.yaml). `f_stage` generalized to a declarative
+`categorical` answer kind (pattern + token set); F0-F4 is now data, not code.
+Task-id validation accepts any alpha prefix (QA-0001 etc.). Feature encoders
+formalized behind a registerable FeatureExtractor protocol. New: MASLD_PROFILE
+env, `masld profile` CLI, GET /profile, dashboard profile badge.
+profiles/example-generic.yaml demonstrates a non-MASLD domain (severity
+scale) and was verified end-to-end through the full scoring path.
+
+Verification: 86 tests green (8 new profile tests); real-data regression
+BYTE-IDENTICAL (verify-manifest ok, 42-row leaderboard unchanged); API
+smoke /profile ok. README gained the domain guide + an explicit
+architecture-suitability matrix (fits: benchmark/eval platforms, paired
+model comparison, audited ML workflows, hybrid laptop+Colab; extendable:
+new answer kinds, judge metrics; poor fit: real-time serving, long-form
+generation eval, multimodal, distributed training).
+
+## 2026-10-15 · C2 PAIRED VERDICT + C3 kickoff (decisions + data)
+
+Decisions banked: C3 build GO; Colab funded ($9.59 + auto top-up);
+masld-revision located on Drive (subhadip.ban@mfu.ac.th account, synced —
+NOTE: placeholders only, 5.5 MB on disk; pin offline before any rebuild).
+MPS healthy again without reboot (probe OK).
+
+**B2 FIX COMPLETE — the C2 headline is now PAIRED (n=929, 0 errors, MPS).**
+0.6B-v3 on the frontier's exact items vs nemotron (McNemar exact):
+  task      cand    ref     n   both c_only r_only  mcnemar_p
+  MB-2001   0.405   0.661  168    68      0     43   2.3e-13 (LOSS)
+  MB-2002   0.196   0.274  168    11     22     35   0.111   (tie)
+  MB-2003   0.469   0.500  258    28     93    101   0.615   (tie)
+  MB-2005   1.524   2.024  168    62     82     24   1.3e-08 (WIN)
+  MB-2006   4.731   3.814  167    41     83     43   4.6e-04 (LOSS)
+HONEST VERDICT: the unpaired pairwise "first C2 win" (0.593) does NOT
+survive pairing — on the frontier's draw it is 0.469, tie with nemotron
+(p=0.615). The earlier 0.593 was draw luck. The one significant C2 WIN is
+MB-2005 fibrosis MAE (1.52 vs 2.02, p=1.3e-8; mean-prediction caveat, rho~0,
+still applies). Per the pre-set C2 gate (CI overlap on >=2 domains) the
+planned fallback triggers: claim weight pivots to C3/C4 — matching the
+C3-build decision. Unpaired tables move to supplement.
+
+**F5 blood-proxy source acquired + audited: GSE267032** (WBC bulk RNA-seq,
+MAFLD/MASH, PMID 40257301). 35 samples = 14 controls + 21 patients with a
+3-level severity grade (1_low x8, 2_medium x6, 3_high x7); counts+TPM
+matrices on disk (58,051 genes x 21 patients — controls have NO expression
+in the deposit; ordinal severity task buildable, control-vs-MAFLD binary
+needs another source). Batch ids 1173_*/1215_*.
+
+## 2026-10-15 · Aging-ferroptosis axis integrated (docs/MASLD-LLM_aging_ferroptosis_axis.md)
+
+Read + digested the 7-paper Drive set ("wim MASLD modified/MASLD-Aging
+Ferroptosis axis"): the Diehl-lab trilogy — Du et al. Nature Aging 4:949
+(2024) aging->ferroptotic stress->MASLD (Fer1-reversible, "ferrosenescence"
+p21/p16/beta-gal/gammaH2AX; human Duke cohort N=368 staged; AHGS 496-DEG
+aging signature; 9-gene FerrDb ferroptosis score FTH1/GPX4/CHAC1/HSPB1/
+NFE2L2/PTGS2/SLC40A1/TF/TFRC; directions ACSL4+ SLC7A11+ PTGS2+ FSP1+
+GPX4- GCH1- with fibrosis), Jun et al. Hh-controls-ferroptosis (GSE213183,
+GSE330266), Jun et al. JCI SASP-secretome (GSE273523) — plus Ying/Gladyshev
+AI-agents-discover-aging-interventions (lineage citation). Senescence
+review PDF is image-only (needs OCR).
+
+Integration design written: (1) mechanistic module layer FSS/AGING/IRON
+extending MB-40xx (Track D upgrade, interpretable geometry); (2) task
+families MB-96xx axis reasoning on EXISTING corpora (no new data needed),
+MB-97xx mouse perturbation transfer (Fer1 reversion; GSE262457/GSE273523),
+MB-98xx Duke-cohort C3 family, FerrDb/MSigDB knowledge corpus; (3) drug-arm
+rescope to anti-ferroptotic NP nomination; (4) narrative: mechanistic-axis
+grounding sub-claim under C3.
+
+Data actions: GSE213623 SOFT audited — the SuperSeries carries all 368
+human livers WITH staging characteristics (69 Ctrl / 97 F0F1 / 107 F2 /
+95 F3F4); counts expected inside the 559 MB RAW.tar (next download).
+GSE167523 found with ready Raw_gene_counts_matrix + phenotype xlsx
+(fallback/addition). GSE135251/GSE132042 probed. Axis doc + this log
+record everything for the analysis-plan C3 addendum (still to freeze
+before builds).
+
+## 2026-10-15 · Disk cleanup + verified Drive backup (ami account)
+
+Backup -> ami.subhadipbanerjee@gmail.com Drive, My Drive/masld-backup-
+2026-10-15/: checkpoints (2.9G complete incl. intermediate trainer states),
+data (995M complete), drug-discovery/library (366M). Subagent verification:
+126/127 files byte-identical by full rsync --checksum comparison + SHA-256
+spot checks on largest files (sole miss: checkpoints/.DS_Store Finder
+metadata — irrelevant). Deleted locally (all recoverable from Drive backup
+AND git history): 7 intermediate 0.6B trainer checkpoints (1.7G),
+data/matrices + all old external SOFTs (991M), drug-discovery/library
+(366M). Kept locally: final 0.6B adapter + merged model (eval-ready),
+GSE267032/GSE213623 active C3 sources, prompts/results/platform/docs/code.
+
+## 2026-10-15 · Git history rewritten (bulky blobs stripped) — lesson learned
+
+Pre-rewrite: killed a stuck aggressive gc + removed 8.0 GB of garbage
+tmp packs from interrupted earlier gc runs (.git 13G -> 4.8G instantly,
+fsck clean). Safety bundle of the complete pre-rewrite history (4.8G,
+git-bundle-verified) stored at ~/masld-history-pre-rewrite-2026-10-15.bundle
+AND checksum-verified copy on the ami Drive backup folder. Then
+git-filter-repo --invert-paths stripped: 1.7B checkpoints, 7 intermediate
+0.6B trainer checkpoints, data/matrices, 10 external SOFTs,
+drug-discovery/library. Result: all 46 commits preserved (messages intact;
+hashes necessarily changed — old-hash references are stale), .git 1.0G,
+repo 3.2G, disk 27G free.
+
+CASUALTY + FIX: filter-repo resets the worktree to the rewritten HEAD, and
+today's RUNLOG entries were UNCOMMITTED -> wiped. Restored verbatim above
+(from session records). LESSON: commit before any history surgery; all
+current work is being committed immediately after this entry.

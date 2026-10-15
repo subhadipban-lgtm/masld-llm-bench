@@ -1,0 +1,58 @@
+# MASLD-Bench platform stack: postgres + api + dashboard.
+#
+#   cd platform && docker compose -f infra/docker-compose.yml up --build
+#
+# The research repo is mounted READ-ONLY at /research inside the API container
+# (prompts + archives are consumed in place, never mutated). Platform state
+# (sqlite alternative, run logs) lives in the named volume when Postgres is
+# used for runs metadata and the data volume for artifacts.
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: masld
+      POSTGRES_PASSWORD: masld
+      POSTGRES_DB: masld
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U masld"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build:
+      context: ..
+      dockerfile: infra/api.Dockerfile
+    environment:
+      MASLD_ROOT: /research
+      MASLD_DB_URL: postgresql+psycopg://masld:masld@postgres:5432/masld
+      MASLD_DATA_DIR: /data
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+      DRIVE_SYNC_DIR: ${DRIVE_SYNC_DIR:-}
+    volumes:
+      # Research repo read-only: frozen corpora + eval archives.
+      - ../..:/research:ro
+      - platformdata:/data
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: infra/frontend.Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
+volumes:
+  pgdata:
+  platformdata:

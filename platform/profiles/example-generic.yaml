@@ -1,0 +1,28 @@
+# Example generic benchmark profile — a template for other domains.
+# Copy, edit, and activate with:  MASLD_PROFILE=path/to/this.yaml
+name: example-generic
+version: 1
+description: >-
+  Minimal template showing the three built-in answer types plus one custom
+  categorical (an ordinal severity scale) and a suffix fallback rule.
+
+answer_types:
+  severity:
+    kind: categorical
+    pattern: '(mild|moderate|severe)'
+    tokens: [mild, moderate, severe]
+    normalize: lower
+
+suffix_rules:
+  "01": yes_no
+  "02": severity
+  "03": letter
+  "05": number
+
+feature_extractors: [genes]
+
+tasks:
+  QA-0001: yes_no
+  QA-0002: severity
+  QA-0003: letter
+  QA-0005: number

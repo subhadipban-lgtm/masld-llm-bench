@@ -1,0 +1,28 @@
+# secrets — never commit
+.env
+*.key
+*or_key*
+
+# runtime state
+data/
+*.db
+*.sqlite3
+logs/
+
+# python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.ruff_cache/
+
+# node
+node_modules/
+.next/
+out/
+
+# os
+.DS_Store

@@ -1,0 +1,17 @@
+# Optional: direct Colab -> laptop HTTP tunnel (free tier is sufficient).
+#
+#   ngrok config add-config --authtoken $NGROK_AUTHTOKEN --config ngrok.yml
+#   ngrok start --config ngrok.yml masld-api
+#
+# Then point the Colab bridge worker's API_BASE at the printed https URL
+# instead of polling Drive. Drive-based polling remains the default and
+# needs no tunnel at all.
+
+version: 3
+agent:
+  authtoken: REPLACE_WITH_YOUR_TOKEN
+tunnels:
+  masld-api:
+    proto: http
+    addr: 8000
+    inspection: false
