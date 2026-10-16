@@ -189,6 +189,7 @@ logging_steps: 10
 save_steps: 0.05
 save_total_limit: 2
 plot_loss: true
+resume_from_checkpoint: auto
 per_device_train_batch_size: {bs}
 gradient_accumulation_steps: {accum}
 dataloader_num_workers: 4
