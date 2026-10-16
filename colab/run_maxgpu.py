@@ -167,6 +167,7 @@ lora_rank: 32
 lora_alpha: 32
 lora_dropout: 0.0
 dataset: masld_sft_v5
+dataset_dir: /content/LLaMA-Factory/data
 template: qwen
 cutoff_len: 4096
 packing: true
