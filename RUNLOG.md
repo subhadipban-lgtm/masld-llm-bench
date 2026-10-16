@@ -708,3 +708,40 @@ Per-sample log1p+z. MANIFEST -> v3-freeze-8; platform verify-manifest ALL
 OK incl. the new corpus (sha16 aa97197ea5cea087).
 Next: MB-96xx axis pilot (train-side), GSE167523 xlsx staging parse +
 Track D rebuild, C3a gate eval (baselines + 0.6B zero-shot on MB-86xx).
+
+## 2026-10-16 · C3a gate run + platform C3 profile + masld-revision pinned (steps 1-3)
+
+(1) PLATFORM PROFILE extended for C3: added a `severity` categorical answer
+type (low/medium/high) and registered MB-8601=severity, MB-8602=yes_no,
+MB-8605=number in platform/profiles/masld.yaml. Fixes the suffix-rule
+collision (8601 would have been read as yes_no, 8602 as f_stage). Backup kept
+as masld.yaml.bak-20261016. Platform still yellow-green (79/79 tests).
+
+(2) C3a NOVELTY GATE RUN -> scripts/c3a_gate.py (StratifiedGroupKFold n=5 by
+patient, 2000 bootstraps, seed 20260929) on MB-86xx frozen blood-proxy test.
+RESULT: **GATE FAILS** — no family beats chance/majority with a CI excluding it:
+  MB-8601 3-class  logreg 0.450 [0.250,0.650] (chance .333, majority .350); hgb 0.250
+  MB-8602 binary   logreg 0.571 [0.286,0.787] (chance/majority .500); hgb 0.357
+  MB-8605 ordinal  logreg/hgb MAE 0.725 [0.528,0.916] vs median MAE 0.700 (no win)
+Honest read: n is tiny (20 patients x 3 tasks), CIs are wide and all span
+chance — exactly the power caveat the frozen addendum §4 predicted. The gate
+is NOT a falsification of the axis; it says this cohort alone cannot carry the
+C3a claim. Per addendum §6, the claimed fallback would be "benchmark+landscape"
+framing — but see caveat: a *bigger* blood-proxy source is the real test.
+Caveat noted for the paper: a bug in the first pass (majority baseline divided
+the argmax INDEX by n, printing 0.000) was fixed; corrected baseline reported.
+
+(3) BLOCKER B1 RESOLVED: ~/masld-revision was absent locally but fully present
+on the mfu Drive (subhadip.ban@mfu.ac.th/My Drive/masld-revision, stream-mode).
+Pinned the builder-needed subset (1.2 G, 157 files) to ~/masld-revision via
+rsync: data/{kamzolas,msigdb,kg,geo_metadata,gene_sets,gse267032,tahoe,drug_data}
++ expression_matrix.csv, metadata_with_ferroptosis_scores.csv, ferrdb/ferroptosis
+CSVs, external/, results/decisive_test/. All 11 required builder inputs verified
+present (EPoS_counts.tsv.zip, epos_metadata.csv, Gubra meta+Normalised_Counts,
+kamzolas metadata.csv, msigdb c2.all json, drug_data genes/interactions.tsv,
+t1_ranked_logFC.csv). All build_mb* scripts now have REV resolvable -> Track B/D
+builds are unblocked.
+
+(4) PENDING HUMAN DECISION: OpenRouter top-up (~$10-20) to grow the frontier
+bracket from 4 usable models to >=6 (B4); and where C3 data pulls land (this
+laptop vs Colab). No platform/.env exists yet (credentials unset).

@@ -14,6 +14,12 @@ answer_types:
     pattern: 'f([0-4])'
     tokens: [F0, F1, F2, F3, F4]
     normalize: upper
+  # C3 blood-proxy severity (3-class, MB-86xx). Gold tokens are lowercase.
+  severity:
+    kind: categorical
+    pattern: '(low|medium|high)'
+    tokens: [low, medium, high]
+    normalize: lower
 
 suffix_rules:
   "01": yes_no
@@ -55,3 +61,7 @@ tasks:
   MB-9001: yes_no
   MB-9002: f_stage
   MB-9005: number
+  # C3 novel tasks — blood-proxy severity (MB-86xx, new frozen test).
+  MB-8601: severity
+  MB-8602: yes_no
+  MB-8605: number

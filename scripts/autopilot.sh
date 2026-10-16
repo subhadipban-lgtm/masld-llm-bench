@@ -11,7 +11,7 @@
 #      -> notifies (you reconnect Colab; training auto-resumes)
 # State lives in ~/.openclaw/tmp/masld_autopilot_state.json - idempotent.
 
-VENV=/Users/subhadipbanerjee/.openclaw-autoclaw/workspace/.openclaw/tmp/mmc8/venv/bin/python
+VENV=/Users/subhadipbanerjee/masld-llm/platform/.venv/bin/python
 ROOT=/Users/subhadipbanerjee/masld-llm
 STATE=$HOME/.openclaw/tmp/masld_autopilot_state.json
 LOG=$ROOT/logs/autopilot.log
@@ -61,7 +61,7 @@ for run_name, key in [("qwen3-1.7b-masld__MB-20xx.jsonl.gz", "eval_raw_17b"),
         mtime = os.path.getmtime(p)
         if not s.get(key) or s[key] < mtime:
             # new/updated eval file -> score it
-            r = subprocess.run(["/Users/subhadipbanerjee/.openclaw-autoclaw/workspace/.openclaw/tmp/mmc8/venv/bin/python",
+            r = subprocess.run(["/Users/subhadipbanerjee/masld-llm/platform/.venv/bin/python",
                                 f"{ROOT}/scripts/score_frontier.py"],
                                capture_output=True, text=True, cwd=ROOT)
             ok = r.returncode == 0
