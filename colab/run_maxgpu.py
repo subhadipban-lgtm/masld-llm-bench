@@ -166,7 +166,7 @@ except Exception:
 DTYPE_LINE = 'bf16: true' if _major >= 8 else 'fp16: true'
 print('train dtype:', DTYPE_LINE)
 
-def make_yaml(model, out_dir, epochs):
+def make_yaml(model, out_dir, epochs, bs=4, accum=8, ckpt=True):
     return f'''model_name_or_path: {model}
 trust_remote_code: true
 stage: sft
@@ -188,20 +188,21 @@ output_dir: {out_dir}
 logging_steps: 10
 save_steps: 0.25
 plot_loss: true
-per_device_train_batch_size: 4
-gradient_accumulation_steps: 8
+per_device_train_batch_size: {bs}
+gradient_accumulation_steps: {accum}
+dataloader_num_workers: 4
 learning_rate: 1.0e-4
 num_train_epochs: {epochs}
 lr_scheduler_type: cosine
 warmup_ratio: 0.1
 weight_decay: 0.01
 {DTYPE_LINE}
-gradient_checkpointing: true
+gradient_checkpointing: {ckpt}
 enable_liger_kernel: true
 '''
 
 CKPT_06B = f'{CKPT}/qwen3-0.6b-masld-sft-v5'
-def train(model, out_dir, yaml_path, epochs, done_epochs):
+def train(model, out_dir, yaml_path, epochs, done_epochs, bs=4, accum=8, ckpt=True):
     import json as _j
     marker = f'{out_dir}/train_results.json'
     if os.path.exists(marker):
@@ -209,19 +210,19 @@ def train(model, out_dir, yaml_path, epochs, done_epochs):
             if float(_j.load(open(marker)).get('epoch', 0)) >= done_epochs:
                 print(f'{out_dir} already trained -> skip'); return
         except Exception: pass
-    open(yaml_path, 'w').write(make_yaml(model, out_dir, epochs))
+    open(yaml_path, 'w').write(make_yaml(model, out_dir, epochs, bs, accum, ckpt))
     r = subprocess.run([sys.executable, '-m', 'llamafactory.cli', 'train', yaml_path],
                        env=dict(os.environ, DISABLE_VERSION_CHECK='1'))
     if r.returncode != 0: raise RuntimeError('training failed: ' + yaml_path)
 
-train('Qwen/Qwen3-0.6B', CKPT_06B, '/content/qwen06b_v5.yaml', 2.0, 2.0)
+train('Qwen/Qwen3-0.6B', CKPT_06B, '/content/qwen06b_v5.yaml', 2.0, 2.0, bs=16, accum=2, ckpt=False)
 print('0.6B-v5 done')
 
 
 # ---- cell boundary ----
 
 CKPT_17B = f'{CKPT}/qwen3-1.7b-masld-sft-v5'
-train('Qwen/Qwen3-1.7B', CKPT_17B, '/content/qwen17b_v5.yaml', 2.0, 2.0)
+train('Qwen/Qwen3-1.7B', CKPT_17B, '/content/qwen17b_v5.yaml', 2.0, 2.0, bs=8, accum=4, ckpt=True)
 print('1.7B-v5 done')
 
 
