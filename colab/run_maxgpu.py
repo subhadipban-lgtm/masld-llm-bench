@@ -188,8 +188,8 @@ output_dir: {out_dir}
 logging_steps: 10
 save_steps: 0.25
 plot_loss: true
-per_device_train_batch_size: 1
-gradient_accumulation_steps: 32
+per_device_train_batch_size: 4
+gradient_accumulation_steps: 8
 learning_rate: 1.0e-4
 num_train_epochs: {epochs}
 lr_scheduler_type: cosine
