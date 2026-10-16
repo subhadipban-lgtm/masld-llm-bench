@@ -226,14 +226,14 @@ def train(model, out_dir, yaml_path, epochs, done_epochs, bs=4, accum=8, ckpt=Tr
                        env=dict(os.environ, DISABLE_VERSION_CHECK='1'))
     if r.returncode != 0: raise RuntimeError('training failed: ' + yaml_path)
 
-train('Qwen/Qwen3-0.6B', CKPT_06B, '/content/qwen06b_v5.yaml', 2.0, 2.0, bs=2, accum=16, ckpt=True, liger=False)
+train('Qwen/Qwen3-0.6B', CKPT_06B, '/content/qwen06b_v5.yaml', 2.0, 2.0, bs=8, accum=4, ckpt=False, liger=False)
 print('0.6B-v5 done')
 
 
 # ---- cell boundary ----
 
 CKPT_17B = f'{CKPT}/qwen3-1.7b-masld-sft-v5'
-train('Qwen/Qwen3-1.7B', CKPT_17B, '/content/qwen17b_v5.yaml', 2.0, 2.0, bs=2, accum=16, ckpt=True, liger=False)
+train('Qwen/Qwen3-1.7B', CKPT_17B, '/content/qwen17b_v5.yaml', 2.0, 2.0, bs=8, accum=4, ckpt=True, liger=False)
 print('1.7B-v5 done')
 
 
