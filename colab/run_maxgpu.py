@@ -186,7 +186,8 @@ overwrite_cache: true
 preprocessing_num_workers: 16
 output_dir: {out_dir}
 logging_steps: 10
-save_steps: 0.25
+save_steps: 0.05
+save_total_limit: 2
 plot_loss: true
 per_device_train_batch_size: {bs}
 gradient_accumulation_steps: {accum}
