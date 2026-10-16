@@ -1,0 +1,11 @@
+=== 10:49:42 running openai/gpt-4o-mini ===
+{
+  "model": "openai/gpt-4o-mini",
+  "n_target": 972,
+  "n_done_before": 25,
+  "n_new": 947,
+  "n_failed": 0,
+  "elapsed_min": 8.82
+}
+=== 10:58:32 done openai/gpt-4o-mini ===
+=== 10:58:32 running meta-llama/llama-3.3-70b-instruct ===
