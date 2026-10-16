@@ -1,0 +1,20 @@
+[12:11:02] bracket finished; scoring
+scoring amazon__nova-pro-v1__MB-20xx.jsonl.gz
+scoring deepseek__deepseek-chat__MB-20xx.jsonl.gz
+scoring google__gemini-2.5-pro__MB-20xx.jsonl.gz
+scoring meta-llama__llama-3.3-70b-instruct__MB-20xx.jsonl.gz
+scoring nvidia__nemotron-3-super-120b-a12b:free__MB-20xx.jsonl.gz
+scoring openai__gpt-4.1-mini__MB-20xx.jsonl.gz
+scoring openai__gpt-4o-mini__MB-20xx.jsonl.gz
+scoring qwen3-0.6b-masld__MB-20xx.jsonl.gz
+scoring qwen3-0.6b-masld__MB-20xx_PAIRED.jsonl.gz
+scoring qwen3-0.6b-masld__MB-40xx.jsonl.gz
+scoring qwen3-0.6b-masld__MB-40xx_geo_kshot2_balanced.jsonl.gz
+scoring qwen3-0.6b-masld__MB-40xx_geo_kshot4_balanced.jsonl.gz
+scoring qwen3-0.6b-masld__MB-40xx_geo_kshot4_random.jsonl.gz
+scoring qwen3-0.6b-masld__MB-40xx_geo_kshot8_balanced.jsonl.gz
+scoring qwen3-1.7b-masld__MB-20xx.jsonl.gz
+scoring qwen3-1.7b-masld__MB-40xx.jsonl.gz
+scoring qwen__qwen-2.5-72b-instruct__MB-20xx.jsonl.gz
+scoring qwen__qwen3-235b-a22b__MB-20xx.jsonl.gz
+72 rows -> /Users/subhadipbanerjee/masld-llm/results/leaderboard.csv
