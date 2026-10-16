@@ -91,31 +91,54 @@ _p = torch.ones(8, device=DEVICE) * 2; _p.sum().item(); del _p
 print(f"device {DEVICE}; loading 1.7B base+adapter (no merge, bf16)...")
 tok = AutoTokenizer.from_pretrained(BASE, padding_side="left")
 if tok.pad_token is None: tok.pad_token = tok.eos_token
-base = AutoModelForCausalLM.from_pretrained(BASE, dtype=torch.bfloat16)
+base = AutoModelForCausalLM.from_pretrained(
+    BASE, dtype=torch.bfloat16, attn_implementation=os.environ.get("PAIRED_ATTN") or "eager",
+)
 model = PeftModel.from_pretrained(base, ADAPTER)
 model = model.to(torch.bfloat16).to(DEVICE).eval()
 print(f"model ready ({time.time()-T0:.0f}s)")
 
 # 5. generate (left-padded micro-batches; auto-halve on failure like 06b)
-# batch=1 keeps MPS memory-lean, but on the CPU fallback the ~1.5k-token
+# batch=1 keeps MPS memory-lean, but on the CPU fallback the ~1.2k-token
 # prefill is GEMV-bound (bandwidth) and this arm64 torch build has no fast
 # 16-bit path -> >20 s/item (5+ h). Batching amortizes the weight reads;
 # batch=4 is what the 0.6B harness itself used. Memory stays ~5 GB.
-raws = []
+# Progress is checkpointed to a plain-JSONL sidecar after every batch, so a
+# killed run resumes instead of restarting from zero.
+SIDECAR = OUT + ".progress.jsonl"
+done_keys = set()
+if os.path.exists(SIDECAR):
+    with open(SIDECAR) as f:
+        for line in f:
+            try:
+                r = json.loads(line)
+                done_keys.add((r["task"], r["sample"]))
+            except json.JSONDecodeError:
+                continue  # torn tail line from a kill
+results = []  # (row, raw)
+if done_keys:
+    print(f"resuming: {len(done_keys)} items already done")
+todo = [r for r in aligned if (r["task"], r["sample"]) not in done_keys]
+
 BATCH = int(os.environ.get("PAIRED_BATCH") or (1 if DEVICE == "mps" else 4))
+sidecar = open(SIDECAR, "a")
 i = 0
-while i < len(aligned):
-    b = aligned[i:i+BATCH]
+while i < len(todo):
+    b = todo[i:i+BATCH]
     try:
         enc = tok([r["prompt"] for r in b], return_tensors="pt", padding=True,
                   truncation=True, max_length=4096).to(DEVICE)
         with torch.no_grad():
             gen = model.generate(**enc, max_new_tokens=24, do_sample=False,
                                  pad_token_id=tok.pad_token_id)
-        for j in range(len(b)):
+        for j, r in enumerate(b):
             txt = tok.decode(gen[j][enc["input_ids"].shape[1]:],
                              skip_special_tokens=True)
-            raws.append(txt.split("\n")[0])
+            raw = txt.split("\n")[0]
+            results.append((r, raw))
+            sidecar.write(json.dumps(dict(task=r["task"], sample=r["sample"],
+                                          answer=r["answer"], raw=raw)) + "\n")
+        sidecar.flush()
         i += len(b)
     except Exception:
         if BATCH > 1:
@@ -123,8 +146,32 @@ while i < len(aligned):
             print(f"  batch error -> BATCH={BATCH}", flush=True)
         else:
             raise
-    if len(raws) >= 50 and (len(raws) % 50 < BATCH or len(raws) == len(aligned)):
-        print(f"  {len(raws)}/{len(aligned)} ({time.time()-T0:.0f}s)", flush=True)
+    if len(results) >= 50 and (len(results) % 50 < BATCH or i >= len(todo)):
+        print(f"  {len(done_keys) + len(results)}/{len(aligned)} "
+              f"({time.time()-T0:.0f}s)", flush=True)
+sidecar.close()
+
+# 6. archive (include any resumed rows read back from the sidecar)
+if done_keys:
+    with open(SIDECAR) as f:
+        results = []
+        seen = set()
+        for line in f:
+            try:
+                r = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if (r["task"], r["sample"]) not in seen:
+                seen.add((r["task"], r["sample"]))
+                results.append((r, r["raw"]))
+os.makedirs(os.path.dirname(OUT), exist_ok=True)
+with gzip.open(OUT, "wt") as f:
+    for r, raw in results:
+        f.write(json.dumps(dict(task=r["task"], sample=r["sample"], answer=r["answer"],
+                                raw=raw, error=None,
+                                model_version="qwen3-1.7b-masld-sft-v4-paired",
+                                parsed=parse_answer(raw, r["task"]))) + "\n")
+os.remove(SIDECAR)
 
 # 6. archive
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
@@ -137,7 +184,7 @@ with gzip.open(OUT, "wt") as f:
 
 # 7. quick scores
 bt = collections.defaultdict(list)
-for r, raw in zip(aligned, raws):
+for r, raw in results:
     bt[r["task"]].append((parse_answer(raw, r["task"]), r["answer"]))
 print("\n=== PAIRED 1.7B scores ===")
 for t, pairs in sorted(bt.items()):

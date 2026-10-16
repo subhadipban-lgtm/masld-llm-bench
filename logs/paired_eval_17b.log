@@ -3,5 +3,5 @@ frame items: 929
 frozen test indexed: 11653
 aligned eval set: 929 (missing 0)
 device cpu; loading 1.7B base+adapter (no merge, bf16)...
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00, 21.32it/s]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  8.74it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00, 17.40it/s]
 The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
