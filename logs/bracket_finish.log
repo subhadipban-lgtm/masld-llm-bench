@@ -18,3 +18,4 @@ scoring qwen3-1.7b-masld__MB-40xx.jsonl.gz
 scoring qwen__qwen-2.5-72b-instruct__MB-20xx.jsonl.gz
 scoring qwen__qwen3-235b-a22b__MB-20xx.jsonl.gz
 72 rows -> /Users/subhadipbanerjee/masld-llm/results/leaderboard.csv
+[12:11:04] done
