@@ -19,3 +19,33 @@
 }
 === 11:25:50 done meta-llama/llama-3.3-70b-instruct ===
 === 11:25:50 running qwen/qwen-2.5-72b-instruct ===
+{
+  "model": "qwen/qwen-2.5-72b-instruct",
+  "n_target": 972,
+  "n_done_before": 0,
+  "n_new": 972,
+  "n_failed": 0,
+  "elapsed_min": 27.28
+}
+=== 11:53:08 done qwen/qwen-2.5-72b-instruct ===
+=== 11:53:08 running openai/gpt-4.1-mini ===
+{
+  "model": "openai/gpt-4.1-mini",
+  "n_target": 972,
+  "n_done_before": 0,
+  "n_new": 972,
+  "n_failed": 0,
+  "elapsed_min": 6.31
+}
+=== 11:59:27 done openai/gpt-4.1-mini ===
+=== 11:59:27 running amazon/nova-pro-v1 ===
+{
+  "model": "amazon/nova-pro-v1",
+  "n_target": 972,
+  "n_done_before": 0,
+  "n_new": 972,
+  "n_failed": 0,
+  "elapsed_min": 6.72
+}
+=== 12:06:11 done amazon/nova-pro-v1 ===
+ALL DONE 12:06:11
