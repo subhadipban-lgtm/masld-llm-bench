@@ -166,7 +166,14 @@ except Exception:
 DTYPE_LINE = 'bf16: true' if _major >= 8 else 'fp16: true'
 print('train dtype:', DTYPE_LINE)
 
-def make_yaml(model, out_dir, epochs, bs=4, accum=8, ckpt=True, liger=True):
+def latest_ckpt(out_dir):
+    import glob as _g, re as _re
+    cks = [d for d in _g.glob(f'{out_dir}/checkpoint-*')
+           if _re.search(r'checkpoint-\d+$', d)]
+    return max(cks, key=lambda d: int(d.rsplit('-', 1)[1])) if cks else None
+
+def make_yaml(model, out_dir, epochs, bs=4, accum=8, ckpt=True, liger=True, resume=None):
+    RESUME_LINE = f'resume_from_checkpoint: {resume}' if resume else ''
     return f'''model_name_or_path: {model}
 trust_remote_code: true
 stage: sft
@@ -189,7 +196,7 @@ logging_steps: 10
 save_steps: 0.05
 save_total_limit: 2
 plot_loss: true
-resume_from_checkpoint: auto
+{RESUME_LINE}
 per_device_train_batch_size: {bs}
 gradient_accumulation_steps: {accum}
 dataloader_num_workers: 4
@@ -212,7 +219,9 @@ def train(model, out_dir, yaml_path, epochs, done_epochs, bs=4, accum=8, ckpt=Tr
             if float(_j.load(open(marker)).get('epoch', 0)) >= done_epochs:
                 print(f'{out_dir} already trained -> skip'); return
         except Exception: pass
-    open(yaml_path, 'w').write(make_yaml(model, out_dir, epochs, bs, accum, ckpt, liger))
+    resume = latest_ckpt(out_dir)
+    if resume: print('resuming from', resume)
+    open(yaml_path, 'w').write(make_yaml(model, out_dir, epochs, bs, accum, ckpt, liger, resume))
     r = subprocess.run([sys.executable, '-m', 'llamafactory.cli', 'train', yaml_path],
                        env=dict(os.environ, DISABLE_VERSION_CHECK='1'))
     if r.returncode != 0: raise RuntimeError('training failed: ' + yaml_path)
