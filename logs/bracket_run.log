@@ -9,3 +9,13 @@
 }
 === 10:58:32 done openai/gpt-4o-mini ===
 === 10:58:32 running meta-llama/llama-3.3-70b-instruct ===
+{
+  "model": "meta-llama/llama-3.3-70b-instruct",
+  "n_target": 972,
+  "n_done_before": 0,
+  "n_new": 972,
+  "n_failed": 0,
+  "elapsed_min": 27.28
+}
+=== 11:25:50 done meta-llama/llama-3.3-70b-instruct ===
+=== 11:25:50 running qwen/qwen-2.5-72b-instruct ===
