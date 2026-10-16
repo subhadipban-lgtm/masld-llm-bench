@@ -52,6 +52,11 @@ COLUMNS = [
 
 ALPHA = 0.05
 
+#: The five canonical MB-20xx benchmark tasks, tried one at a time so a
+#: reference that is untestable on one task (e.g. zero parseable numeric
+#: predictions -> mae() raises) still contributes its other tasks.
+CANONICAL_TASKS = ["MB-2001", "MB-2002", "MB-2003", "MB-2005", "MB-2006"]
+
 
 def discover_references() -> list[Path]:
     """Frontier reference archives: MB-20xx, no candidates, no local runs."""
@@ -117,10 +122,16 @@ def main() -> None:
         rows: list[dict] = []
         for ref in references:
             try:
-                results = paired_compare(cand, ref)
+                results = paired_compare(cand, ref, tasks=CANONICAL_TASKS)
             except ValueError as exc:
-                print(f"  SKIP {ref.name}: {exc}")
-                continue
+                # a single untestable task (e.g. reference has zero parseable
+                # numeric predictions) aborts the whole call -> retry per task
+                results = []
+                for task in CANONICAL_TASKS:
+                    try:
+                        results.extend(paired_compare(cand, ref, tasks=[task]))
+                    except ValueError as exc2:
+                        print(f"  SKIP {ref.name} / {task}: {exc2}")
             for res in results:
                 rows.append(
                     {

@@ -4,7 +4,7 @@ Verdicts at p < 0.05: accuracy -> McNemar, MAE -> Wilcoxon (better = lower).
 
 ## Candidate: qwen3-0.6b-masld (`qwen3-0.6b-masld__MB-20xx_PAIRED.jsonl.gz`)
 
-39 comparisons — WIN 17 / LOSS 7 / TIE 15
+39 comparisons — WIN 18 / LOSS 7 / TIE 14
 
 | reference | task | metric | n | cand | ref | both | cand_only | ref_only | neither | mcnemar_p | wilcoxon_p | verdict |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -18,9 +18,9 @@ Verdicts at p < 0.05: accuracy -> McNemar, MAE -> Wilcoxon (better = lower).
 | deepseek | MB-2003 | accuracy | 258 | 0.469 | 0.3992 | 60 | 61 | 43 | 94 | 0.09504 | 0.07756 | TIE |
 | deepseek | MB-2005 | mae | 162 | 1.512 | 1.778 | 73 | 68 | 21 | 0 | 5.987e-07 | 1.62e-06 | WIN |
 | deepseek | MB-2006 | mae | 162 | 4.698 | 3.994 | 26 | 74 | 56 | 6 | 0.1357 | 0.005962 | LOSS |
-| google | MB-2001 | accuracy | 166 | 0.4036 | 0.3554 | 3 | 64 | 56 | 43 | 0.523 | 0.4652 | TIE |
-| google | MB-2002 | accuracy | 156 | 0.1859 | 0.1667 | 0 | 29 | 26 | 101 | 0.7877 | 0.6858 | TIE |
-| google | MB-2003 | accuracy | 8 | 0.25 | 0 | 0 | 2 | 0 | 6 | 0.5 |  | TIE |
+| google | MB-2001 | accuracy | 168 | 0.4048 | 0.3512 | 3 | 65 | 56 | 44 | 0.4672 | 0.4133 | TIE |
+| google | MB-2002 | accuracy | 168 | 0.1964 | 0.1548 | 0 | 33 | 26 | 109 | 0.435 | 0.3621 | TIE |
+| google | MB-2003 | accuracy | 124 | 0.4194 | 0.008065 | 0 | 52 | 1 | 71 | 1.199e-14 | 2.463e-12 | WIN |
 | meta-llama | MB-2001 | accuracy | 168 | 0.4048 | 0.1905 | 10 | 58 | 22 | 78 | 7.011e-05 | 5.699e-05 | WIN |
 | meta-llama | MB-2002 | accuracy | 168 | 0.1964 | 0.1488 | 15 | 18 | 10 | 125 | 0.1849 | 0.1306 | TIE |
 | meta-llama | MB-2003 | accuracy | 10 | 0.6 | 0 | 0 | 6 | 0 | 4 | 0.03125 | 0.03125 | WIN |
@@ -47,3 +47,49 @@ Verdicts at p < 0.05: accuracy -> McNemar, MAE -> Wilcoxon (better = lower).
 | qwen | MB-2005 | mae | 168 | 1.524 | 1.613 | 81 | 53 | 34 | 0 | 0.053 | 0.05778 | TIE |
 | qwen | MB-2006 | mae | 167 | 4.731 | 4.12 | 111 | 48 | 8 | 0 | 4.688e-08 | 1.434e-05 | LOSS |
 | qwen | MB-2001 | accuracy | 87 | 0.4713 | 0.2644 | 10 | 31 | 13 | 33 | 0.00956 | 0.006656 | WIN |
+
+## Candidate: qwen3-1.7b-masld (`qwen3-1.7b-masld__MB-20xx_PAIRED.jsonl.gz`)
+
+39 comparisons — WIN 27 / LOSS 0 / TIE 12
+
+| reference | task | metric | n | cand | ref | both | cand_only | ref_only | neither | mcnemar_p | wilcoxon_p | verdict |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| amazon | MB-2001 | accuracy | 168 | 0.6548 | 0.1131 | 17 | 93 | 2 | 56 | 2.303e-25 | 9.966e-21 | WIN |
+| amazon | MB-2002 | accuracy | 168 | 0.1845 | 0.1726 | 10 | 21 | 19 | 118 | 0.8746 | 0.7518 | TIE |
+| amazon | MB-2003 | accuracy | 10 | 0.8 | 0 | 0 | 8 | 0 | 2 | 0.007812 | 0.007812 | WIN |
+| amazon | MB-2005 | mae | 168 | 1.375 | 6547 | 39 | 87 | 42 | 0 | 9.207e-05 | 9.486e-06 | WIN |
+| amazon | MB-2006 | mae | 167 | 2.162 | 9237 | 24 | 109 | 23 | 11 | 1.387e-14 | 2.874e-15 | WIN |
+| deepseek | MB-2001 | accuracy | 163 | 0.6503 | 0.135 | 18 | 88 | 4 | 53 | 1.181e-21 | 1.994e-18 | WIN |
+| deepseek | MB-2002 | accuracy | 163 | 0.184 | 0.1718 | 12 | 18 | 16 | 117 | 0.8642 | 0.7316 | TIE |
+| deepseek | MB-2003 | accuracy | 258 | 0.5155 | 0.3992 | 48 | 85 | 55 | 70 | 0.01396 | 0.01123 | WIN |
+| deepseek | MB-2005 | mae | 162 | 1.389 | 1.778 | 57 | 77 | 28 | 0 | 1.853e-06 | 1.446e-06 | WIN |
+| deepseek | MB-2006 | mae | 162 | 2.13 | 3.994 | 16 | 120 | 20 | 6 | 1.419e-18 | 3.587e-17 | WIN |
+| google | MB-2001 | accuracy | 168 | 0.6548 | 0.3512 | 10 | 100 | 49 | 9 | 3.567e-05 | 2.94e-05 | WIN |
+| google | MB-2002 | accuracy | 168 | 0.1845 | 0.1548 | 2 | 29 | 24 | 113 | 0.5831 | 0.4922 | TIE |
+| google | MB-2003 | accuracy | 124 | 0.5323 | 0.008065 | 1 | 65 | 0 | 58 | 5.421e-20 | 7.49e-16 | WIN |
+| meta-llama | MB-2001 | accuracy | 168 | 0.6548 | 0.1905 | 31 | 79 | 1 | 57 | 1.34e-22 | 2.766e-18 | WIN |
+| meta-llama | MB-2002 | accuracy | 168 | 0.1845 | 0.1488 | 13 | 18 | 12 | 125 | 0.3616 | 0.2733 | TIE |
+| meta-llama | MB-2003 | accuracy | 10 | 0.8 | 0 | 0 | 8 | 0 | 2 | 0.007812 | 0.007812 | WIN |
+| meta-llama | MB-2005 | mae | 168 | 1.375 | 1.529 | 53 | 53 | 50 | 12 | 0.8439 | 0.04179 | WIN |
+| meta-llama | MB-2006 | mae | 167 | 2.162 | 2400 | 15 | 115 | 28 | 9 | 1.018e-13 | 6.382e-18 | WIN |
+| nvidia | MB-2001 | accuracy | 168 | 0.6548 | 0.6607 | 106 | 4 | 5 | 53 | 1 | 1 | TIE |
+| nvidia | MB-2002 | accuracy | 168 | 0.1845 | 0.2738 | 5 | 26 | 41 | 96 | 0.08644 | 0.06687 | TIE |
+| nvidia | MB-2003 | accuracy | 258 | 0.5155 | 0.5 | 79 | 54 | 50 | 75 | 0.7688 | 0.6949 | TIE |
+| nvidia | MB-2005 | mae | 168 | 1.375 | 2.024 | 52 | 94 | 22 | 0 | 8.656e-12 | 3.837e-09 | WIN |
+| nvidia | MB-2006 | mae | 167 | 2.162 | 3.814 | 18 | 116 | 33 | 0 | 5.018e-12 | 6.391e-13 | WIN |
+| openai | MB-2001 | accuracy | 168 | 0.6548 | 0.6607 | 106 | 4 | 5 | 53 | 1 | 1 | TIE |
+| openai | MB-2002 | accuracy | 168 | 0.1845 | 0.1905 | 15 | 16 | 17 | 120 | 1 | 0.8618 | TIE |
+| openai | MB-2003 | accuracy | 10 | 0.8 | 0 | 0 | 8 | 0 | 2 | 0.007812 | 0.007812 | WIN |
+| openai | MB-2005 | mae | 168 | 1.375 | 1.804 | 58 | 83 | 27 | 0 | 8.31e-08 | 1.008e-07 | WIN |
+| openai | MB-2006 | mae | 167 | 2.162 | 4.251 | 17 | 133 | 17 | 0 | 1.731e-23 | 1.58e-20 | WIN |
+| openai | MB-2001 | accuracy | 168 | 0.6548 | 0.2143 | 36 | 74 | 0 | 58 | 1.059e-22 | 7.812e-18 | WIN |
+| openai | MB-2002 | accuracy | 168 | 0.1845 | 0.1845 | 14 | 17 | 17 | 120 | 1 | 1 | TIE |
+| openai | MB-2003 | accuracy | 10 | 0.8 | 0 | 0 | 8 | 0 | 2 | 0.007812 | 0.007812 | WIN |
+| openai | MB-2005 | mae | 168 | 1.375 | 2628 | 48 | 65 | 44 | 11 | 0.05491 | 0.0003638 | WIN |
+| openai | MB-2006 | mae | 167 | 2.162 | 4.157 | 22 | 120 | 24 | 1 | 1.492e-16 | 1.927e-19 | WIN |
+| qwen | MB-2001 | accuracy | 168 | 0.6548 | 0.6607 | 106 | 4 | 5 | 53 | 1 | 1 | TIE |
+| qwen | MB-2002 | accuracy | 168 | 0.1845 | 0.1667 | 15 | 16 | 13 | 124 | 0.7111 | 0.5775 | TIE |
+| qwen | MB-2003 | accuracy | 10 | 0.8 | 0 | 0 | 8 | 0 | 2 | 0.007812 | 0.007812 | WIN |
+| qwen | MB-2005 | mae | 168 | 1.375 | 1.613 | 50 | 73 | 45 | 0 | 0.0126 | 0.003644 | WIN |
+| qwen | MB-2006 | mae | 167 | 2.162 | 4.12 | 19 | 128 | 20 | 0 | 1.804e-20 | 2.524e-18 | WIN |
+| qwen | MB-2001 | accuracy | 87 | 0.6897 | 0.2644 | 15 | 45 | 8 | 19 | 2.368e-07 | 3.728e-07 | WIN |
