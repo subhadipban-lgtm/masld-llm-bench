@@ -10,8 +10,9 @@ def _sh(cmd):
     print(">>>", cmd, flush=True)
     subprocess.run(cmd, shell=True, check=False)
 
-from google.colab import drive
-drive.mount('/content/drive')
+if not os.path.exists('/content/drive/MyDrive'):
+    from google.colab import drive
+    drive.mount('/content/drive')
 import os, glob, json, gzip, time, subprocess, sys
 
 SEARCH_ROOTS = ['/content/drive/Othercomputers/My Mac', '/content/drive/MyDrive']
@@ -50,10 +51,8 @@ assert os.access(RESULTS, os.W_OK), 'Drive results/ not writable'
 
 # ---- cell boundary ----
 
-_sh("cd /content")
-_sh("git clone --depth 1 https://github.com/hiyouga/LLaMA-Factory.git 2>/dev/null || echo 'already cloned'")
-_sh("cd /content/LLaMA-Factory")
-_sh("pip -q install -e '.[torch,metrics]' bitsandbytes peft transformers accelerate liger-kernel")
+_sh("cd /content && (git clone --depth 1 https://github.com/hiyouga/LLaMA-Factory.git 2>/dev/null || echo 'already cloned')")
+_sh("cd /content/LLaMA-Factory && pip -q install -e '.[torch,metrics]' bitsandbytes peft transformers accelerate liger-kernel")
 # torchao must be ABSENT (peft LoRA dispatch breaks on torchao-quantized linears)
 import importlib, subprocess, sys
 if importlib.util.find_spec('torchao') is not None:
@@ -64,6 +63,8 @@ print('deps ok; torchao absent:', importlib.util.find_spec('torchao') is None)
 # ---- cell boundary ----
 
 def to_alpaca(in_path, out_path):
+    if not os.path.exists(in_path):
+        print('MISSING corpus:', os.path.basename(in_path), '->', os.path.basename(out_path)); return
     rows = []
     with gzip.open(in_path, 'rt') as f:
         first = json.loads(f.readline())
@@ -313,7 +314,6 @@ def eval_corpus(merged_dir, corpus_path, tag, n_per_task=300, max_len=4096):
 
 MERGED_06B_V5 = merge_adapter('Qwen/Qwen3-0.6B', CKPT_06B, '/content/qwen3-0.6b-masld-merged-v5')
 eval_corpus(MERGED_06B_V5, f'{PROMPTS}/MB-20xx_liver_test.jsonl.gz', 'qwen3-0.6b-masld-v5')
-del tok, model
 
 
 # ---- cell boundary ----
