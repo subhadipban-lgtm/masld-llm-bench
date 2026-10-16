@@ -14,13 +14,17 @@ Inputs staged on Drive:
   checkpoints/qwen3-1.7b-masld-sft/        (LoRA adapter on Qwen/Qwen3-1.7B)
 The 929 (task, sample) frame keys are embedded below (gzip+base64).
 """
-import os, subprocess, sys
+import importlib, os, subprocess, sys
 
 if not os.path.exists('/content/drive/MyDrive'):
     from google.colab import drive
     drive.mount('/content/drive')
 
 subprocess.run([sys.executable, '-m', 'pip', 'install', '-q', 'peft'], check=False)
+# torchao must be ABSENT: Colab's preinstalled 0.10.0 breaks peft LoRA dispatch
+# (same guard as run_maxgpu.py)
+if importlib.util.find_spec('torchao') is not None:
+    subprocess.run([sys.executable, '-m', 'pip', 'uninstall', '-y', 'torchao'], check=False)
 
 import base64, collections, gzip, io, json, re, time
 
