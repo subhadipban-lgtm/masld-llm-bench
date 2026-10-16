@@ -157,6 +157,15 @@ ds_entry = json.dumps({'masld_sft_v5': {'file_name': '/content/sft_multitask_v5.
                                         'columns': {'prompt': 'instruction', 'response': 'output'}}})
 open('/content/LLaMA-Factory/data/dataset_info.json', 'w').write(ds_entry)
 
+# T4 (compute capability 7.5) has no native bf16 -> fp16; Ampere+ keeps bf16
+import torch as _t
+try:
+    _major, _minor = _t.cuda.get_device_capability()
+except Exception:
+    _major = 0
+DTYPE_LINE = 'bf16: true' if _major >= 8 else 'fp16: true'
+print('train dtype:', DTYPE_LINE)
+
 def make_yaml(model, out_dir, epochs):
     return f'''model_name_or_path: {model}
 trust_remote_code: true
@@ -186,7 +195,7 @@ num_train_epochs: {epochs}
 lr_scheduler_type: cosine
 warmup_ratio: 0.1
 weight_decay: 0.01
-bf16: true
+{DTYPE_LINE}
 gradient_checkpointing: true
 enable_liger_kernel: true
 '''
