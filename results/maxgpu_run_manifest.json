@@ -1,0 +1,17 @@
+{
+  "generated": "2026-10-17T04:25:53Z",
+  "notebook": "05_maxgpu_runall",
+  "gpu": "NVIDIA A100-SXM4-80GB, 81920 MiB",
+  "checkpoints": [
+    "/content/drive/MyDrive/masld-llm/checkpoints/qwen3-0.6b-masld-sft-v5",
+    "/content/drive/MyDrive/masld-llm/checkpoints/qwen3-1.7b-masld-sft-v5"
+  ],
+  "archives": [
+    "qwen3-0.6b-masld-v5-zeroshot__MB-86xx.jsonl.gz",
+    "qwen3-0.6b-masld-v5__MB-20xx.jsonl.gz",
+    "qwen3-1.7b-masld-v5-geo__MB-40xx.jsonl.gz",
+    "qwen3-1.7b-masld-v5-zeroshot__MB-86xx.jsonl.gz",
+    "qwen3-1.7b-masld-v5__MB-20xx.jsonl.gz"
+  ],
+  "kshot": "/content/drive/MyDrive/masld-llm/results/kshot_17b.json"
+}
