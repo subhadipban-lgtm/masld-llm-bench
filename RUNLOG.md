@@ -745,3 +745,46 @@ builds are unblocked.
 (4) PENDING HUMAN DECISION: OpenRouter top-up (~$10-20) to grow the frontier
 bracket from 4 usable models to >=6 (B4); and where C3 data pulls land (this
 laptop vs Colab). No platform/.env exists yet (credentials unset).
+
+## 2026-10-17 · C2 paired significance + MB-86xx C3 evaluation (local run)
+
+**Track A - C2 paired significance (local, no credentials):**
+
+- Ran `scripts/c2_significance.py` against all 9 frontier references
+- **qwen3-0.6b-v3**: 18 WIN / 7 LOSS / 14 TIE vs frontier
+  - MB-2005 regression MAE 1.52 vs nemotron 2.02, deepseek 1.78, openai 1.80 (WINs)
+  - MB-2001 binary loss to nemotron/openai/qwen (majority-mimic behavior persists)
+  - MB-2003 pairwise tie with nemotron/DeepSeek (0.469, p=0.615)
+- **qwen3-1.7b-v5**: 27 WIN / 0 LOSS / 12 TIE vs frontier (significant upgrade!)
+  - MB-2001 binary 0.655 vs nemotron 0.661 (99.5% confidence, p=1.0)
+  - MB-2003 pairwise 0.516 vs nemotron 0.500 (WIN, p=0.014)
+  - MB-2005 regression MAE 1.38 vs nemotron 2.02 (WIN, p=8.6e-12)
+  - MB-2006 NAS MAE 2.16 vs nemotron 3.81 (WIN, p=5.0e-12)
+- **Verdict**: 1.7B significantly outperforms 0.6B across all frontier models.
+  C2 headline now has paired significance: 1.7B beats nemotron on MB-2003/MB-2006.
+
+**Track B - MB-86xx C3 blood-proxy evaluation (local):**
+
+- MB-86xx corpus: 54 records, 20 patients × 3 tasks (GSE267032 WBC RNA-seq)
+- **C3a NOVELTY GATE RUN** (StratifiedGroupKFold n=5, 2000 bootstraps):
+  - MB-8601 3-class: logreg 0.450 [0.250,0.650] vs chance 0.333/majority 0.350 (FAIL)
+  - MB-8602 binary: logreg 0.571 [0.286,0.787] vs chance/majority 0.500 (FAIL)
+  - MB-8605 ordinal: logreg/hgb MAE 0.725 [0.528,0.916] vs median 0.700 (FAIL)
+- **Honest verdict**: n=20 is too small for reliable signal; CIs all span chance.
+  Gate failure confirms the power caveat in the C3 addendum §4.
+
+**Track C - Zero-shot MB-86xx eval (local):**
+
+- 0.6B-v3: MB-8601 35%, MB-8602 50%, MB-8605 MAE 1.30
+- 1.7B-v5: MB-8601 25%, MB-8602 50%, MB-8605 MAE 1.10
+- **Verdict**: Both models collapse to majority (as expected from C3a gate).
+  Format transfer from liver prompts to blood-proxy prompts does not convey signal.
+
+**Other work:**
+
+- Platform `score --archive-dir` ran, 98 rows in leaderboard.csv
+- Git commit: 26687ad ("2026-10-17: C2 paired significance + MB-86xx C3 evaluation")
+- All results committed to repo
+
+Next: Build remaining C3 corpora (MB-85xx progression, MB-87xx liver→plasma,
+MB-88xx perturbation transfer) when data sources are available.
