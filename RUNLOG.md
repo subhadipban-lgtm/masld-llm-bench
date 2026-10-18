@@ -982,6 +982,36 @@ stays on C3-novelty-of-benchmark + C4 regime split per the frozen fallback.
 - BLOOD-PROXY (item 3): nothing new found in the Drives — remains a GEO
     search task; the s40537 cohorts above are all liver tissue.
 
+## 2026-10-18 · Antwerp catalog digested (user export) + GSE135251 ACQUIRED
+
+- MASLD-datasets.xlsx (5 sheets) = the FWO curation workspace. Sheet5
+  decisions: TAKE {GSE126848, GSE135251, GSE167523, GSE130970, GSE185051
+  (pediatric caveat)}; DISCARD {microarrays 83452/61260/48452/33814,
+  snRNA 202379, DNAm 61257-9}. Extras noted: GSE166504 (scRNA),
+  GSE238173/238201, GSE61256, GSE130991 (statin-treated liver).
+  NO blood cohorts anywhere in the catalog.
+- **GSE135251 PULLED into Drive data/** (RAW.tar 45.8MB per-sample counts
+  + SOFT): 216 liver biopsies, per-sample fibrosis stage F0=46/F1=48/
+  F2=54/F3=54 + NAS scores (Govaere; same platform as GSE126848). Largest
+  staged bulk cohort in the program — transforms the train pool AND gives
+  the C3a-style gate a properly-powered LIVER-side graded cohort.
+- **GSE130970 audited**: 78 biopsies, SOFT carries fibrosis stage +
+  steatosis grade per sample; counts (entrez) already in the masld-revision
+  Drive archive — buildable without any download.
+- **GSE167523 staging RESOLVED**: phenotype xlsx is NAFL(51)/NASH(47)
+  BINARY only — no fibrosis staging (the Oct-15 'staging to parse' note is
+  closed). Usable as a binary train cohort.
+- GSE126848: metadata held; series matrix NOT yet pulled (NextSeq) — with
+  the 130970/135251/167523 builds next session.
+- NEXT-SESSION BUILD PLAN (train-pool extension, then v6):
+  1. MB-11xx v2: extend external train pool with GSE135251 (F0-F3 staged,
+     216) + GSE130970 (78 staged) + GSE167523 (98 NAFL/NASH binary) ->
+     freeze-14; rebuild baselines on the enlarged pool.
+  2. v6 training (RUNLOG spec above): v5 recipe + MB-88xx drugseq train;
+     optionally upweight the new staged-liver prompts.
+  3. Re-run v4 eval notebook (CORPORA) on v6 adapters = trained-on C3
+     readout (transfer test stays frozen MB-8801 + MB-20xx).
+
 ## 2026-10-16 · C3a gate run + platform C3 profile + masld-revision pinned (steps 1-3)
 
 (1) PLATFORM PROFILE extended for C3: added a `severity` categorical answer
