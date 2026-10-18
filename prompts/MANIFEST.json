@@ -1,5 +1,5 @@
 {
- "version": "v3-freeze-10",
+ "version": "v3-freeze-12",
  "created": "2026-10-04",
  "seed": 20260929,
  "recipe": "Zhavoronkov et al. Cell 189:5980-5994 (2026), LongevityBench",
@@ -13,7 +13,8 @@
   "MB-40xx v2 geometric: 9 train-side co-expression modules (res 1.5), continuous scores, UMAP manifold fitted on train only; EPos embedded never fitted",
   "MB-86xx: GSE267032 WBC blood-proxy frozen test (21 patients, grades 1_low/2_medium/3_high; controls excluded \u2014 no expression deposited); 8601 3-class, 8602 low-vs-high binary, 8605 ordinal 1-3; panel = top-200 MAD genes internal to this frozen corpus; per-sample log1p+z",
   "MB-85xx: GSE185051 liver-biopsy progression test (52 pediatric NAFLD patients + 5 controls; fibrosis stages 0-4); 8501 stable-vs-progressive binary, 8505 ordinal score 1-2; no paired-biopsy longitudinal data available in masld-revision; progression inferred from fibrosis stage",
-  "MB-87xx: MSV000094959 liver\u2192plasma corpus (3 studies; 200 proteins; 216 samples); 8701 plasma platform classification (3 classes); 8705 plasma protein level regression (0-10 scale); top-200 variance proteins"
+  "MB-87xx: MSV000094959 liver->plasma corpus (freeze-11); 8701 platform 3-class carried verbatim from freeze-10 (batch readout caveat); 8705 = masked-protein z-score regression (top-30 variance proteins per study, per-PROTEIN log1p+z within study \u2014 per-sample z would make the masked value arithmetic; mask rotates over top-5); freeze-10 8705 was degenerate (all golds saturated to 10.0) and is superseded",
+  "MB-88xx: GSE247407 PHH FFA perturbation test (30 cultures = 5 donor preps x 3 reps x control/FFA; F95P = second F95 prep); 8801 FFA yes/no; sample=donor prep so grouped CV blocks donor leakage; panel top-200 MAD genes (symbols); per-sample log1p+z; multi-compound extension identified: HepG2 DRUG-seq E-MTAB-15601 (not pulled)"
  ],
  "counts": {
   "MB-10xx_liver_train.jsonl.gz": 3928,
@@ -31,7 +32,8 @@
   "MB-40xx_geo_test.jsonl.gz": 504,
   "MB-86xx_bloodproxy_test.jsonl.gz": 54,
   "MB-85xx_progression_test.jsonl.gz": 104,
-  "MB-87xx_liverplasma_test.jsonl.gz": 412
+  "MB-87xx_liverplasma_test.jsonl.gz": 422,
+  "MB-88xx_perturb_test.jsonl.gz": 30
  },
  "files": {
   "MB-10xx_liver_train.jsonl.gz": "962377c999f70332",
@@ -49,6 +51,7 @@
   "MB-40xx_geo_test.jsonl.gz": "94d23f5a82ec4301",
   "MB-86xx_bloodproxy_test.jsonl.gz": "966cec3e00ed4d93",
   "MB-85xx_progression_test.jsonl.gz": "45611b62d01ec039",
-  "MB-87xx_liverplasma_test.jsonl.gz": "344d3e5c2821c6f5"
+  "MB-87xx_liverplasma_test.jsonl.gz": "3d0d62d275d7f4d5",
+  "MB-88xx_perturb_test.jsonl.gz": "6c365d56a3254e65"
  }
 }

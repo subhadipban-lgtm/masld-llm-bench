@@ -1,0 +1,136 @@
+{
+  "MB-8501": {
+    "task": "MB-8501",
+    "n": 52,
+    "features": 200,
+    "metric": "accuracy",
+    "logreg": {
+      "acc": 0.9038461538461539,
+      "ci": [
+        0.8269230769230769,
+        0.9807692307692307
+      ],
+      "majority": 0.9038461538461539,
+      "chance": 0.5,
+      "beats": false
+    },
+    "hgb": {
+      "acc": 0.8846153846153846,
+      "ci": [
+        0.7884615384615384,
+        0.9615384615384616
+      ],
+      "majority": 0.9038461538461539,
+      "chance": 0.5,
+      "beats": false
+    }
+  },
+  "MB-8505": {
+    "task": "MB-8505",
+    "n": 52,
+    "features": 200,
+    "metric": "mae",
+    "logreg": {
+      "mae": 0.2033003094865962,
+      "ci": [
+        0.14079052629121674,
+        0.2728478417838745
+      ],
+      "median_mae": 0.09615384615384616,
+      "beats": false
+    },
+    "hgb": {
+      "mae": 0.2033003094865962,
+      "ci": [
+        0.14079052629121674,
+        0.2728478417838745
+      ],
+      "median_mae": 0.09615384615384616,
+      "beats": false
+    }
+  },
+  "MB-8701": {
+    "task": "MB-8701",
+    "n": 206,
+    "features": 30,
+    "metric": "accuracy",
+    "logreg": {
+      "acc": 1.0,
+      "ci": [
+        1.0,
+        1.0
+      ],
+      "majority": 0.34951456310679613,
+      "chance": 0.3333333333333333,
+      "beats": true
+    },
+    "hgb": {
+      "acc": 1.0,
+      "ci": [
+        1.0,
+        1.0
+      ],
+      "majority": 0.34951456310679613,
+      "chance": 0.3333333333333333,
+      "beats": true
+    }
+  },
+  "MB-8705": {
+    "task": "MB-8705",
+    "n": 216,
+    "features": 67,
+    "metric": "mae",
+    "logreg": {
+      "mae": 0.8136300052658767,
+      "ci": [
+        0.7222283886513142,
+        0.9142651175566472
+      ],
+      "median_mae": 0.8177314814814814,
+      "beats": false
+    },
+    "hgb": {
+      "mae": 0.8136300052658767,
+      "ci": [
+        0.7222283886513142,
+        0.9142651175566472
+      ],
+      "median_mae": 0.8177314814814814,
+      "beats": false
+    }
+  },
+  "MB-8801": {
+    "task": "MB-8801",
+    "n": 30,
+    "features": 200,
+    "metric": "mae",
+    "logreg": {
+      "acc": 0.8333333333333334,
+      "ci": [
+        0.7,
+        0.9666666666666667
+      ],
+      "majority": 0.5,
+      "chance": 0.5,
+      "beats": true
+    },
+    "hgb": {
+      "acc": 0.5,
+      "ci": [
+        0.3,
+        0.6666666666666666
+      ],
+      "majority": 0.5,
+      "chance": 0.5,
+      "beats": false
+    }
+  },
+  "_gate": {
+    "any_family_beats_chance_majority_or_median": true,
+    "seed": 20260929,
+    "protocol": "StratifiedGroupKFold(n=5) by sample; 2000 bootstraps",
+    "notes": [
+      "MB-8701 near-ceiling = batch/platform separation, NOT clinical signal"
+    ]
+  }
+}

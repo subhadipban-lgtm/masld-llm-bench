@@ -836,6 +836,54 @@ or the tasks stay as negative controls.
 Disk: platform/.venv 1.2G -> 461M (freed ~750M; total freed today ~6.8G).
 Leaderboard rescored -> 106 rows. All committed.
 
+## 2026-10-18 · C3 gates for 85xx/87xx/88xx + 8705 rebuilt (freeze-11) + MB-88xx BUILT (freeze-12)
+
+**ML gates (scripts/c3a_gate_85_87.py, grouped CV by sample/donor, 2000
+bootstraps) — results/c3a_gate_85_87.json:**
+- MB-8501/8505 progression: NO ML signal (logreg 0.904 = majority exactly;
+  MAE 0.203 vs constant 0.096). With 5/52 progressive, n kills it. The
+  family is a negative control as built (cross-sectional stage proxy).
+- MB-8701 platform: logreg/hgb 1.000 CI[1,1] on 30 features — trivially
+  separable BATCH signature, explicitly noted NOT clinical signal.
+- MB-8705 (freeze-10): DEGENERATE (all golds '10.0', median-MAE 0).
+- MB-8801 PHH FFA (new): logreg 0.833 CI[0.700,0.967] on DONOR-GROUPED CV
+  (5 preps x 6 cultures; donor leakage blocked) — **first genuine C3a gate
+  PASS**: the FFA-steatosis signature is linearly readable. hgb 0.500
+  (trees fail at n=30, linear survives).
+
+**MB-8705 rebuilt (freeze-11)** — scripts/rebuild_mb8705_v2.py:
+- Old target (mean-level log10 transform) saturated: all 206 golds '10.0'.
+- New task: masked-protein z regression — top-30 variance proteins/study,
+  one masked (rotation over top-5), predict its z from the other 29.
+- DESIGN TRAP CAUGHT MID-BUILD: per-SAMPLE z (program-wide rule) makes the
+  masked value exact arithmetic (panel z sums to 0 -> hidden-answer puzzle).
+  Used per-PROTEIN log1p+z within study instead; deviation from the
+  per-sample rule documented in manifest. Target now sd 1.04, range
+  [-4.0,+3.2]. 8701 records carried verbatim (archive stays valid).
+- Gate on v2: ML MAE 0.814 CI[0.722,0.914] vs constant 0.818 — no classical
+  win; CAVEAT: the KV-feature encoder cannot see WHICH protein is masked
+  (name only in the question text), so this understates classical-ML
+  solvability; the fair test is the prompted model.
+
+**MB-88xx BUILT (freeze-12)** — scripts/build_mb88xx_gse247407.py:
+- GSE247407 counts+SOFT pulled from GEO FTP straight into Drive data/
+  (laptop stays lean). 30 cultures = 5 donor preps x 3 reps x control/FFA,
+  30/30 SOFT<->column matches. MB-8801 FFA yes/no; sample=DONOR so grouped
+  CV blocks donor leakage by construction; top-200 MAD genes (symbols);
+  per-sample log1p+z. 30 records (15/15).
+- Multi-compound extension IDENTIFIED not pulled: E-MTAB-15601 = 'DRUG-seq
+  HepG2 treated with compounds' (+15586/15587/15609/15610/15612, 9815 all
+  HTTP-200 on BioStudies) — the real MB-88xx multi-class source for a
+  future session.
+
+**Colab notebook v3** (repo colab/06 + Drive colab/06_c3_evaluations_v3
+.ipynb): loops over a CORPORA registry (85xx, 87xx-rebuilt, 88xx) so one
+Run-all re-evals everything; optional 0.6B-v5 swap cell. Needs ONE user
+run: 1.7B-v5 on rebuilt 8705 + new 8801 (+ optional 0.6B on all three).
+After that lands: pull archives, rescore, commit (headers now valid at
+source; 87xx archive will overwrite the freeze-10 eval — preserved in git
+at ac9e0be).
+
 ## 2026-10-16 · C3a gate run + platform C3 profile + masld-revision pinned (steps 1-3)
 
 (1) PLATFORM PROFILE extended for C3: added a `severity` categorical answer
