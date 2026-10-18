@@ -77,6 +77,26 @@ dge, drugs1 = load('/content/sft_dge.json'), load('/content/sft_drugs.json')
 drugs2, dnam = load('/content/sft_drugs2.json'), load('/content/sft_dnam.json')
 staged, drugseq = load('/content/sft_staged.json'), load('/content/sft_drugseq.json')
 
+# DRUG-seq corpus uses Ensembl ids; every other corpus (and the frozen tests)
+# use gene SYMBOLS -> remap ENSGxxxx= to symbols for transfer consistency.
+_ens_cache = os.path.join(MASLD_LLM, 'data', 'ensembl_to_symbol_cache.csv')
+if os.path.exists(_ens_cache):
+    ens2sym = {}
+    for line in open(_ens_cache).read().splitlines()[1:]:
+        if ',' in line:
+            e, s = line.split(',', 1)
+            ens2sym[e.strip()] = s.strip()
+    _ens_re = re.compile(r'(ENSG\d{11})(?==)')
+    n_mapped = 0
+    for ex in drugseq:
+        def _sub(m):
+            global n_mapped
+            sym = ens2sym.get(m.group(1))
+            if sym: n_mapped += 1
+            return sym if sym else m.group(1)
+        ex['instruction'] = _ens_re.sub(_sub, ex['instruction'])
+    print(f'drugseq ensembl->symbol tokens mapped: {n_mapped}')
+
 def is_pairwise(ex): return 'Patient A:' in ex['instruction']
 liver_single = [e for e in liver if not is_pairwise(e)]
 liver_pair   = [e for e in liver if is_pairwise(e)]
@@ -192,9 +212,14 @@ def train(model, out_dir, yaml_path, epochs, bs=8, accum=4, ckpt=True, liger=Fal
                        env=dict(os.environ, DISABLE_VERSION_CHECK='1'))
     if r.returncode != 0: raise RuntimeError('training failed: ' + yaml_path)
 
-train('Qwen/Qwen3-0.6B', f'{CKPT}/qwen3-0.6b-masld-sft-v6', '/content/qwen06b_v6.yaml', 2.0, ckpt=False)
+# Memory: fused-CE (liger) avoids materializing the bs x 4096 x 151936 fp32
+# logits tensor (~18.5 GiB at bs=8) that OOMs 40 GiB cards; batch halved,
+# accum doubled -> effective batch 32 kept. 80 GiB cards just run a bit slower.
+train('Qwen/Qwen3-0.6B', f'{CKPT}/qwen3-0.6b-masld-sft-v6', '/content/qwen06b_v6.yaml', 2.0,
+      bs=4, accum=8, ckpt=False, liger=True)
 print('0.6B-v6 done')
-train('Qwen/Qwen3-1.7B', f'{CKPT}/qwen3-1.7b-masld-sft-v6', '/content/qwen17b_v6.yaml', 2.0, ckpt=True)
+train('Qwen/Qwen3-1.7B', f'{CKPT}/qwen3-1.7b-masld-sft-v6', '/content/qwen17b_v6.yaml', 2.0,
+      bs=2, accum=16, ckpt=True, liger=True)
 print('1.7B-v6 done')
 
 # ---- eval on the FROZEN C3 tests (trained-on readout) ----
