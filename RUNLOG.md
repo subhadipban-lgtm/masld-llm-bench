@@ -926,6 +926,22 @@ C3 zero-shot leg now COMPLETE for 1.7B-v5 across all four families
 families (86xx gate, 8801 logreg) show classical signal. Claim weight
 stays on C3-novelty-of-benchmark + C4 regime split per the frozen fallback.
 
+## 2026-10-18 · 0.6B-v5 C3 evals landed — the 2x3 model x family matrix closes
+
+- Cell-8 rescue worked (torchao re-uninstall + FUSE probe); all three 0.6B
+  archives landed with VALID metas (v4 hardening was not needed in-session).
+  Leaderboard -> 112 rows.
+- 0.6B-v5 zero-shot = total format collapse everywhere, in the OPPOSITE
+  constant direction from the 1.7B on two tasks:
+    8801 FFA: all-'yes' 30/30 -> 0.500 = exactly majority (1.7B: all-'no')
+    8701: all-'Lumos72' 198/206 -> 0.320 < majority 0.350 (1.7B split two)
+    8501: 'progressive' 28 + F-token loops -> 0.038 validity 0.538
+    8705: protein-ID token loops -> MAE 1.5e4 (digit-loop failure mode)
+- Final C3 zero-shot verdict (both compact sizes, all four families): NO
+  LLM signal anywhere; the only readers of the new families are classical
+  (8801 logreg 0.833; 86xx gate pending bigger n). The C4 regime-split
+  claim now has a clean 2-model-x-4-family negative matrix behind it.
+
 ## 2026-10-16 · C3a gate run + platform C3 profile + masld-revision pinned (steps 1-3)
 
 (1) PLATFORM PROFILE extended for C3: added a `severity` categorical answer
