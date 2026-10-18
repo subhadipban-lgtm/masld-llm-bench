@@ -884,6 +884,25 @@ After that lands: pull archives, rescore, commit (headers now valid at
 source; 87xx archive will overwrite the freeze-10 eval — preserved in git
 at ac9e0be).
 
+## 2026-10-18 · Rebuilt-87xx eval scored; 88xx eval still pending
+
+- User re-ran the ORIGINAL in-session notebook (v1 + torchao fix), not the
+  v3 registry notebook -> 85xx (unchanged corpus, identical output) and the
+  REBUILT 87xx were re-evaluated, but MB-88xx never ran (v1 has no 88xx
+  cell). Also: v1's write_archive still emits meta without seed/built/
+  builder -> scorer silently skipped both fresh archives; meta re-patched
+  (nested inner dict) on Drive + repo copies. LESSON (3rd occurrence): use
+  the Drive v3 notebook; it writes valid headers and covers all corpora.
+- Scored, 106-row leaderboard:
+  - MB-8701 unchanged: 0.257 [0.199,0.316] (records carried verbatim).
+  - MB-8705 v2 (masked-protein z): n=216, MAE 1.151 [1.038,1.268],
+    validity 1.0, rho 0.279 vs mean-constant 0.819 — WORSE than constant;
+    emission near-constant ('-1.00' x101/216). Zero-shot LLM cannot read
+    co-abundance either; the rho 0.28 is variance from the minority of
+    varied outputs, not usable signal.
+- STILL PENDING: 1.7B-v5 (and optional 0.6B-v5) on MB-88xx — needs ONE
+  Run-all of Drive colab/06_c3_evaluations_v3.ipynb (covers everything).
+
 ## 2026-10-16 · C3a gate run + platform C3 profile + masld-revision pinned (steps 1-3)
 
 (1) PLATFORM PROFILE extended for C3: added a `severity` categorical answer
