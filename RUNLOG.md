@@ -942,6 +942,46 @@ stays on C3-novelty-of-benchmark + C4 regime split per the frozen fallback.
   (8801 logreg 0.833; 86xx gate pending bigger n). The C4 regime-split
   claim now has a clean 2-model-x-4-family negative matrix behind it.
 
+## 2026-10-18 · DRUG-seq pulled + MB-88xx TRAIN built (freeze-13) + Drive dataset catalog
+
+**E-MTAB-15601 (DRUG-seq HepG2) acquired + built as TRAIN corpus:**
+- BioStudies file walk (subsection nesting, not flat 'files') found
+  raw_counts.csv (60MB, 22,938 genes x 1,196 samples) + processed_metadata
+  (40 compounds + DMSO x32, dose-response, 7h). Pulled straight into Drive
+  data/emtab15601/ per disk policy.
+- scripts/build_mb88xx_drugseq_train.py -> MB-88xx_drugseq_train.jsonl.gz
+  (freeze-13): MB-8811 compound 40-class (480 recs, 12/compound subsample),
+  MB-8812 treated-vs-DMSO yes/no (512); top-200 MAD genes; per-sample
+  log1p+z; 1196/1196 sample join.
+- ML sanity (premise check for training): logreg 5-fold compound acc 0.173
+  vs 0.025 chance (7x) — learnable but hard (plate/dose noise). TRAIN-side
+  only; frozen MB-8801 (PHH FFA) is the cross-model transfer test.
+- v6 TRAINING SPEC (next Colab session): v5 recipe + MB-88xx_drugseq_train
+  in the mixture (upweight x3-4 to ~3-4k effective), train 0.6B-v6 + 1.7B
+  -v6 LoRA (~1-2h each on T4/A100), then the v4 notebook's CORPORA re-eval
+  = the trained-on C3 readout (positive-claim attempt for item 2).
+
+**Drive dataset catalog (ami/mfu/rawiwan sweep, 2026-10-18):**
+- ami Antwerp FWO MASLD bioinformatics: MASLD-datasets.gsheet = curated
+    dataset CATALOG (cloud-only, export manually) — highest-value lead.
+- ami masld-revision/MASLD External data: s40537-024-00899 Sci Rep
+    supplements keyed to GSE167523 + GSE163211 (NEW to us) + GSE135251 +
+    GSE164760; GPL29503 platform XML. Pull candidates from GEO next.
+- ami masld-clinical-transcriptomics-github/data: discovery_cohort_349.csv,
+    GSE115469 (Ramachandran liver sc atlas + CellClusterType annotations),
+    govaere_2023/ (MASLD snRNA atlas) — single-cell/liver, candidates for
+    Track D geometry upgrade, not blood-proxy.
+- rawiwan MASLD_Data: coconut_csv-10-2025 (683MB; newer than our 09-2024
+    COCONUT — drug-arm refresh candidate), ferrdb driver/suppressor,
+    DGE_All_Genes_Results, KG .gexf/.pt (drug arm W4 resources).
+- rawiwan MASLD_GNN_Results: GNN run outputs (not raw cohorts).
+- guney_ranking_outputs/masld_drugs.tsv: tiered drug list incl resmetirom
+    (approved_mash) — drug-arm nomination input.
+- MASLD-Transcriptomics(old) (ami+mfu): manuscript package of the prior
+    matrisome paper; DGE tables only, no per-sample matrices.
+- BLOOD-PROXY (item 3): nothing new found in the Drives — remains a GEO
+    search task; the s40537 cohorts above are all liver tissue.
+
 ## 2026-10-16 · C3a gate run + platform C3 profile + masld-revision pinned (steps 1-3)
 
 (1) PLATFORM PROFILE extended for C3: added a `severity` categorical answer
