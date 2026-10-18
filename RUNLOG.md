@@ -1012,6 +1012,26 @@ stays on C3-novelty-of-benchmark + C4 regime split per the frozen fallback.
   3. Re-run v4 eval notebook (CORPORA) on v6 adapters = trained-on C3
      readout (transfer test stays frozen MB-8801 + MB-20xx).
 
+## 2026-10-18 · MB-12xx built (freeze-14) + v6 runner ready
+
+- scripts/build_mb12xx.py -> MB-12xx_staged_train.jsonl.gz: 962 train
+  records. GSE135251: 216 biopsies, fibrosis dist F0=46/F1=48/F2=54/F3=54/
+  **F4=14** (the earlier head-10 uniq cut hid F4 — option lists fixed to
+  F0-F4 before build) -> MB-1201 advanced binary, 1202 F0-F4 multiclass,
+  1205 fibrosis 0-4 reg, 1206 NAS reg. GSE167523: 98 NAFL/NASH binary
+  (MB-1221). GSE130970 DEFERRED (entrez->symbol map + title join).
+  verify-manifest ALL OK; corpus synced to Drive.
+- Classical sanity on the new pool (5-fold logreg): **MB-1221 NAFL/NASH
+  0.929** (majority 0.520), MB-1201 advanced 0.699 (0.565), MB-1202 5-class
+  0.329 (0.250). The staged pool carries real, learnable signal.
+- **v6 runner ready**: colab/run_v6.py + 07_v6_train_and_eval.ipynb
+  (synced to Drive). v6 = v5 recipe verbatim + MB-12xx x4 + MB-88xx drugseq
+  x4 in the mixture; trains 0.6B-v6 + 1.7B-v6 LoRA (resume-safe), merges,
+  and evals ALL five frozen test families with an extended parser (8501/
+  8601/8701 answer kinds added). ~12-16h on T4. Archives -> *v6* in Drive
+  results/frontier_runs/; then local pull + rescore completes item 2
+  (trained-on C3 readout).
+
 ## 2026-10-16 · C3a gate run + platform C3 profile + masld-revision pinned (steps 1-3)
 
 (1) PLATFORM PROFILE extended for C3: added a `severity` categorical answer
