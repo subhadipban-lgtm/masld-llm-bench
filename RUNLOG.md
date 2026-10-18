@@ -709,6 +709,133 @@ OK incl. the new corpus (sha16 aa97197ea5cea087).
 Next: MB-96xx axis pilot (train-side), GSE167523 xlsx staging parse +
 Track D rebuild, C3a gate eval (baselines + 0.6B zero-shot on MB-86xx).
 
+## 2026-10-18 · Disk offload to Drive: local originals deleted after verified uploads
+
+Policy shift per owner: Colab = compute, ami Drive = storage, laptop kept lean.
+
+UPLOADED + SIZE-VERIFIED (logical bytes + file count, both sides):
+- masld-llm/data -> Drive masld-llm/data: 14 files, 582.5 MB (GSE213623_RAW.tar
+  534M, GSE48452 SOFT+series, GSE267032 counts/TPM/SOFT, GSE167523 trio,
+  GSE247407 SOFT, msv000094959 3 pivot tables).
+- ~/masld-revision -> Drive masld-llm-archive/masld-revision-local-2026-10-18:
+  197 files, 4.16 GB, rsync EXIT=0 (first attempt failed: path typo dropped
+  "My Drive" -> mkpath Permission denied; retry clean).
+- Drive masld-llm/checkpoints/qwen3-1.7b-masld-sft: was missing README.md
+  (5/6 files) -> patched from local; now complete (143.9 MB + README).
+
+VERIFIED-THEN-DELETED locally (each had a confirmed cloud copy first):
+- ~/masld-revision (4.16 GB) — archived above AND original on mfu Drive.
+- masld-llm/data contents (583 MB) — archived above; builders now read from
+  Drive (re-copy before any rebuild).
+- masld-llm/checkpoints contents (1.3 GB) — 0.6b-sft: 12/12 files
+  size-identical in masld-backup-2026-10-15/checkpoints (that folder was
+  rsync-checksum-verified 2026-10-15); 0.6b-merged: 6/6 exact there;
+  1.7b-sft: complete on Drive masld-llm/checkpoints after README patch;
+  v5 adapters were never local (Colab-written, cloud-only).
+Disk: 36Gi -> 42Gi free (~6 GB freed this pass).
+
+NOTE on Drive placeholders: du on streamed Drive dirs shows only cached
+bytes (looked like 11M/8K) — ALWAYS compare with stat logical sizes.
+Uploaded files sit in the Drive client's local cache and upload to the cloud
+async; do NOT evict the Drive cache until the client reports sync complete.
+
+PENDING (blocked: shell tool died mid-session with spawn /bin/zsh ENOENT):
+- Uninstall today's eval stack from platform/.venv (~900M): torch, peft,
+  transformers, accelerate, sympy, xlrd  (keep scipy/sklearn/pandas —
+  baselines need them; venv originally shipped without torch by design,
+  local_runner lazy-imports).
+- Re-run platform pytest (expect 79/79 green without torch).
+- Optional: fileproviderctl evict on the two uploaded Drive trees once
+  sync completes, to reclaim the provider cache.
+
+## 2026-10-18 · C3/F5 corpora built (freeze-9/10) + C2 paired verdicts
+
+- MB-85xx progression test BUILT: scripts/build_mb85xx.py (GSE185051, 52
+  pediatric NAFLD biopsies matched by LB-xx->Lxx name fix; stages 0-4 ->
+  8501 stable(F0-F2)/progressive(F3-F4) binary + 8505 ordinal 1-2; 104
+  records). NOTE: cross-sectional stage used as progression proxy — no
+  paired-biopsy longitudinal data exists in masld-revision (documented in
+  corpus meta + manifest rule).
+- MB-87xx liver->plasma BUILT: scripts/build_mb87xx.py from MSV000094959
+  pivot tables (which are TAB-SEPARATED text despite .xls suffix; xlrd/
+  openpyxl both choke — parser reads TSV directly; protein rows carry
+  semicolon-joined UniProt groups -> first accession used). 3 platforms x
+  72 samples: 8701 platform 3-class (206 recs, after per-study availability
+  filter) + 8705 protein-abundance 0-10 regression (206) = 412 records.
+  CAVEAT: 8701 platform-classification is a batch-effect reading task, and
+  8705's target is a transform of the input features themselves — both are
+  weaker task designs than 86xx's clinical grading; fine as probe families.
+- MB-88xx PHH builder exists but data absent (E-MTAB perturbation series
+  never downloaded; GSE247407 SOFT alone on Drive). Blocked on data pull.
+- 0.6B-v3 local evals (MPS, platform protocol): MB-85xx 104 items 52 valid
+  4.3 min; MB-87xx 412 items 206 valid 7.4 min. Archives committed.
+- colab/06_c3_evaluations.ipynb REWRITTEN after reading platform
+  local_runner.py: earlier draft would have failed (HF adapter that doesn't
+  exist; GitHub raw for a repo with no remote; 512-token generations;
+  string-slice answers; wrong record schema). Now: corpora + 1.7B-v5
+  adapter from Drive, greedy max_new_tokens=24 left-pad continuation-only
+  first-line protocol, OOM batch-halving, archives written as
+  qwen3-1.7b-masld-v5__MB-85xx / __MB-87xx with task/sample/answer/raw/
+  error/model_version/parsed fields (parsed=null, scorer re-derives).
+  Optional cell 9 swaps in 0.6B-v5 in-session.
+- Drive sync: MB-85xx/87xx corpora + v3-freeze-10 MANIFEST + notebook
+  copied to ami Drive masld-llm/ (prompts/, colab/).
+- NEXT after Colab run: pull archives back, register MB-8501/8505/8701/8705
+  in platform profile (masld.yaml) so score parses them, rescore, commit.
+
+## 2026-10-18 · Colab run done + torchao fix + profile registered
+
+- 06 notebook RAN in hosted GPU session; first attempt hit
+  `ImportError: torchao 0.10.0 < 0.16 required by latest peft` at adapter
+  load (base model loads fine). Fix: `pip uninstall -y torchao` (we never
+  use it); patched Cell 2 in repo copy + Drive colab/06_c3_evaluations_v2
+  .ipynb. User applied fix in-session; run completed.
+- Archives expected in Drive masld-llm/results/frontier_runs/:
+  qwen3-1.7b-masld-v5__MB-85xx.jsonl.gz (104) + __MB-87xx.jsonl.gz (412).
+  NOT yet verified locally — the ZCode session shell died host-wide
+  (`spawn /bin/zsh ENOENT`, reproduced in a subagent; file tools fine).
+- platform/profiles/masld.yaml: registered progression (stable/progressive,
+  \b-anchored so 'unstable' can't match) + platform (Plasma_liver2/Souria72/
+  Lumos72) categorical kinds and explicit task entries MB-8501/8505/8701/
+  8705 — explicit entries override the "01"->yes_no suffix rule that would
+  have misread 8501/8701. Backup: masld.yaml.bak-20261018.
+- STILL PENDING once shell returns: pytest (confirm profile change green),
+  verify+copy Drive archives into repo results/, rescore leaderboard,
+  venv slim (torch stack ~900M), commit everything.
+
+## 2026-10-18 · C3 1.7B-v5 verdicts SCORED (106-row leaderboard) + cleanup done
+
+Colab run landed both archives (MB-85xx 104, MB-87xx 412 records). Two
+scoring blockers fixed en route: (1) notebook __meta__ lacked seed/built/
+builder -> platform MetaHeader rejected the archive SILENTLY (scorer skips,
+keeps going); patched the NESTED inner __meta__ dict (first patch hit the
+outer dict — parse_meta validates inner). Notebook write_archive fixed at
+source in repo + Drive v2 so future runs (e.g. 0.6B cell) score clean.
+(2) torch stack uninstalled from platform/.venv (1.2G -> 461M); pytest
+86/86 green without torch. Profile entries verified green BEFORE slimming.
+
+SCORED C3 results (1.7B-v5, zero-shot on never-trained families):
+  MB-8501 progression binary: acc 0.173 [0.077,0.288] vs majority 0.904 —
+    ANTI-majority inversion (emits PROGRESSIVE 43/52 vs 5 progressive golds).
+  MB-8505 ordinal 1-2: MAE 0.154 vs constant-1 MAE 0.096 — worse than the
+    constant baseline (near-constant '1'/'1 or 2' emissions).
+  MB-8701 platform 3-class: acc 0.257 [0.199,0.316] vs majority 0.350 —
+    discriminates two of three platforms (never says Souria72) but below
+    majority.
+  MB-8705 protein level: MAE 5.25 vs constant MAE 0.0 — DEGENERATE TASK:
+    all 206 golds are '10.0' (log10(mean) transform saturated). Corpus
+    design flaw, not a model result; flag as unusable in current form.
+  (Old 0.6B-v3 rows: 8501/8701 validity 0.0, MAEs e+22 digit loops — the
+   known v3 failure modes on unseen formats.)
+VERDICT: C3a gate FAILS on MB-85xx/87xx for the v5 model zero-shot — same
+regime as MB-86xx (no signal without in-domain training). Honest paper
+framing: novel-domain probes show compact models carry no transferable
+signal to progression/plasma tasks; any C3 claim needs trained-on variants
+or the tasks stay as negative controls.
+
+Disk: platform/.venv 1.2G -> 461M (freed ~750M; total freed today ~6.8G).
+Leaderboard rescored -> 106 rows. All committed.
+
 ## 2026-10-16 · C3a gate run + platform C3 profile + masld-revision pinned (steps 1-3)
 
 (1) PLATFORM PROFILE extended for C3: added a `severity` categorical answer

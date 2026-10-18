@@ -20,6 +20,20 @@ answer_types:
     pattern: '(low|medium|high)'
     tokens: [low, medium, high]
     normalize: lower
+  # C3 progression proxy (MB-85xx, GSE185051): F0-F2 stable vs F3-F4
+  # progressive. Gold tokens are lowercase; \b stops 'unstable' matching.
+  progression:
+    kind: categorical
+    pattern: '\b(stable|progressive)\b'
+    tokens: [stable, progressive]
+    normalize: lower
+  # C3 liver->plasma platform id (MB-87xx, MSV000094959): which of the
+  # three quantification tables a sample came from.
+  platform:
+    kind: categorical
+    pattern: '\b(plasma_liver2|souria72|lumos72)\b'
+    tokens: [Plasma_liver2, Souria72, Lumos72]
+    normalize: lower
 
 suffix_rules:
   "01": yes_no
@@ -65,3 +79,10 @@ tasks:
   MB-8601: severity
   MB-8602: yes_no
   MB-8605: number
+  # C3 novel tasks — progression + liver->plasma (2026-10-18 freeze-9/10).
+  # Explicit entries override the suffix rules (8501/8701 would else be
+  # misread as yes_no by the "01" rule).
+  MB-8501: progression
+  MB-8505: number
+  MB-8701: platform
+  MB-8705: number

@@ -1,0 +1,67 @@
+# MASLD-LLM benchmark profile — reproduces the frozen research registry
+# exactly. This file IS the domain: delete or replace it to re-point the
+# platform at a different benchmark.
+name: masld
+version: 1
+description: >-
+  MASLD-LLM frozen benchmark: EPos-only liver test (MB-20xx), clinical and
+  external train pools (MB-10xx/11xx), geometric layer (MB-40xx), DNAm
+  (MB-30xx), Fujiwara internal test (MB-9xxx).
+
+answer_types:
+  f_stage:
+    kind: categorical
+    pattern: 'f([0-4])'
+    tokens: [F0, F1, F2, F3, F4]
+    normalize: upper
+  # C3 blood-proxy severity (3-class, MB-86xx). Gold tokens are lowercase.
+  severity:
+    kind: categorical
+    pattern: '(low|medium|high)'
+    tokens: [low, medium, high]
+    normalize: lower
+
+suffix_rules:
+  "01": yes_no
+  "02": f_stage
+  "03": letter
+  "05": number
+  "06": number
+
+feature_extractors: [genes, clinical]
+
+tasks:
+  # Clinical liver: binary / stage multiclass / pairwise / regression.
+  MB-1001: yes_no
+  MB-1002: f_stage
+  MB-1003: letter
+  MB-1005: number
+  MB-1006: number
+  MB-2001: yes_no
+  MB-2002: f_stage
+  MB-2003: letter
+  MB-2005: number
+  MB-2006: number
+  # External train pool (freeze-3).
+  MB-11001: yes_no
+  MB-11002: f_stage
+  MB-11005: number
+  MB-11006: number
+  # Geometric layer (MB-40xx).
+  MB-4001: yes_no
+  MB-4002: f_stage
+  MB-4003: letter
+  MB-4005: number
+  MB-4006: number
+  # DNAm domain (MB-30xx).
+  MB-3001: yes_no
+  MB-3002: f_stage
+  MB-3005: number
+  # Fujiwara internal test (MB-9xxx).
+  MB-9001: yes_no
+  MB-9002: f_stage
+  MB-9005: number
+  # C3 novel tasks — blood-proxy severity (MB-86xx, new frozen test).
+  MB-8601: severity
+  MB-8602: yes_no
+  MB-8605: number
