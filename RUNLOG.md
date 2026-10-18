@@ -903,6 +903,29 @@ at ac9e0be).
 - STILL PENDING: 1.7B-v5 (and optional 0.6B-v5) on MB-88xx — needs ONE
   Run-all of Drive colab/06_c3_evaluations_v3.ipynb (covers everything).
 
+## 2026-10-18 · v3 notebook Run-all done: MB-88xx evaluated; C3 zero-shot closed
+
+- All three families evaluated with VALID meta headers (v3 notebook; no
+  patching needed). 107-row leaderboard.
+- **MB-8801 (PHH FFA) — the C4 story in one task**: logreg reads the
+  perturbation signature at 0.833 [0.700,0.967] (donor-grouped), while the
+  1.7B-v5 zero-shot collapses to 'no' x28/30 -> 0.433 [0.267,0.600],
+  BELOW the 0.500 majority. Classical signal, no LLM transfer: exactly the
+  representation-format regime split the paper claims (C4).
+- MB-85xx/87xx reproduced their earlier verdicts identically (deterministic
+  protocol): 8501 anti-majority 0.173, 8701 0.257, 8705 near-constant
+  '-1.00' MAE 1.151.
+- Cell 8 (optional 0.6B-v5) FAILED with "Can't find adapter_config.json"
+  — file EXISTS on Drive (verified: 1045B + 80MB weights at top level);
+  Colab Drive-FUSE did not materialize that subdir in the fresh runtime.
+  Fix for next session: listdir-probe the adapter dir (forces FUSE fetch)
+  before PeftModel.from_pretrained; if still empty, remount Drive.
+
+C3 zero-shot leg now COMPLETE for 1.7B-v5 across all four families
+(85xx/86xx/87xx/88xx): no family shows LLM signal without training; two
+families (86xx gate, 8801 logreg) show classical signal. Claim weight
+stays on C3-novelty-of-benchmark + C4 regime split per the frozen fallback.
+
 ## 2026-10-16 · C3a gate run + platform C3 profile + masld-revision pinned (steps 1-3)
 
 (1) PLATFORM PROFILE extended for C3: added a `severity` categorical answer
