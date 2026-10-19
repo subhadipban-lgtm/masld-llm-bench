@@ -1240,3 +1240,34 @@ Fix:
 - F5 no longer plots the contaminated LLM cells (marked "LLM pending").
 - GSE185051 (MB-85xx) audited too: its header DOES have a gene-ID column
   ("Gene,L01,..."), so `header[1:]` there is correct. Only 86xx was affected.
+
+## 2026-10-19 · Protocol arms: reasoning / graph-RAG / architecture / tool
+
+Four arms (scripts/arms.py), frozen prompts untouched, arms ride in request
+params or system messages. Budget ~$14.9 of the topped-up credit.
+
+1. REASONING (grok-4.7, effort low, MB-2003, 6k tokens): **0.697 [0.65,0.75]**
+   val 0.96 — NEW BEST on pairwise, above claude-sonnet 0.610 and all compact
+   variants. Test-time reasoning partially overcomes the format barrier.
+   (Main bracket = reasoning-disabled; it is a lower bound.)
+2. GRAPH-RAG: heterogeneous KG (kg_edges.tsv: Reactome part_of 128k edges,
+   involved_in, MASLD associated_with) -> per-prompt retrieval of top-6 terms
+   by gene overlap (99% ENSG->symbol coverage), injected as system message.
+   gpt-4.1-mini MB-2003 0.370->0.560 (val 0.67->0.96); MB-2001 0.661->0.560
+   (context HURTS binary). claude+KG truncation-bound even at 1,600 tokens
+   (val 0.50) — reported as protocol-limited, not scored as a model failure.
+   First run at 200 tokens truncated everything; re-run at 900 (and 1,600
+   for claude) — same lesson as the main-bracket re-pass.
+3. ARCHITECTURE (Mercury-2.5 diffusion LM, full 972 bracket, 4k tokens —
+   it burns ~2.5k completion tokens on internal denoising before emitting
+   content): MB-2003 0.437 val 0.89 with NO re-pass needed; MB-2001 0.589;
+   MB-2005/2006 regression degenerate (digit loops, MAE 2.9k). The format
+   constraint is not autoregressive-specific.
+4. TOOL (gpt-4.1-mini + logreg_predict on MB-8801): tool = donor-grouped OOF
+   logreg replicating the frozen C3a gate EXACTLY (0.833; a first
+   implementation keyed OOF predictions by sample id where ids repeat across
+   replicates — silently collapsed to 0.500; fixed by keying on record
+   position). Model called the tool 30/30, relayed 30/30, final acc 0.833
+   vs 0.500 unaided. Orchestration fidelity is perfect.
+
+Leaderboard: 155 rows / 25 models (arms included). Balance ~$6.2.

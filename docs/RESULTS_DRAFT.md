@@ -172,6 +172,26 @@ occur.
 
 ---
 
+## Protocol arms (2026-10-19): reasoning / graph-RAG / architecture / tool
+
+Four pre-planned arms probe C4's boundary. Frozen user prompts stay
+byte-identical; arms add compute (reasoning), context (KG system message),
+architecture (diffusion LM), or tools (function calling). Full detail in
+RUNLOG 2026-10-19; archives tagged `-kg` / `-reason` / `-tool` /
+`inception__mercury-2.5`.
+
+| Arm | Result | Reading |
+|---|---|---|
+| Reasoning ON (grok-4.7, effort low, MB-2003) | **0.697 [0.65,0.75]**, val 0.96 | **New overall best on pairwise** — above claude-sonnet (0.610) and every compact variant (0.593). Test-time reasoning PARTIALLY overcomes the format barrier; the main bracket's frontier numbers are a no-thinking lower bound. |
+| Graph-RAG (Reactome/process/MASLD KG, system msg) | gpt-4.1-mini MB-2003 0.370→**0.560** (val 0.67→0.96); MB-2001 0.661→0.560 | Grounding HELPS the pairwise task substantially and HURTS the binary. Claude-KG stays truncation-bound (val 0.50 at 1,600 tokens) — reported as protocol-limited. C4 refines: format is not rescued wholesale by context, but reasoning-over-retrieved-graphs is the strongest zero-training lever found. |
+| Architecture (Mercury-2.5 diffusion LM, full bracket) | MB-2003 0.437 val 0.89 (no re-pass needed); MB-2001 0.589; regression MAE degenerate (digit loops) | The format constraint is NOT autoregressive-specific — a diffusion LM lands mid-pack and inherits the same regression pathology. C4 generalizes across architecture. |
+| Tool orchestration (gpt-4.1-mini + logreg tool, MB-8801) | tool acc 0.833; called 30/30; relayed 30/30; final **0.833** | The regime split resolves constructively: the LLM cannot read the profile (alone: majority 0.500) but conducts the model that can, with perfect fidelity. "LLM as orchestrator, classical ML as reader" is the deployable pattern. |
+
+Net effect on claims: C4 stands for plain decoding across scales AND
+architectures, but gains two explicit escape hatches — test-time reasoning
+(grok 0.697) and retrieval-grounded reasoning (mini+KG 0.560 from 0.370) —
+while tool orchestration converts the negative into a systems recipe.
+
 ## Position vs the Cell paper (LongevityBench, Zhavoronkov et al. 2026)
 
 Their scope (per Cell + bioRxiv records): 17 tasks across ~7 biodata
