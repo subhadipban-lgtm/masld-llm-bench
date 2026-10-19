@@ -1,8 +1,8 @@
 # MASLD-Bench Results Draft (v1, 2026-10-19)
 
 Manuscript results-section skeleton. Every number is traceable to
-`results/leaderboard.csv` (138 rows), `results/c2_significance.{csv,md}`
-(paired McNemar/Wilcoxon, 9 frontier references), `results/c3a_gate*.json`
+`results/leaderboard.csv` (157 rows), `results/c2_significance.{csv,md}`
+(paired McNemar/Wilcoxon, 12 frontier references), `results/c3a_gate*.json`
 (grouped-CV classical gates), `results/kshot_17b.json`, and the RUNLOG.
 Claims C1–C4 follow the frozen publication plan; the C2 fallback and C3
 fallback were pre-specified and are the ones invoked — no post-hoc
@@ -20,7 +20,7 @@ transcriptomics with histological endpoints, external staged cohorts
 geometric-manifold compression layer, knowledge corpora (pathways,
 drug–target), and four novel C3 task families (progression, blood-proxy
 severity, liver→plasma proteomics, perturbation transfer). We evaluated
-nine frontier API models, two classical ML families, and six compact
+twelve frontier API models, two classical ML families, and six compact
 fine-tuned variants (Qwen3-0.6B/1.7B × v3/v5/v6 recipes) under a single
 pre-registered decoding and scoring protocol. Three findings structure
 the results: (i) frontier models cannot solve fixed-panel liver-omics
@@ -59,13 +59,23 @@ Paired results (McNemar exact / Wilcoxon; n=929 identical items):
   1.226 — better than every frontier model (best: meta-llama 1.529)
   and the ML ElasticNet (1.76). Caveat (pre-registered): driven by
   mean-anchored prediction; rho remains ≤0.12.
-- MB-2001/2002/2003: ties or losses after pairing. The celebrated
-  zero-shot pairwise 0.593 did not survive pairing (0.469, p=0.615) —
-  reported as draw-luck in the supplement, not hidden.
-- Full table: results/c2_significance.md (39 paired comparisons per
-  candidate; 1.7B-v5: 27W/0L/12T vs the 9-reference bracket, driven by
-  weak references; vs the strongest reference per task the picture is
-  the one above).
+- MB-2001/2002/2003: ties or losses after pairing. Neither the binary
+  nor the pairwise task separates a compact model from the strongest
+  frontier reference once the bracket is complete.
+- The completed 12-reference bracket changes the pairwise reading:
+  claude-sonnet-4.5 now leads MB-2003 at 0.610 [0.56, 0.66] (validity
+  1.00), above the best compact variant (0.6B-v3, 0.593). On MB-2001 the
+  best compact (1.7B-v6 0.667) and the best frontier (gpt-4.1-mini 0.661)
+  are statistically indistinguishable. C2 therefore survives **only on
+  regression**, and only against the reference bracket as scored.
+- Full table: results/c2_significance.md (57 paired comparisons per
+  candidate; 1.7B-v5: 34W/0L/23T, 0.6B: 18W/11L/28T).
+- Harness note now material to interpretation: the first frontier pass
+  capped output at 200 tokens, which truncated verbose reasoners before
+  the verdict; a 900-token re-pass of unparsed cells and two parser
+  fixes (markdown-tolerant yes/no and A/B) recovered ~1,000 records at
+  no new spend. Scores reported here are post-repair; the pre-repair
+  table understated Claude/Gemini/Nova by up to 0.6 accuracy.
 
 ## C3 — Novel task families (the honest ledger)
 
@@ -162,9 +172,11 @@ frontier systems.
 Where we replicate them (independently, in a disease-specific domain):
 - Frontier zero-shot omics failure: confirmed on every MB-20xx/86xx/88xx
   task (at/below majority; deepseek inverted 0.12 binary).
-- Small-model competitiveness: confirmed narrowly — 1.7B-v6 beats all 9
-  references on MB-2005 MAE (1.226 vs best 1.529) and pairwise 0.533 vs
-  0.497, with paired tests behind it.
+- Small-model competitiveness: confirmed on regression only — 1.7B-v6
+  beats all 12 references on MB-2005 MAE (1.226 vs best 1.529). On the
+  pairwise task the completed bracket puts claude-sonnet-4.5 (0.610)
+  ahead of the best compact run (0.593), so the pairwise win does not
+  replicate once strong references are included.
 
 Where we extend beyond their reporting:
 1. Paired significance discipline (McNemar exact / Wilcoxon on identical
@@ -181,7 +193,8 @@ Where we extend beyond their reporting:
    train, Gubra-label correction documented).
 
 Where they are ahead of us (honest ledger):
-- Scale of bracket: 15–18 frontier systems vs our 9 (credit-limited).
+- Scale of bracket: 15–18 frontier systems vs our 12 (credit-limited;
+  the Cell-tier "6+ fully-complete bracket" item is now satisfied).
 - Breadth of domains incl. proteomics-as-task (Olink) and genetics.
 - Released fine-tuned models with a Cell-cover platform (toolkit).
 - Their headline claim (small ≥ frontier broadly) is stronger than our
@@ -194,10 +207,11 @@ the two core phenomena, add the paired-statistics discipline and the
 transfer/regime-split negatives they don't report, at the cost of a
 smaller bracket and smaller test families. Realistic venue per the
 pre-set ladder: Cell Metabolism / Cell Reports Medicine tier with the
-current evidence; a Cell-tier resubmission would want the 9B run, a
-6+ fully-complete frontier bracket, and one large novel cohort (e.g.,
-a blood-proxy source with n≥200).
+current evidence; a Cell-tier resubmission would want the 9B run
+(driver ready: colab/run_v7.py, Qwen3-8B QLoRA) and one large novel
+cohort (e.g., a blood-proxy source with n≥200; the search brief is
+docs/BLOOD_COHORT_HUNT_PROMPT.md). The 12-reference bracket is done.
 
-Figure footnote: F3 shows 7 reference rows — google/gemini produced no
-parseable MB-2005 predictions (documented scoring skip), so 8 testable
-references collapse to 7 after same-family archive dedup.
+Figure footnote: F2/F3 now plot all 12 references. google/gemini-2.5-pro
+and gpt-5.6-luna have no parseable MB-2005 numeric predictions (scoring
+skip, documented), so the regression panels show 10 of 12.

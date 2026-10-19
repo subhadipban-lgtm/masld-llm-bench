@@ -1167,3 +1167,40 @@ task families + honest negative controls, per the frozen fallback.
   library/coconut_2025_filtered.smi: 324,662 kept / 696,707 scanned
   (2024: 327,916/695,133). Documented deviation: alogp (COCONUT's) not
   Crippen.
+
+### autopilot 2026-10-19T14:01
+- detected qwen3-1.7b-masld__MB-20xx.jsonl.gz -> scored OK
+
+## 2026-10-19 · Frontier bracket completed + two scoring defects fixed
+- Added 4 reference models (OpenRouter, $16.37 total): qwen3-235b-a22b-2507
+  (972/972, 25 min), gpt-4.1 (972/972), claude-sonnet-4.5 (972/972),
+  gpt-5.6-luna (972/972). Bracket now 12 frontier + 6 compact variants.
+- DEFECT 1 (fixed, io_jsonl.archive_model_name): model/tag split used the
+  FIRST '__', collapsing openai__gpt-4.1, openai__gpt-4.1-mini, openai__gpt-4o-mini
+  into one "openai" row. Tags never contain '__' -> rpartition. 18 -> 22 models.
+- DEFECT 2 (fixed, answers.py): frontier prose is markdown. "**No**, ...",
+  "The answer is:\n\n**Yes**", "**Final answer:**\n> **A**" all parsed to None.
+  Added markup-tolerant leading-answer handling for yes/no and A/B.
+  750 records recovered across two passes at zero API cost.
+- Re-pass (scripts/frontier_repass.py): the first pass capped output at 200
+  tokens, so verbose models truncated mid-analysis before the verdict. Re-asked
+  unparsed MB-2003 cells at 900 tokens; validity rose e.g. luna 0.00->0.98,
+  nova 0.03->0.67, qwen2.5-72b 0.00->0.49. Only unparsed records re-bought.
+
+### autopilot 2026-10-19T16:18
+- detected qwen3-1.7b-masld__MB-20xx.jsonl.gz -> scored OK
+- FINAL BRACKET: 12 frontier references (amazon-nova-pro, claude-sonnet-4.5,
+  deepseek-chat, gemini-2.5-pro, llama-3.3-70b, nemotron-120b, gpt-4.1,
+  gpt-4.1-mini, gpt-4o-mini, gpt-5.6-luna, qwen2.5-72b, qwen3-235b-2507)
+  + 6 compact variants. leaderboard.csv = 157 rows / 22 models.
+- OUTCOME CHANGE (honest): with the complete bracket, C2 holds on REGRESSION
+  only (1.7B-v6 MAE 1.226 vs best frontier 1.529). Pairwise MB-2003 is now
+  led by claude-sonnet-4.5 0.610 [0.56,0.66] > best compact 0.593; MB-2001
+  best compact 0.667 vs gpt-4.1-mini 0.661 (indistinguishable). The earlier
+  "compact wins pairwise" line was an artifact of a weak 9-ref bracket and
+  a 200-token output cap. RESULTS_DRAFT updated accordingly.
+- Paired significance regenerated: 1.7B-v5 34W/0L/23T; 0.6B 18W/11L/28T.
+- Figures F2/F3 regenerated with dynamic reference count.
+- Remaining Cell-tier items: 9B run (driver ready), n>=200 blood cohort
+  (search brief written). OpenRouter spend this pass: $16.37 of the $17.16
+  available, leaving ~$0.79 unspent.

@@ -1,0 +1,20 @@
+accession	n_samples	specimen	assay	histology_terms	labeled_n_estimate	verdict	geo_equivalent	note
+E-GEOD-63067	18	liver (Organism part: liver, Homo sapiens)	microarray (GEO mirror; SDRF + per-GSM sample tables)	steatosis x7, NASH x2, biopsy x1 in JSON text; no F0-F4/NAS/Brunt/Kleiner fields	0	not-blood	GSE63067	"Integrative genomic signatures of hepatocellular carcinoma derived from nonalcoholic Fatty liver disease" - liver tissue, not blood
+E-GEOD-48452	73	liver biopsy (Organism part: liver, Homo sapiens)	DNA methylation microarray (per title)	fibrosis x73, steatosis x18, F1 x3, F2 x1, NAFLD x6, NAS x2 in JSON text	0	excluded-known	GSE48452	AE/BioStudies mirror of known-excluded GSE48452 (NAFLD liver methylation, bariatric cohort); histology-rich SDRF but liver not blood
+E-GEOD-69670	3	liver (Mus musculus)	miRNA microarray (GEO mirror)	NASH x4, steatosis x1, whole blood x1 (description text only)	0	not-blood	GSE69670	Mouse liver miRNA profile; not human, not blood
+E-GEOD-54882	unknown (idf+sdrf only, 0 GSM ids in JSON)	whole blood (Organism part: whole blood, Homo sapiens)	DNA methylation array (per title)	none found (no NAFLD/fibrosis/NAS/steatosis strings)	0	blood-no-histology	GSE54882	Human whole blood but methylation assay (not transcriptome) and no NAFLD/histology attributes; search-index title variant "Correlated DNA methylation clusters in whole blood"
+E-GEOD-27489	30	endobronchial epithelial lining fluid (Homo sapiens)	microarray (lung cancer markers)	none	0	not-blood	GSE27489	Lung cancer early-detection study; search-noise hit via loose-OR
+E-MTAB-15760	unknown (idf+sdrf only)	liver (Mus musculus)	not parsed (design: disease state design; genotype EF)	fibrosis x2	0	not-blood	none (AE-native)	"Inhibition of Peripheral Serotonin Activates Hepatic AMPK... Ameliorating Obesity-Associated Fibrosis"; released 2025-10-30; mouse liver
+E-GEOD-6523	unknown	Schizosaccharomyces pombe	tiling array (pre-RC origins)	none	0	not-blood	GSE6523	search noise
+E-GEOD-10969	unknown	Arabidopsis thaliana	epigenome single-base maps	none	0	not-blood	GSE10969	search noise
+E-GEOD-13092	unknown	Arabidopsis thaliana	RNA-directed DNA methylation signaling	none	0	not-blood	GSE13092	search noise
+E-GEOD-14450	unknown	Arabidopsis thaliana	ChIP-chip tiling (PIL5)	none	0	not-blood	GSE14450	search noise
+E-GEOD-20678	unknown	Oryza sativa (rice)	tiling microarray (allele-specific expression)	F1 x1 (rice strain code, not fibrosis stage)	0	not-blood	GSE20678	search noise
+E-GEOD-21818	unknown	Arabidopsis thaliana	nucleosome positioning / DNA methylation	none	0	not-blood	GSE21818	search noise
+E-GEOD-23299	unknown	Drosophila melanogaster (larval brain)	ChIP-chip H3K27me3	none	0	not-blood	GSE23299	search noise
+E-GEOD-33107	unknown	Arabidopsis thaliana (seedlings)	miRNA biogenesis (SICKLE)	none	0	not-blood	GSE33107	search noise
+E-GEOD-40519	unknown	Arabidopsis thaliana	ChIP (GTL1 binding sites)	none	0	not-blood	GSE40519	search noise
+E-GEOD-41377	unknown	Arabidopsis thaliana (whole seedlings)	microarray (cold response)	F1 x1 (ambiguous fragment, plant study)	0	not-blood	GSE41377	search noise
+E-GEOD-41378	unknown	Arabidopsis thaliana (whole seedlings)	microarray (cold response)	F1 x1 (ambiguous fragment, plant study)	0	not-blood	GSE41378	search noise
+E-GEOD-41991	unknown	Arabidopsis thaliana (root tips)	ChIP (HDA18 binding sites)	none	0	not-blood	GSE41991	search noise
+E-MEXP-1172	unknown	Saccharomyces cerevisiae	tiling array (nucleosome occupancy atlas)	none	0	not-blood	none (AE-native)	search noise

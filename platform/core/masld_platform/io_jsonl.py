@@ -176,11 +176,11 @@ def archive_model_name(path: str | Path) -> tuple[str, str]:
 
     Model ids containing ``/`` are stored with ``/`` -> ``__`` per the
     research convention (e.g. ``nvidia__nemotron-3-super-120b-a12b:free__MB-20xx``).
-    Only the FIRST ``__`` separates model from dataset tag; later ones belong
-    to the flattened model id.
+    Dataset tags never contain ``__``, so the LAST ``__`` separates model from
+    tag; every earlier one belongs to the flattened model id.
     """
     stem = Path(path).name.removesuffix(".jsonl.gz")
-    model, _, tag = stem.partition("__")
-    if not tag:
+    model, _, tag = stem.rpartition("__")
+    if not model or not tag:
         raise GuardrailError(f"archive filename lacks __dataset tag: {path}")
     return model, tag

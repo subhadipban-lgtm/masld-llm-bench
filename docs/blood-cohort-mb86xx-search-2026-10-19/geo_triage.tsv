@@ -1,0 +1,80 @@
+gse	n_samples	specimen	assay	histology_terms	labeled_n_estimate	verdict	note
+GSE7123		unspecified	Expression profiling by array			not-blood	blood but HCV/transplant/ALF/AIH - not MASLD cohort
+GSE9007		unspecified	Expression profiling by array			not-blood	adipose/WAT tissue
+GSE9157		unspecified	Expression profiling by array			not-blood	adipose/WAT tissue
+GSE28842		unspecified	Expression profiling by array			not-blood	blood but HCV/transplant/ALF/AIH - not MASLD cohort
+GSE33857		unspecified	Non-coding RNA profiling by array			not-blood	serum exosomal miRNA n=100; non-cellular, non-mRNA; known near-miss
+GSE36950		unspecified	Genome variation profiling by SNP array			not-blood	unrelated disease blood studies
+GSE37657		unspecified	Genome variation profiling by SNP array; Geno			not-blood	unrelated disease blood studies
+GSE38663		unspecified	Expression profiling by array			not-blood	blood but HCV/transplant/ALF/AIH - not MASLD cohort
+GSE39612		unspecified	Expression profiling by array; Third-party re			not-blood	unrelated disease blood studies
+GSE51699		unspecified	Expression profiling by array			not-blood	blood but HCV/transplant/ALF/AIH - not MASLD cohort
+GSE55645		blood lymphocytes	Genome variation profiling by genome tiling a	Stage: NASH/Simple steatosis		ambiguous	n=49 blood LYMPHOCYTES with Stage: NASH / Simple steatosis + NAFLD vs Control (ch1/ch2) BUT assay = SNP/CNV genome-variation array, NOT transcriptome; closest blood+staging near-miss
+GSE65540		unspecified	Expression profiling by high throughput seque			not-blood	adipose/WAT tissue
+GSE73634		whole blood (paired w/ biopsy)	Expression profiling by array	advanced liver fibrosis (series-level)		ambiguous	source "paired blood biopsy"; 48 GSMs / 24 participants advanced liver fibrosis; whole blood component BUT etiology HCV/HIV (simtuzumab trial) not MASLD; fibrosis staging not in GSM chars
+GSE83898		unspecified	Expression profiling by array			not-blood	liver tissue / single-cell liver
+GSE87801		unspecified	Expression profiling by array			not-blood	unrelated disease blood studies
+GSE110041		whole blood?	Expression profiling by high throughput seque			not-blood	unrelated disease blood studies
+GSE112087		unspecified	Expression profiling by high throughput seque			not-blood	unrelated disease blood studies
+GSE112713		unspecified	Expression profiling by array			not-blood	blood but HCV/transplant/ALF/AIH - not MASLD cohort
+GSE117593		unspecified	Methylation profiling by high throughput sequ			not-blood	methylation/epigenomics-only or non-NAFLD
+GSE117623		peripheral blood (sorted fractions)	Expression profiling by high throughput seque			blood-no-histology	n=137 peripheral blood (CECs + sorted fractions: B/T/NK/mono/granulo) chronic liver disease + HCC; diagnosis only CLD/HCC, NO fibrosis/NAS staging field
+GSE130953		whole blood?	Expression profiling by array			not-blood	unrelated disease blood studies
+GSE134310		PBMC?	Expression profiling by array			not-blood	unrelated disease blood studies
+GSE136103		unspecified	Expression profiling by high throughput seque			not-blood	liver tissue / single-cell liver
+GSE138312		unspecified	Expression profiling by high throughput seque			not-blood	in vitro / iPSC / cell-line / spatial
+GSE149180		unspecified	Expression profiling by high throughput seque			not-blood	unrelated disease blood studies
+GSE149298		unspecified	Expression profiling by high throughput seque			not-blood	blood but HCV/transplant/ALF/AIH - not MASLD cohort
+GSE151353		unspecified	Expression profiling by array			not-blood	liver biopsy tissue sASH vs alcoholic hepatitis; n=8; not blood
+GSE156906		unspecified	Expression profiling by high throughput seque			not-blood	adipose/WAT tissue
+GSE158753		unspecified	Expression profiling by high throughput seque			not-blood	blood but HCV/transplant/ALF/AIH - not MASLD cohort
+GSE159977		unspecified	Expression profiling by high throughput seque			not-blood	HCC/tumor/mouse/in-vitro
+GSE160200		unspecified	Expression profiling by high throughput seque			not-blood	M2-like macrophages treated HoxLDL/MoxLDL in vitro; 5 donors; no patient histology
+GSE164441		unspecified	Expression profiling by high throughput seque			not-blood	HCC/tumor/mouse/in-vitro
+GSE164443		unspecified	Genome binding/occupancy profiling by high th			not-blood	HCC/tumor/mouse/in-vitro
+GSE169446		unspecified	Expression profiling by high throughput seque			not-blood	pooled sorted DCs n=2; mixed liver-derived; tiny
+GSE173671		unspecified	Expression profiling by high throughput seque			not-blood	in vitro / iPSC / cell-line / spatial
+GSE179886		PBMC	Expression profiling by high throughput seque			blood-no-histology	PBMC n=2 (FLV vs Healthy); tiny; no histology
+GSE180241		unspecified	Expression profiling by high throughput seque			ambiguous	needs manual check
+GSE185062		unspecified	Non-coding RNA profiling by high throughput s			not-blood	serum/exosomal miRNA not cellular transcriptome
+GSE190487		unspecified	Expression profiling by high throughput seque			not-blood	HCC/tumor/mouse/in-vitro
+GSE190967		unspecified	Expression profiling by high throughput seque			not-blood	liver tissue / single-cell liver
+GSE202167		unspecified	Non-coding RNA profiling by high throughput s			not-blood	serum/exosomal miRNA not cellular transcriptome
+GSE204962		unspecified	Expression profiling by high throughput seque			not-blood	monocyte-derived macrophages in vitro MBOAT7 siRNA vs scramble; no patient disease labels
+GSE204963		unspecified	Genome binding/occupancy profiling by high th			ambiguous	needs manual check
+GSE204964		unspecified	Other			ambiguous	needs manual check
+GSE204965		unspecified	Expression profiling by high throughput seque			ambiguous	needs manual check
+GSE208413		unspecified	Expression profiling by high throughput seque			not-blood	blood but HCV/transplant/ALF/AIH - not MASLD cohort
+GSE217235		unspecified	Expression profiling by high throughput seque			not-blood	liver tissue / single-cell liver
+GSE217968		unspecified	Expression profiling by high throughput seque			ambiguous	needs manual check
+GSE219217		whole blood?	Methylation profiling by genome tiling array			not-blood	methylation/epigenomics-only or non-NAFLD
+GSE223173		unspecified	Expression profiling by high throughput seque			not-blood	in vitro / iPSC / cell-line / spatial
+GSE228086		unspecified	Expression profiling by high throughput seque			ambiguous	needs manual check
+GSE228087		unspecified	Expression profiling by high throughput seque			not-blood	PBMC-derived monocyte/macrophages differentiated in vitro (M-CSF/LPS/IL4/IL13); ~5 donors; no histology
+GSE233806		unspecified	Expression profiling by high throughput seque			not-blood	HCC/tumor/mouse/in-vitro
+GSE233807		unspecified	Methylation profiling by high throughput sequ			not-blood	HCC/tumor/mouse/in-vitro
+GSE235079		unspecified	Expression profiling by high throughput seque			not-blood	liver CD45+ cells, MAFLD; n=3; liver tissue not blood
+GSE236145		unspecified	Expression profiling by array			not-blood	adipose/WAT tissue
+GSE238060		unspecified	Expression profiling by high throughput seque			not-blood	HCC/tumor/mouse/in-vitro
+GSE245535		unspecified	Expression profiling by high throughput seque			not-blood	pre-metastatic liver atlas
+GSE247467		peripheral blood neutrophils	Expression profiling by high throughput seque			blood-no-histology	Peripheral blood neutrophils; MASH vs healthy; n=12 (4+4 in series? 12 GSMs); NO fibrosis/NAS grade field; too small; known near-miss
+GSE250411		unspecified	Expression profiling by high throughput seque			not-blood	unrelated disease blood studies
+GSE260929		unspecified	Expression profiling by high throughput seque			not-blood	unrelated disease blood studies
+GSE262273		unspecified	Methylation profiling by high throughput sequ			not-blood	methylation/epigenomics-only or non-NAFLD
+GSE262275		unspecified	Methylation profiling by high throughput sequ			not-blood	methylation/epigenomics-only or non-NAFLD
+GSE267032		unspecified	Expression profiling by high throughput seque			excluded-known	already in known-excluded list
+GSE267033		unspecified	Expression profiling by high throughput seque			excluded-known	already in known-excluded list
+GSE267195		unspecified	Expression profiling by high throughput seque			excluded-known	already in known-excluded list
+GSE267209		unspecified	Expression profiling by high throughput seque			not-blood	pre-metastatic liver atlas
+GSE270488		unspecified	Expression profiling by high throughput seque			not-blood	tissue: liver n=16 vs pbmc n=2; MASH/ALD CD3+ T cells; bulk is liver
+GSE274838		whole blood?	Expression profiling by array			not-blood	unrelated disease blood studies
+GSE285416		unspecified	Methylation profiling by genome tiling array			not-blood	methylation/epigenomics-only or non-NAFLD
+GSE298719		unspecified	Genome binding/occupancy profiling by high th			not-blood	liver tissue / single-cell liver
+GSE300514		unspecified	Expression profiling by high throughput seque			ambiguous	needs manual check
+GSE302549		unspecified	Expression profiling by high throughput seque			not-blood	HCC/tumor/mouse/in-vitro
+GSE307970		unspecified	Expression profiling by high throughput seque			not-blood	blood but HCV/transplant/ALF/AIH - not MASLD cohort
+GSE308064		unspecified	Expression profiling by high throughput seque			not-blood	HCC/tumor/mouse/in-vitro
+GSE309979		unspecified	Other			not-blood	in vitro / iPSC / cell-line / spatial
+GSE319709		unspecified	Expression profiling by high throughput seque			not-blood	liver tissue / single-cell liver
+GSE325645		peripheral blood NK	Expression profiling by high throughput seque			blood-no-histology	peripheral blood NK cells CHB vs CHB-MASLD; n=7; no fibrosis grade; tiny
+GSE326605		peripheral blood NK	Expression profiling by high throughput seque	Liver fibrosis F4 score		ambiguous	peripheral NK cells FACS NTCP+/-, disease state "Liver fibrosis F4 score"; n=4; has fibrosis label but tiny + sorted subset

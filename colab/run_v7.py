@@ -170,7 +170,7 @@ stage: sft
 do_train: true
 finetuning_type: lora
 quantization_bit: 4
-quantization_method: nf4
+quantization_method: bnb
 double_quantization: true
 lora_rank: 32
 lora_alpha: 32

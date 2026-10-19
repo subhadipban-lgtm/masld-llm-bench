@@ -26,31 +26,60 @@ import re
 
 from masld_platform.schemas import AnswerType, TaskType
 
-_YES_NO_PATTERNS = re.compile(r"answer(?:\s+is)?[:\s]\s*(yes|no)\b")
-_LETTER_PATTERN = re.compile(r"\banswer(?:\s+is|:)\s*([ab])\b", re.IGNORECASE)
+_YES_NO_PATTERNS = re.compile(r"answer(?:\s+is)?[:\s]\s*\**\s*(yes|no)\b")
+#: Verdict after an explicit answer lead-in, tolerating markdown/quotes/newlines
+#: and an optional "Patient"/"Option" word ("**Final answer:**"> **A**").
+_LETTER_PATTERN = re.compile(
+    r"answer(?:\s+is)?\s*[:\-]?\s*[*\s>\"'`]*(?:patient|option|choice)?\s*"
+    r"[*_\s>\"'`]*([ab])\b",
+    re.IGNORECASE,
+)
 #: Bare leading letter only — must not fire on words like "answer".
-_LETTER_START = re.compile(r"^\s*([ABab])\b")
+_LETTER_START = re.compile(r"^\s*(?:[*_`#>\-\s]+)?([ABab])\b")
 _NUMBER_PATTERN = re.compile(r"-?\d+(?:\.\d+)?")
+#: Leading markdown emphasis/bullets/quotes before a first-token answer.
+_LEAD_MARKUP = re.compile(r"^[\s*_`#>\"'(\[]+")
+#: "The answer is:" / "Answer:" may be followed by markup and newlines.
+_ANSWER_LEAD = re.compile(r"^\s*(?:the\s+)?answer(?:\s+is)?\s*[:\-]?\s*", re.IGNORECASE)
+
+
+def _clean(text: str) -> str:
+    """Strip leading markdown decoration so a verdict at position 0 is seen.
+
+    Surface-form normalisation only: it never changes which verdict the model
+    stated, and it applies identically to every archive.
+    """
+    t = _LEAD_MARKUP.sub("", text.strip())
+    return t
 
 
 def parse_yes_no(text: str) -> str | None:
-    t = text.strip().lower()
-    if t.startswith(("yes", "no")):
-        return "yes" if t.startswith("yes") else "no"
-    m = _YES_NO_PATTERNS.search(t)
+    t = _clean(text)
+    low = t.lower()
+    if low.startswith(("yes", "no")):
+        return "yes" if low.startswith("yes") else "no"
+    # "The answer is:\n\n**Yes**" — skip the lead-in and re-check position 0.
+    stripped = _ANSWER_LEAD.sub("", t)
+    low2 = _clean(stripped).lower()
+    if low2.startswith(("yes", "no")):
+        return "yes" if low2.startswith("yes") else "no"
+    m = _YES_NO_PATTERNS.search(low)
     return m.group(1) if m else None
 
 
 def parse_letter(text: str) -> str | None:
-    t = text.strip()
-    if (m := _LETTER_START.match(t)) :
+    t = _clean(text)
+    if (m := _LETTER_START.match(t)):
+        return m.group(1).upper()
+    stripped = _ANSWER_LEAD.sub("", t)
+    if (m := _LETTER_START.match(_clean(stripped))):
         return m.group(1).upper()
     m = _LETTER_PATTERN.search(t)
     return m.group(1).upper() if m else None
 
 
 def parse_number(text: str) -> float | None:
-    m = _NUMBER_PATTERN.search(text)
+    m = _NUMBER_PATTERN.search(_clean(text))
     if not m:
         return None
     try:
