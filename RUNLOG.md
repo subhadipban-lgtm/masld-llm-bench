@@ -1271,3 +1271,22 @@ params or system messages. Budget ~$14.9 of the topped-up credit.
    vs 0.500 unaided. Orchestration fidelity is perfect.
 
 Leaderboard: 155 rows / 25 models (arms included). Balance ~$6.2.
+
+## 2026-10-19 (late) · Colab run harvested: v6 re-evaluation, NOT the 9B
+
+The user's Colab run executed run_v6.py (notebook 07), not run_v7.py —
+Drive holds fresh v6-tagged archives for all five families, no 8B
+checkpoint, no v7 manifest.
+
+Harvested and validated anyway:
+- All five v6 families for 0.6B and 1.7B re-written from Drive corpora
+  (now freeze-16). MB-20xx cells reproduce the previous numbers EXACTLY
+  (delta 0.0 on all five tasks — greedy determinism verified).
+- The two quarantined v6 MB-86xx cells are re-done on the CORRECTED corpus:
+  8601 0.333/0.333 (= chance), 8602 0.400/0.533, 8605 MAE 0.952/0.810 vs
+  median 0.714. No signal on clean labels — C3 blood row verdict unchanged.
+- v5-zeroshot 86xx cells remain retired (notebook 09 optional; superseded
+  by v6 as the current recipe).
+- Leaderboard 161 rows / 25 models. F5 86xx panels updated (v6 bars).
+
+PENDING: the actual 9B run = notebook 08 on an A100 runtime.

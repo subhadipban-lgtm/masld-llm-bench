@@ -154,12 +154,14 @@ PANELS = [
     ("MB-8505\nordinal", "mae", 0.096,
      {"logreg": gates["MB-8505"]["logreg"]["mae"],
       "0.6B-v5": None, "1.7B-v5": None, "0.6B-v6": None, "1.7B-v6": None}),
-    # MB-86xx panels: model archives quarantined (freeze-8 header off-by-one,
-    # fixed in freeze-16). Classical gate is valid; LLM cells pending re-eval.
-    ("MB-8601\nblood 3-class\n(LLM pending)", "acc", 0.381,
-     {"logreg": g86["MB-8601"]["logreg"]["acc"]}),
-    ("MB-8602\nblood binary\n(LLM pending)", "acc", 0.533,
-     {"logreg": g86["MB-8602"]["logreg"]["acc"]}),
+    # MB-86xx on the corrected freeze-16 corpus (2026-10-19 v6 re-eval);
+    # v5-zeroshot cells retired with the quarantined archives.
+    ("MB-8601\nblood 3-class", "acc", 0.381,
+     {"logreg": g86["MB-8601"]["logreg"]["acc"],
+      "0.6B-v6": 0.333, "1.7B-v6": 0.333}),
+    ("MB-8602\nblood binary", "acc", 0.533,
+     {"logreg": g86["MB-8602"]["logreg"]["acc"],
+      "0.6B-v6": 0.400, "1.7B-v6": 0.533}),
     ("MB-8701\nplatform", "acc", 0.350,
      {"logreg": 1.000, "0.6B-v5": 0.320, "1.7B-v5": 0.257, "0.6B-v6": 0.0, "1.7B-v6": 0.398}),
     ("MB-8705\nmasked protein", "mae", 0.818,

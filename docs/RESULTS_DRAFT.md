@@ -98,11 +98,14 @@ lists 35 sample names and no gene-ID column, but `build_mb86xx.py` sliced
 with the *previous* patient's expression. All 20 freeze-8 items were
 mislabeled. The corpus is rebuilt with an explicit header-shape check
 (now fails loudly on ambiguity), giving 21 patients (low 8 / medium 6 /
-high 7). All four MB-86xx model archives were produced on the corrupted
-prompts and are quarantined under results/quarantine/; they must be
-re-evaluated before any MB-86xx LLM number is cited. The classical gate
-was re-run on the corrected corpus and still fails (no family beats
-chance/majority), so the row's qualitative verdict is unchanged.
+high 7). The four corrupted archives are quarantined under
+results/quarantine/. The v6 cells were re-evaluated on freeze-16
+(2026-10-19): MB-8601 0.333 = chance for both sizes; MB-8602 0.400/0.533;
+MB-8605 MAE 0.95/0.81 vs the 0.714 median baseline — no blood-proxy signal
+on clean labels either. The classical gate likewise still fails (no family
+beats chance/majority). The row's qualitative verdict is unchanged and now
+rests on corrected data; the v5-zeroshot blood cells are retired with the
+quarantined archives.
 
 LLM ledger on the same frozen tests:
 - Zero-shot (v5): both sizes collapse to constants (1.7B all-"no"
