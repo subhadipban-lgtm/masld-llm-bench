@@ -1290,3 +1290,19 @@ Harvested and validated anyway:
 - Leaderboard 161 rows / 25 models. F5 86xx panels updated (v6 bars).
 
 PENDING: the actual 9B run = notebook 08 on an A100 runtime.
+
+## 2026-10-19 (v7 launch) · first launch failed; driver fixed
+
+- Cause: copying run_v6.py -> run_v7.py renamed the dataset in
+  dataset_info.json ('masld_sft_v7') but missed the unquoted
+  `dataset: masld_sft_v6` line inside make_yaml -> LLaMA-Factory
+  "Undefined dataset masld_sft_v6". The liger->unfused fallback retried
+  into the same wall. Fixed (dataset: masld_sft_v7) + added
+  upcast_layernorm (LLaMA-Factory's recommendation for quantized
+  training). Drive copy hash-verified.
+- Note from the launch log: FINAL v7 MIXTURE = 49,157 vs v6's 48,221 —
+  the staged-liver pool grew 962 -> 1,196 (freeze-15 GSE130970) between
+  the v6 and v7 builds, so v7 is "v6 recipe on freeze-15 corpora", not a
+  byte-identical mixture. The +935 examples are all staged-liver TRAIN
+  data (frozen tests untouched). Document as a caveat on the size-only
+  contrast; the extra data is same-domain as 5% of the mixture.
