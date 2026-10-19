@@ -1,0 +1,20 @@
+{
+  "generated": "2026-10-19T00:38:26Z",
+  "recipe": "v6 = v5 + MB-12xx staged x4 + MB-88xx drugseq x4",
+  "checkpoints": [
+    "qwen3-0.6b-masld-sft-v6",
+    "qwen3-1.7b-masld-sft-v6"
+  ],
+  "archives": [
+    "qwen3-0.6b-masld-v6__MB-20xx.jsonl.gz",
+    "qwen3-0.6b-masld-v6__MB-85xx.jsonl.gz",
+    "qwen3-0.6b-masld-v6__MB-86xx.jsonl.gz",
+    "qwen3-0.6b-masld-v6__MB-87xx.jsonl.gz",
+    "qwen3-0.6b-masld-v6__MB-88xx.jsonl.gz",
+    "qwen3-1.7b-masld-v6__MB-20xx.jsonl.gz",
+    "qwen3-1.7b-masld-v6__MB-85xx.jsonl.gz",
+    "qwen3-1.7b-masld-v6__MB-86xx.jsonl.gz",
+    "qwen3-1.7b-masld-v6__MB-87xx.jsonl.gz",
+    "qwen3-1.7b-masld-v6__MB-88xx.jsonl.gz"
+  ]
+}

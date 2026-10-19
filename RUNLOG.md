@@ -1111,3 +1111,32 @@ laptop vs Colab). No platform/.env exists yet (credentials unset).
 
 Next: Build remaining C3 corpora (MB-85xx progression, MB-87xx liver→plasma,
 MB-88xx perturbation transfer) when data sources are available.
+
+## 2026-10-19 · v6 COMPLETE: trained-on-C3 verdict — TRANSFER FAILS (decisive negative)
+
+Run: A100-40; 0.6B 5h39m (final loss 0.16) + 1.7B 8h15m (0.14-0.17). Day-1
+OOM (18.55 GiB fp32 logits at bs8; v5 tuning assumed A100-80) fixed with
+liger fused-CE + bs 4x8/2x16, effective batch 32 kept. drugseq prompts
+remapped Ensembl->symbol in-mixture (cache now in Drive data/). All 10
+archives + v6_run_manifest.json pulled + scored -> leaderboard 138 rows.
+
+TRAINED-ON READOUT:
+- **MB-8801 (THE transfer test: HepG2-trained -> PHH FFA): 1.7B-v6 0.500,
+  0.6B-v6 0.533 [0.367,0.700]** — both at/within-noise-of the 0.500
+  majority, vs logreg 0.833 on the same frozen test. Training on 40
+  compounds (~8k prompts) does NOT transfer across model systems at
+  0.6-1.7B. The C3 positive claim is dead at this scale — and the negative
+  is now CONTROLLED (trained-on, not merely zero-shot).
+- MB-8701: 1.7B-v6 0.398 > majority 0.350 (format learned; batch-readout
+  caveat unchanged). 0.6B-v6 emits EMPTY first lines on 87xx (validity
+  0.000) — the 0.6B degrades under the v6 mixture (2002 0.190 vs v5 0.202).
+- MB-8501: 1.7B-v6 0.846 (from 0.173 anti-majority) — learned the stable
+  PRIOR, still under the 0.904 majority.
+- Main benchmark holds: 1.7B-v6 2001 0.667 / 2005 MAE 1.226 (v5 0.661/
+  1.375) — added corpora cost nothing; slight 2005 gain.
+
+PAPER FRAMING BANKED: compact LLMs cannot read omics perturbation signal
+zero-shot OR after cross-model in-domain training at this scale, while a
+plain logistic regression reads the same prompts at 0.833. C4 (representation
+format dominates over training) at its strongest. C3 contribution = novel
+task families + honest negative controls, per the frozen fallback.
