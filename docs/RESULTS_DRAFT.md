@@ -40,7 +40,8 @@ format, not scale or training, is the binding constraint.
   (freeze-6); every later corpus (85xx/86xx/87xx/88xx/12xx) frozen
   before its first evaluation.
 - Novel domains added in this program: progression proxy (GSE185051,
-  n=52), blood-proxy severity (GSE267032, n=20), liver→plasma masked-
+  n=52), blood-proxy severity (GSE267032; n=21 after the freeze-16
+  header fix), liver→plasma masked-
   protein + platform (MSV000094959, n=206–216), PHH FFA perturbation
   (GSE247407, n=30, donor-grouped), DRUG-seq 40-compound train pool
   (E-MTAB-15601, n=1,196), staged train pool (GSE135251 n=216 + GSE167523
@@ -84,10 +85,24 @@ Classical gates (grouped CV, 2000 bootstraps, seed 20260929):
 | Family | Task | logreg | majority | verdict |
 |---|---|---|---|---|
 | Progression (85xx) | 8501 / 8505 | 0.904= / MAE 0.20 | 0.904 / 0.10 | no signal (5/52 progressive) — negative control |
-| Blood-proxy (86xx) | 8601/02/05 | 0.45 / 0.57 / 0.73 | 0.35/0.50/0.70 | underpowered (n=20), CIs span chance |
+| Blood-proxy (86xx) | 8601/02/05 | 0.43 / 0.73 / MAE 0.73 | 0.38/0.53/0.71 | underpowered (n=21), CIs span chance — and see the freeze-16 correction |
 | Plasma (87xx) | 8701 | 1.000 | 0.350 | trivial BATCH separation (not clinical) |
 | Plasma (87xx) | 8705 v2 | MAE 0.814 | 0.818 | no classical win (encoder target-blind caveat) |
 | **Perturbation (88xx)** | **8801** | **0.833 [0.700,0.967]** | 0.500 | **genuine signal, donor-leakage blocked** |
+
+**freeze-16 correction (2026-10-19).** Cross-checking the independent
+blood-cohort search report (docs/blood-cohort-mb86xx-search-2026-10-19/)
+against our own corpus exposed a builder defect: GSE267032's TPM header
+lists 35 sample names and no gene-ID column, but `build_mb86xx.py` sliced
+`header[1:]`, dropping `Blood_patient_1` and pairing every remaining label
+with the *previous* patient's expression. All 20 freeze-8 items were
+mislabeled. The corpus is rebuilt with an explicit header-shape check
+(now fails loudly on ambiguity), giving 21 patients (low 8 / medium 6 /
+high 7). All four MB-86xx model archives were produced on the corrupted
+prompts and are quarantined under results/quarantine/; they must be
+re-evaluated before any MB-86xx LLM number is cited. The classical gate
+was re-run on the corrected corpus and still fails (no family beats
+chance/majority), so the row's qualitative verdict is unchanged.
 
 LLM ledger on the same frozen tests:
 - Zero-shot (v5): both sizes collapse to constants (1.7B all-"no"

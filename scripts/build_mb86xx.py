@@ -13,7 +13,11 @@ Per ANALYSIS_PLAN_C3_addendum.md (frozen 2026-10-15):
 - Per-sample label-free standardisation: log1p (TPM, non-negative) then
   z-score — the program-wide rule.
 
-Output: prompts/MB-86xx_bloodproxy_test.jsonl.gz + MANIFEST v3-freeze-8.
+Output: prompts/MB-86xx_bloodproxy_test.jsonl.gz + MANIFEST v3-freeze-16.
+
+Renumbered to freeze-16 (2026-10-19): the freeze-8 corpus carried a
+header off-by-one that paired every item with the preceding patient's
+expression. Rebuilt from re-fetched GEO sources; 21 gradable patients.
 """
 
 from __future__ import annotations
@@ -84,10 +88,18 @@ def parse_soft_grades(soft_path: Path) -> dict[str, str]:
 
 
 def load_tpm(tpm_path: Path, panel_n: int = 200):
-    """Load TPM matrix, pick top-MAD genes, z-score per sample."""
+    """Load TPM matrix, pick top-MAD genes, z-score per sample.
+
+    GSE267032's header lists ONLY the 35 sample names (all quoted) and has no
+    gene-ID column label, while each data row carries 36 fields (gene id +
+    35 values). The original implementation did ``header[1:]``, which dropped
+    Blood_patient_1 and paired every remaining label with the PRECEDING
+    sample's column — a silent off-by-one that mislabeled all 20 items.
+    Detect the header shape explicitly and fail loudly if it is ambiguous.
+    """
     with gzip.open(tpm_path, "rt", encoding="utf-8") as f:
         header = f.readline().split()
-        patients = [h.strip('"') for h in header[1:]]
+        names = [h.strip('"') for h in header]
         gene_ids: list[str] = []
         rows: list[list[float]] = []
         for line in f:
@@ -96,10 +108,25 @@ def load_tpm(tpm_path: Path, panel_n: int = 200):
                 continue
             gene_ids.append(parts[0].strip('"'))
             rows.append([float(x) for x in parts[1:]])
-    mat = np.array(rows, dtype=float)  # genes x patients
-    ok = [i for i, p in enumerate(patients) if p.startswith("Blood_patient")]
+    mat = np.array(rows, dtype=float)  # genes x samples
+
+    n_val_cols = mat.shape[1]
+    looks_like_gene_label = names[0].upper().startswith(("ENSG", "GENE"))
+    if len(names) == n_val_cols and not looks_like_gene_label:
+        samples = names                      # header has no gene-id column
+    elif len(names) == n_val_cols + 1:
+        samples = names[1:]                  # header includes a gene-id column
+    else:
+        raise SystemExit(
+            f"header/matrix mismatch: {len(names)} names vs {n_val_cols} value "
+            f"columns in {tpm_path} — refusing to guess the sample mapping"
+        )
+    if not all(s.startswith(("Blood_patient", "Blood_control")) for s in samples):
+        raise SystemExit(f"unexpected sample names in header: {samples[:5]}")
+
+    ok = [i for i, p in enumerate(samples) if p.startswith("Blood_patient")]
     mat = mat[:, ok]
-    patients = [patients[i] for i in ok]
+    patients = [samples[i] for i in ok]
     mad = np.median(np.abs(mat - np.median(mat, axis=1, keepdims=True)), axis=1)
     panel = np.argsort(mad)[::-1][:panel_n]
     panel = sorted(panel.tolist())
@@ -175,7 +202,7 @@ def main() -> None:
     print(f"wrote {len(records)} records -> {out}")
 
     m = json.loads(MANIFEST.read_text())
-    m["version"] = "v3-freeze-8"
+    m["version"] = "v3-freeze-16"
     m["counts"][out.name] = len(records)
     m["files"][out.name] = sha16(out)
     m["rules"] = [
@@ -184,6 +211,7 @@ def main() -> None:
     ] + [
         "MB-86xx: GSE267032 WBC blood-proxy frozen test (21 patients, grades "
         "1_low/2_medium/3_high; controls excluded — no expression deposited); "
+        "rebuilt 2026-10-19 (freeze-16) after the freeze-8 header off-by-one; "
         "8601 3-class, 8602 low-vs-high binary, 8605 ordinal 1-3; panel = "
         "top-200 MAD genes internal to this frozen corpus; per-sample log1p+z"
     ]

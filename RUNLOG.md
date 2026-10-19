@@ -1204,3 +1204,39 @@ task families + honest negative controls, per the frozen fallback.
 - Remaining Cell-tier items: 9B run (driver ready), n>=200 blood cohort
   (search brief written). OpenRouter spend this pass: $16.37 of the $17.16
   available, leaving ~$0.79 unspent.
+
+### autopilot 2026-10-19T16:38
+- detected qwen3-1.7b-masld__MB-20xx.jsonl.gz -> scored OK
+
+## 2026-10-19 · CRITICAL: MB-86xx label-misalignment found and fixed (freeze-16)
+
+The independent blood-cohort search report (docs/blood-cohort-mb86xx-search-
+2026-10-19/) stated GSE267032 has 21 graded patients (8/6/7); our frozen
+corpus had 20. Re-verifying against the GEO SOFT + TPM matrix found the
+cause — a real builder defect, not a counting difference:
+
+- GSE267032_tpm_RNASeq_WBC_bulk.txt.gz header = 35 quoted SAMPLE NAMES and
+  NO gene-ID column; data rows have 36 fields (gene id + 35 values).
+- build_mb86xx.py did `header[1:]`, i.e. dropped Blood_patient_1 and paired
+  every surviving label with the PRECEDING column's expression.
+- Result: all 20 freeze-8 items carried the wrong patient's expression for
+  the grade in the prompt (verified item-by-item: 20/20 mismatched).
+- Controls were also mis-mapped, so no label was accidentally right.
+
+Fix:
+- load_tpm now detects the header shape explicitly (names == value columns
+  AND first token is not a gene id -> header has no gene column) and raises
+  SystemExit on any mismatch instead of guessing.
+- Rebuilt from re-fetched GEO sources: 21 patients (1_low 8, 2_medium 6,
+  3_high 7), 57 records (21+21+15), MANIFEST v3-freeze-16, verify OK.
+- All four MB-86xx model archives (0.6B/1.7B v5-zeroshot, v6) were scored
+  on the corrupted prompts -> quarantined to
+  results/quarantine/MB-86xx-freeze8-mislabeled/ with a README; removed
+  from the leaderboard (157 -> 145 rows) until re-evaluated on freeze-16.
+- Classical gate re-run on the corrected corpus: still FAIL (8601 logreg
+  0.429 [0.238,0.619] vs maj 0.381; 8602 0.733 [0.467,0.933] vs maj 0.533;
+  8605 MAE 0.734 vs median 0.714). Qualitative verdict unchanged, but the
+  old exact numbers in RESULTS_DRAFT/F5 are replaced.
+- F5 no longer plots the contaminated LLM cells (marked "LLM pending").
+- GSE185051 (MB-85xx) audited too: its header DOES have a gene-ID column
+  ("Gene,L01,..."), so `header[1:]` there is correct. Only 86xx was affected.
