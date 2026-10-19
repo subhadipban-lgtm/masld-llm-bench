@@ -144,3 +144,60 @@ than the test (primary hepatocytes) — negative transfer is specific to
 that (biologically meaningful) axis, not to identical-domain learning,
 which the format-learning results (8701, validity metrics) show does
 occur.
+
+---
+
+## Position vs the Cell paper (LongevityBench, Zhavoronkov et al. 2026)
+
+Their scope (per Cell + bioRxiv records): 17 tasks across ~7 biodata
+domains (GTEx/TCGA transcriptomics, GEO DNAm, Olink proteomics, NHANES
+clinical, SynergyAge genetics, OpenGenes text); 15–18 frontier systems
+(o3 best mean rank 4.65; Gemini 3 Pro first on 6/17); zero-shot at or
+near chance on omics pairwise tasks (GTEx age 0.48–0.54 ≈ random;
+proteomics near-random); frontier DOES succeed on clinical/tabular tasks
+(NHANES 10-yr survival 0.882, SynergyAge 0.781). The Cell version's
+headline: small fine-tuned Longevity-LLMs matched or exceeded all
+frontier systems.
+
+Where we replicate them (independently, in a disease-specific domain):
+- Frontier zero-shot omics failure: confirmed on every MB-20xx/86xx/88xx
+  task (at/below majority; deepseek inverted 0.12 binary).
+- Small-model competitiveness: confirmed narrowly — 1.7B-v6 beats all 9
+  references on MB-2005 MAE (1.226 vs best 1.529) and pairwise 0.533 vs
+  0.497, with paired tests behind it.
+
+Where we extend beyond their reporting:
+1. Paired significance discipline (McNemar exact / Wilcoxon on identical
+   items, 929-item frame; Holm-ready) — their evaluation is rank-based;
+   we show the unpaired small-model win does not survive pairing except
+   on regression.
+2. The controlled transfer negative: trained-on (v6, 40-compound DRUG-seq)
+   still fails the held-out perturbation test (0.500 vs logreg 0.833) —
+   a boundary their SFT-success headline does not map.
+3. Classical-ML regime split quantified on IDENTICAL prompts (C4): the
+   same items a linear model reads at 0.833 sit at majority for LLMs
+   zero-shot AND trained-on.
+4. Freeze/test integrity artifacts (SHA-manifested corpora, test-before-
+   train, Gubra-label correction documented).
+
+Where they are ahead of us (honest ledger):
+- Scale of bracket: 15–18 frontier systems vs our 9 (credit-limited).
+- Breadth of domains incl. proteomics-as-task (Olink) and genetics.
+- Released fine-tuned models with a Cell-cover platform (toolkit).
+- Their headline claim (small ≥ frontier broadly) is stronger than our
+  narrower regression-family win; our paired analysis suggests their
+  unpaired-style comparison may overstate breadth — testable if their
+  per-item outputs are released.
+
+NET POSITION: we are the disease-specific replication+extension: confirm
+the two core phenomena, add the paired-statistics discipline and the
+transfer/regime-split negatives they don't report, at the cost of a
+smaller bracket and smaller test families. Realistic venue per the
+pre-set ladder: Cell Metabolism / Cell Reports Medicine tier with the
+current evidence; a Cell-tier resubmission would want the 9B run, a
+6+ fully-complete frontier bracket, and one large novel cohort (e.g.,
+a blood-proxy source with n≥200).
+
+Figure footnote: F3 shows 7 reference rows — google/gemini produced no
+parseable MB-2005 predictions (documented scoring skip), so 8 testable
+references collapse to 7 after same-family archive dedup.
