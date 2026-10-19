@@ -1,5 +1,5 @@
 {
- "version": "v3-freeze-14",
+ "version": "v3-freeze-15",
  "created": "2026-10-04",
  "seed": 20260929,
  "recipe": "Zhavoronkov et al. Cell 189:5980-5994 (2026), LongevityBench",
@@ -16,7 +16,7 @@
   "MB-87xx: MSV000094959 liver->plasma corpus (freeze-11); 8701 platform 3-class carried verbatim from freeze-10 (batch readout caveat); 8705 = masked-protein z-score regression (top-30 variance proteins per study, per-PROTEIN log1p+z within study \u2014 per-sample z would make the masked value arithmetic; mask rotates over top-5); freeze-10 8705 was degenerate (all golds saturated to 10.0) and is superseded",
   "MB-88xx: GSE247407 PHH FFA perturbation test (30 cultures = 5 donor preps x 3 reps x control/FFA; F95P = second F95 prep); 8801 FFA yes/no; sample=donor prep so grouped CV blocks donor leakage; panel top-200 MAD genes (symbols); per-sample log1p+z; multi-compound extension identified: HepG2 DRUG-seq E-MTAB-15601 (not pulled)",
   "MB-88xx DRUG-seq TRAIN (freeze-13): E-MTAB-15601 HepG2, 40 compounds + DMSO (1196 samples); MB-8811 compound 40-class (subsample 12/compound), MB-8812 treated-vs-DMSO yes/no; top-200 MAD genes; per-sample log1p+z; TRAIN-side only \u2014 transfer test = frozen MB-8801 (GSE247407 PHH FFA)",
-  "MB-12xx: staged-liver TRAIN pool extension (freeze-14, Antwerp 'Take' set): GSE135251 216 biopsies F0-F3 + NAS (1201 advanced binary, 1202 F0-F3 multiclass, 1205 fibrosis 0-3 reg, 1206 NAS reg; Ensembl->symbol via archived cache) + GSE167523 98 NAFL/NASH binary (1221); GSE130970 deferred (entrez mapping); top-200 MAD panels per cohort; per-sample log1p+z; TRAIN-side only \u2014 frozen tests untouched"
+  "MB-12xx: staged-liver TRAIN pool (freeze-15): GSE135251 216 F0-F4+NAS (1201/1202/1205/1206), GSE167523 98 NAFL/NASH (1221), GSE130970 78 biopsies F0-F4 (1211/1212/1215; entrez->symbol via eutils); GSE126848 BLOCKED (sample-key join unverifiable); top-200 MAD panels; per-sample log1p+z; TRAIN-side only"
  ],
  "counts": {
   "MB-10xx_liver_train.jsonl.gz": 3928,
@@ -37,7 +37,7 @@
   "MB-87xx_liverplasma_test.jsonl.gz": 422,
   "MB-88xx_perturb_test.jsonl.gz": 30,
   "MB-88xx_drugseq_train.jsonl.gz": 992,
-  "MB-12xx_staged_train.jsonl.gz": 962
+  "MB-12xx_staged_train.jsonl.gz": 1196
  },
  "files": {
   "MB-10xx_liver_train.jsonl.gz": "962377c999f70332",
@@ -58,6 +58,6 @@
   "MB-87xx_liverplasma_test.jsonl.gz": "3d0d62d275d7f4d5",
   "MB-88xx_perturb_test.jsonl.gz": "6c365d56a3254e65",
   "MB-88xx_drugseq_train.jsonl.gz": "9602e3c2b027876b",
-  "MB-12xx_staged_train.jsonl.gz": "23069964c197fd7e"
+  "MB-12xx_staged_train.jsonl.gz": "389b6b68fecc99cd"
  }
 }

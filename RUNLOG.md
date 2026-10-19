@@ -1140,3 +1140,30 @@ zero-shot OR after cross-model in-domain training at this scale, while a
 plain logistic regression reads the same prompts at 0.833. C4 (representation
 format dominates over training) at its strongest. C3 contribution = novel
 task families + honest negative controls, per the frozen fallback.
+
+## 2026-10-19 · Small tails closed: MB-12xx freeze-15 (GSE130970), 126848 blocked, blood verdict, COCONUT-2025
+
+- **GSE130970 BUILT into MB-12xx (freeze-15)**: 78 biopsies, fibrosis
+  F0=25/F1=28/F2=9/F3=14/F4=2; counts are entrez-keyed with titles
+  matching SOFT exactly. Entrez->symbol map fetched via NCBI esummary
+  (19,585/19,585; mygene querymany endpoint now 404s) -> Drive
+  data/entrez_to_symbol_cache.csv. Tasks 1211/1212/1215; corpus 962 ->
+  1196 records; verify-manifest OK; synced to Drive. Sanity: logreg
+  1211 0.872 (maj 0.795), 1212 5-class 0.551 (maj 0.359) — strong.
+- **GSE126848 PULLED but BLOCKED**: series matrix is metadata-only;
+  raw counts (57 samples, healthy/NAFLD/NASH/obese) keyed by NUMERIC
+  patient ids absent from SOFT (no per-sample numeric characteristic;
+  only NAFL_N-style titles). Order-matching would gamble labels —
+  refused post-Gubra. Needs the paper's sample sheet; data + SOFT on
+  Drive for when it's found.
+- **Blood-proxy verdict**: GSE267033 probed = the scRNA arm of the same
+  study as GSE267032 (same White_blood_cells_patient_N naming). No
+  larger BULK blood cohort exists in the Drives, the Antwerp catalog,
+  or quick GEO reach — GSE267032 (n=35) remains the blood family;
+  a n>=200 source stays the Cell-tier path item.
+- **COCONUT 10-2025 refresh**: rawiwan Drive dump filtered (pandas-only:
+  the 2025 csv ships molecular_weight/alogp/standard_inchi_key, no RDKit
+  needed; csv field_size_limit raised) -> Drive masld-llm/drug-discovery/
+  library/coconut_2025_filtered.smi: 324,662 kept / 696,707 scanned
+  (2024: 327,916/695,133). Documented deviation: alogp (COCONUT's) not
+  Crippen.
