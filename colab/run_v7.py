@@ -175,7 +175,7 @@ double_quantization: true
 lora_rank: 32
 lora_alpha: 32
 lora_dropout: 0.0
-dataset: masld_sft_v6
+dataset: masld_sft_v7
 dataset_dir: /content/LLaMA-Factory/data
 template: qwen
 cutoff_len: 4096
@@ -199,6 +199,7 @@ lr_scheduler_type: cosine
 warmup_ratio: 0.1
 weight_decay: 0.01
 {DTYPE_LINE}
+upcast_layernorm: true
 gradient_checkpointing: {ckpt}
 enable_liger_kernel: {liger}
 '''
